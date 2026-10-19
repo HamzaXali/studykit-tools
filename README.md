@@ -1,37 +1,58 @@
-# StudyKit Tools
+# StudyKit Hub
 
-Free, private text tools for students, teachers, writers and education creators. Plain static
-HTML, CSS and vanilla JavaScript: no framework, no build step, no external fonts, scripts,
-analytics or cookies. All text processing happens in the visitor's browser.
+**Learn smarter. Study better.** A free educational website for students, teachers and education
+creators, run by Ali Hamza. It currently offers six browser-based study tools; study guides,
+revision notes and worksheets are planned and are not published yet.
 
-> **Status: not deployed.** This folder has been built and tested locally only. Nothing is
-> live until you publish it and check the live URL yourself (see "Verify the live site").
+Plain static HTML, CSS and vanilla JavaScript: no framework, no build step, no external fonts,
+scripts, analytics, ads or cookies. All text processing happens in the visitor's browser.
 
-Tools:
+> **Status:** published with GitHub Pages at <https://hamzaxali.github.io/studykit-tools/>, built
+> from the `main` branch (folder `/`). The repository keeps its original name, `studykit-tools`, so
+> the live URL is unchanged by the StudyKit Hub rebrand. Changes reach the live site only when they
+> are merged into `main`.
+>
+> **Releases:** `v0.1.0` (first build, placeholder base URL) and `v0.1.1` (the live StudyKit Tools
+> version before the rebrand, commit `92610e2`). Do not roll back to bare `v0.1.0`; see section 7.
 
-| Tool | URL path |
+Pages:
+
+| Page | URL path |
 | --- | --- |
+| Home | `/` |
+| Study tools hub | `/tools/` |
+| Study notes organiser (browser storage only) | `/tools/study-notes-organizer/` |
 | Word and character counter | `/tools/word-counter/` |
 | Reading time calculator (reading + speaking time) | `/tools/reading-time-calculator/` |
 | Case converter (UPPER, lower, Title, Sentence) | `/tools/case-converter/` |
-| Duplicate line remover | `/tools/remove-duplicate-lines/` |
 | Whitespace cleaner | `/tools/whitespace-cleaner/` |
-| Study notes organiser (browser storage only) | `/tools/study-notes-organizer/` |
+| Duplicate line remover | `/tools/remove-duplicate-lines/` |
+| About, Contact, Privacy policy, Terms of use, Disclaimer | `/about/`, `/contact/`, `/privacy-policy/`, `/terms/`, `/disclaimer/` |
+
+**Planned sections (not built):** Study guides, Revision notes, Worksheets. The home page lists them
+as "Planned — coming soon" without links. Create their pages, nav links and sitemap entries only
+when each has several genuinely useful, original pieces.
+
+**Internal names that must not change:** the JavaScript globals `window.StudyKit` and
+`window.StudyKitText`, the notes storage key `studykit.notes.v1`, and the export schema
+`studykit-notes` / `studykit-notes-*.json` file names. Renaming them would hide visitors' saved notes
+or break imports of their backups.
 
 ---
 
 ## 1. File structure
 
 ```
-studykit-tools/
-├── index.html                       Home page (tool grid, privacy summary)
+studykit-tools/                      (repository name kept; public brand is StudyKit Hub)
+├── index.html                       Home page (hero, tools, planned sections, privacy summary)
 ├── 404.html                         Self-contained "not found" page (inline CSS, absolute links)
 ├── about/index.html
-├── contact/index.html               mailto link (PLACEHOLDER address) + optional GitHub Issues note
-├── privacy-policy/index.html        TEMPLATE, includes a hidden advertising section
-├── terms/index.html                 TEMPLATE
-├── disclaimer/index.html            TEMPLATE
+├── contact/index.html               mailto: link to hamzaxali44@gmail.com (no form)
+├── privacy-policy/index.html        Effective 20 October 2026 (legal review recommended)
+├── terms/index.html                 Last updated 20 October 2026 (legal review recommended)
+├── disclaimer/index.html            Last updated 20 October 2026
 ├── tools/
+│   ├── index.html                   Study tools hub
 │   ├── word-counter/index.html
 │   ├── reading-time-calculator/index.html
 │   ├── case-converter/index.html
@@ -61,7 +82,7 @@ studykit-tools/
 ```
 
 All internal links are **relative** (for example `../../about/`), so the same files work at a
-domain root (`https://example.com/`) and in a sub-folder (`https://user.github.io/studykit-tools/`).
+domain root (for example a future custom domain) and in a sub-folder (`https://user.github.io/studykit-tools/`).
 
 ## 2. Preview locally
 
@@ -76,28 +97,25 @@ python3 -m http.server 8000
 
 (Any static server works, for example `npx serve .`.)
 
-## 3. Set the base URL (do this before publishing)
+## 3. Base URL
 
-Canonical tags, Open Graph URLs, JSON-LD, `sitemap.xml`, `robots.txt` and the 404 page need
-absolute URLs. They all use one placeholder, `https://YOUR-DOMAIN.example`, stored in
-`scripts/base-url.txt`. Replace it in every file with one command (https, no trailing slash):
+The base URL is already set to `https://hamzaxali.github.io/studykit-tools` (stored in
+`scripts/base-url.txt`). Canonical tags, Open Graph URLs, JSON-LD, `sitemap.xml`, `robots.txt` and
+the 404 page use it. Do not change it to a domain you do not own yet.
+
+When a custom domain is bought and connected later, update every file with one command
+(https, no trailing slash), then review and re-test:
 
 ```bash
-# GitHub Pages project site:
-node scripts/set-base-url.js https://YOUR-GITHUB-USERNAME.github.io/studykit-tools
-# GitHub Pages user site, Cloudflare Pages or a custom domain:
-node scripts/set-base-url.js https://your-project.pages.dev
-node scripts/set-base-url.js https://www.your-domain.com
-
-git diff --stat           # review
-node tests/check-site.js  # re-check links and canonicals
+node scripts/set-base-url.js https://www.your-new-domain
+git diff --stat
+node tests/check-site.js --launch
 ```
 
-Run it again whenever the address changes (for example when you add a custom domain later);
-it always replaces the value currently stored in `scripts/base-url.txt`. Also update the
-`<lastmod>` dates in `sitemap.xml` when you change page content.
+Also update the `<lastmod>` dates in `sitemap.xml` when you change page content, and update the
+privacy policy (the "shared web address" paragraph no longer applies on a custom domain).
 
-## 4. Publish on GitHub Pages (primary)
+## 4. Publish on GitHub Pages (how the current site was set up)
 
 GitHub Pages is free for **public** repositories on GitHub Free.
 
@@ -129,8 +147,13 @@ Notes:
 * A repository named exactly `YOUR-GITHUB-USERNAME.github.io` is published at the domain root
   (`https://YOUR-GITHUB-USERNAME.github.io/`) instead of a sub-folder. That matters for
   `robots.txt` and `ads.txt` (see section 8).
-* Everything in the repository is published, including `tests/`, `scripts/` and this README.
-  None of it is secret or harmful, but do not commit anything private.
+* **Everything in the repository is published**, including `README.md`, `tests/`, `scripts/`,
+  `.htmlvalidate.json` and `ads.txt.example`. None of it is secret or harmful, but do not commit
+  anything private. Because of `.nojekyll`, Jekyll `exclude` settings do not apply. Options to stop
+  publishing these files, each of which changes the Pages settings and needs the owner's approval:
+  (a) move the site files into a `/docs` folder and set Pages to publish `main` → `/docs`; or
+  (b) publish with a GitHub Actions Pages workflow that uploads only the site files (free for public
+  repositories). Until then they stay published as they are.
 * **Usage policy:** GitHub states that Pages "is not intended for or allowed to be used as a free
   web-hosting service to run your online business, e-commerce site, or any other website that is
   primarily directed at either facilitating commercial transactions or providing commercial software
@@ -207,7 +230,9 @@ git push -u origin improve-word-counter
      git revert <bad-commit-sha>        # or: git revert -m 1 <merge-commit-sha>
      git push
      ```
-     To put back exactly what a tag contained: `git checkout v1.0.0 -- .` then commit and push.
+     To put back exactly what a tag contained: `git checkout v0.1.1 -- .` then commit and push.
+     `v0.1.1` is the live pre-rebrand version. **Do not restore bare `v0.1.0`**: it still has the
+     `YOUR-DOMAIN.example` placeholder base URL (if you must, run `scripts/set-base-url.js` afterwards).
      Avoid `git push --force` on `main`.
 8. Keep the downloaded ZIP of a working version somewhere safe as an extra offline backup.
 
@@ -261,10 +286,15 @@ AdSense's child-directed settings if they apply.
 
 **When ads are approved:**
 
-1. In `privacy-policy/index.html` delete the sentence "The site does not currently show advertising."
-   in the Advertising section, remove the `hidden` attribute from `<section id="advertising-details" hidden>`,
-   fill its placeholders, and update the Summary and Cookies sections (the site will then use cookies).
-2. Update the advertising paragraph in the disclaimer.
+1. **Before** ads go live, rewrite the "Analytics and advertising" section of
+   `privacy-policy/index.html` (there is deliberately no hidden ad section any more). It must name the ad
+   network, explain that third-party vendors including Google use cookies to serve ads based on previous
+   visits, link to Google's [My Ad Center](https://myadcenter.google.com/) and
+   [partner-sites page](https://policies.google.com/technologies/partner-sites), describe the consent
+   choice for EEA/UK/Swiss visitors, and update the Summary and Cookies sections (the site will then use
+   cookies). Update the effective date. Have the result reviewed.
+2. Update the "Advertising and sponsorship" paragraph in the disclaimer (ads are provided by third
+   parties; showing an ad is not an endorsement).
 3. Widen the CSP (see above), add the ad code, and test on a branch preview first.
 
 **Placement guidance**
@@ -282,23 +312,33 @@ buy traffic from "traffic exchange" or bot services, or place ads on pages that 
 This counts as invalid traffic and can get the account closed and earnings withheld. To view your
 own live site without risk, use the AdSense preview tools or a browser ad blocker.
 
-## 9. Launch checklist: what you must customise
+## 9. Policy status and legal review
 
-Run `node tests/check-site.js --launch`. It fails until every item below is done.
+`node tests/check-site.js --launch` passes: no placeholders, template notices, `YOUR-DOMAIN`,
+`example.com`, TODO or FIXME remain in published pages. The confirmed details used are:
 
-| File | What to replace |
+| Item | Value used |
 | --- | --- |
-| all files | Base URL `https://YOUR-DOMAIN.example` → run `scripts/set-base-url.js` |
-| `contact/index.html` | `PLACEHOLDER@example.com` (appears 3 times, including the `mailto:` link); GitHub Issues link or delete that section; remove the "Before publishing" notice |
-| `about/index.html` | Who runs the site and why (do not claim qualifications or an organisation you do not have) |
-| `privacy-policy/index.html` | Effective date; your name or trading name (do **not** invent a company); contact email (×2); hosting provider and link to its privacy statement; email retention period; your email provider; children section; applicable privacy laws; advertising section placeholders (only when ads go live); remove the template notice |
-| `terms/index.html` | Last-updated date; owner name; copyright owner or an open-source licence; contact email; governing law (have it reviewed, or leave it out); remove the template notice |
-| `disclaimer/index.html` | Last-updated date; advertising sentence (only when ads go live); remove the template notice |
-| `sitemap.xml` | `<lastmod>` dates if you edit content later |
+| Owner / trading name | Ali Hamza (an individual; no company, address or registration is claimed) |
+| Contact | `hamzaxali44@gmail.com` (mailto: link; email provided by Google Gmail) |
+| Hosting | GitHub Pages (GitHub, Inc.), with GitHub's IP-logging statement and privacy links |
+| Effective / last-updated date | 20 October 2026 |
+| Email retention | Only as long as necessary for the stated purpose, subject to any applicable legal obligations |
+| Governing law | Pakistan, subject to mandatory rights under the visitor's local law |
+| Age wording | 13+, or younger with permission and supervision of a parent, guardian or teacher |
+| Copyright | © 2026 Ali Hamza. All rights reserved (no licence file) |
+
+**Legal review is recommended** before monetising, and ideally before wider promotion. The policies
+are plain-language descriptions of how the site actually works, not legal advice, and they make no
+claim of compliance with any specific law. Pay particular attention to: governing law and limitation
+of liability for international visitors, the children/age wording, and the advertising and consent
+wording that will be needed before ads.
+
+Whenever the site's behaviour changes (new storage, analytics, ads, forms, a new host or a custom
+domain), update the privacy policy first and change its effective date.
 
 Never add a physical address, company registration number, tax ID or professional credentials
-unless they are real and yours. The templates are not legal advice. Have them reviewed if you can,
-especially once the site earns money.
+unless they are real and yours.
 
 ## 10. Tests
 
@@ -308,7 +348,7 @@ node --test tests/
 
 # Static site checks: titles, descriptions, canonicals, JSON-LD, links, anchors, labels, sitemap, robots
 node tests/check-site.js
-node tests/check-site.js --launch     # pre-launch gate (fails while placeholders remain)
+node tests/check-site.js --launch     # strict gate: also fails on placeholders, TODO, example.com, old brand
 
 # Browser tests (Chrome or Chromium must be installed). Installs test-only packages into tests/browser/node_modules.
 cd tests/browser && npm install
@@ -316,7 +356,7 @@ CHROME_PATH=/usr/bin/google-chrome node run.mjs
 npx html-validate ../../index.html ../../404.html "../../*/index.html" "../../tools/*/index.html"
 ```
 
-The browser suite serves the site under a sub-folder (like a GitHub project site), loads all 13
+The browser suite serves the site under a sub-folder (like a GitHub project site), loads all 14
 pages at 375 px and 1280 px in light and dark mode, fails on console errors, failed requests,
 external requests or horizontal scrolling, runs axe-core (WCAG 2.2 AA + best practice), checks the
 skip link and that tab stops have a visible focus outline and a name, and clicks through every tool.
@@ -340,7 +380,7 @@ Figures checked on 20 October 2026. They can change, so re-check the linked page
 * Cloudflare's Pages pricing page says plans include unlimited requests and bandwidth for static assets
   ([Cloudflare Pages](https://www.cloudflare.com/developer-platform/products/pages/)).
 
-**What this site uses:** about 185 KB in 30 files, including this README. A first visit to one tool page downloads about
+**What this site uses:** about 210 KB in 31 published files, including this README. A first visit to one tool page downloads about
 45–55 KB uncompressed (HTML + CSS + JS + icon), or about 17 KB with the gzip compression both hosts
 apply. Repeat visits reuse cached CSS and JS. Even at the uncompressed figure, 100 GB a month is
 roughly **2 million page views** on GitHub Pages. The tools do

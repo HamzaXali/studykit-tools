@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Remove Duplicate Lines | StudyKit Tools</title>
+<meta name="description" content="Remove duplicate lines from a list while keeping the original order. Options for ignoring case, trimming spaces and handling blank lines. Runs in your browser.">
+<link rel="canonical" href="https://YOUR-DOMAIN.example/tools/remove-duplicate-lines/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a202b" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Tools">
+<meta property="og:title" content="Remove Duplicate Lines">
+<meta property="og:description" content="Remove duplicate lines from a list while keeping the original order. Options for ignoring case, trimming spaces and handling blank lines. Runs in your browser.">
+<meta property="og:url" content="https://YOUR-DOMAIN.example/tools/remove-duplicate-lines/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Duplicate Line Remover",
+  "url": "https://YOUR-DOMAIN.example/tools/remove-duplicate-lines/",
+  "description": "Remove duplicate lines from a list while keeping the original order. Options for ignoring case, trimming spaces and handling blank lines. Runs in your browser.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://YOUR-DOMAIN.example/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Duplicate Line Remover",
+      "item": "https://YOUR-DOMAIN.example/tools/remove-duplicate-lines/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="#1d4ed8"/><path d="M8 9h10a3 3 0 0 1 3 3v11H11a3 3 0 0 1-3-3z" fill="#fff"/><path d="M21 12h3v11h-3z" fill="#93b4ff"/><path d="M11 13h7M11 16h7M11 19h5" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/></svg><span>StudyKit Tools</span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../#tools">Tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><span aria-current="page">Duplicate Line Remover</span></li></ol></nav>
+<h1>Remove duplicate lines</h1>
+<p class="lead">Clean up class lists, vocabulary lists, references and keywords by deleting lines that appear more than once.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Your text is still processed only in your browser.</p></noscript>
+<section class="tool" aria-labelledby="tool-heading">
+<h2 id="tool-heading" class="visually-hidden">Duplicate remover</h2>
+<div class="two-col">
+<div class="field">
+<label for="dl-input">Your lines</label>
+<textarea id="dl-input" rows="10" aria-describedby="dl-hint"></textarea>
+<span class="hint" id="dl-hint">Put one item on each line.</span>
+</div>
+<div class="field">
+<label for="dl-output">Result</label>
+<textarea id="dl-output" rows="10" readonly></textarea>
+</div>
+</div>
+<fieldset>
+<legend>Options</legend>
+<div class="check"><input type="checkbox" id="dl-case"><label for="dl-case">Ignore upper and lower case (&ldquo;Maths&rdquo; and &ldquo;maths&rdquo; count as the same)</label></div>
+<div class="check"><input type="checkbox" id="dl-trim" checked><label for="dl-trim">Ignore spaces at the start and end of each line (the result is trimmed too)</label></div>
+<div class="check"><input type="checkbox" id="dl-ignore-empty" checked><label for="dl-ignore-empty">Keep blank lines where they are, instead of treating them as duplicates</label></div>
+<div class="check"><input type="checkbox" id="dl-remove-empty"><label for="dl-remove-empty">Remove all blank lines</label></div>
+</fieldset>
+<div class="actions">
+<button type="button" id="dl-run">Remove duplicates</button>
+<button type="button" id="dl-copy" class="secondary">Copy result</button>
+<button type="button" id="dl-clear" class="secondary">Clear</button>
+<button type="button" id="dl-reset" class="secondary">Reset options</button>
+</div>
+<p class="status" id="dl-status" role="status" aria-live="polite"></p>
+</section>
+<div class="prose">
+<h2>How to remove duplicate lines</h2>
+<ol>
+<li>Paste your list into <strong>Your lines</strong>, one item per line. Text copied from a spreadsheet column works well.</li>
+<li>Choose your options. The defaults ignore stray spaces and leave blank lines alone.</li>
+<li>Choose <strong>Remove duplicates</strong>. The cleaned list appears under <strong>Result</strong>, and a message tells you how many lines were removed.</li>
+<li>Choose <strong>Copy result</strong> to paste it back into your document or spreadsheet.</li>
+</ol>
+<p>The first time a line appears it is kept, and later repeats are removed. The order of your list does not change. Letters with accents match however they were typed, so &ldquo;café&rdquo; typed on two different keyboards still counts as a duplicate.</p>
+<h2>Worked example</h2>
+<div class="example">
+<pre><code>Biology
+Chemistry
+biology
+Physics
+Chemistry 
+Maths</code></pre>
+<p>With the default options, the second &ldquo;Chemistry&rdquo; (which has a trailing space) is removed, but &ldquo;biology&rdquo; stays because its case is different. 1 line removed:</p>
+<pre><code>Biology
+Chemistry
+biology
+Physics
+Maths</code></pre>
+<p>With <strong>Ignore upper and lower case</strong> also ticked, 2 lines are removed:</p>
+<pre><code>Biology
+Chemistry
+Physics
+Maths</code></pre>
+</div>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Can I sort the list as well?</dt><dd>This tool keeps your original order on purpose. Sort the result in your spreadsheet or word processor if you need it in alphabetical order.</dd><dt>Does it compare whole lines or words?</dt><dd>Whole lines. Two lines must match completely, after the options you chose are applied, to count as duplicates.</dd><dt>How long can my list be?</dt><dd>Lists with hundreds of thousands of lines work in a modern browser. The work happens on your device, so very large lists are slower on older phones.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a>: Fix messy spacing from PDFs and web pages: extra spaces, blank lines, tabs and invisible characters.</li><li><a href="../../tools/case-converter/">Case Converter</a>: Switch text to UPPERCASE, lowercase, Title Case or Sentence case, with undo.</li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a>: Write, tag and search study notes that are saved only in your own browser. Export them any time.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">All tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<p>&copy; 2026 StudyKit Tools.</p>
+</div>
+</footer>
+<script src="../../assets/js/text-utils.js" defer></script>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/tools/remove-duplicate-lines.js" defer></script>
+</body>
+</html>

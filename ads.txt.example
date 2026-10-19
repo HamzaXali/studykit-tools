@@ -1,0 +1,9 @@
+# ads.txt — INACTIVE EXAMPLE. Do not publish this file as ads.txt yet.
+#
+# Only once you have an approved ad account:
+#  1. Copy the exact line your ad network gives you (for AdSense: Sites > your site > ads.txt snippet).
+#  2. Save it in a new file named ads.txt in the site root (next to index.html).
+#  3. It must be reachable at https://your-domain/ads.txt (the root of the domain, not a sub-folder).
+#
+# The AdSense line has this shape. pub-0000000000000000 is NOT a real ID; replace it with yours:
+# google.com, pub-0000000000000000, DIRECT, f08c47fec0942fa0

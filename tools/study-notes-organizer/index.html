@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Study Notes Organiser | StudyKit Tools</title>
+<meta name="description" content="A free study notes organiser that saves notes only in your browser. Add tags, search, edit and export notes as JSON, Markdown or plain text. No account needed.">
+<link rel="canonical" href="https://YOUR-DOMAIN.example/tools/study-notes-organizer/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a202b" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Tools">
+<meta property="og:title" content="Study Notes Organiser">
+<meta property="og:description" content="A free study notes organiser that saves notes only in your browser. Add tags, search, edit and export notes as JSON, Markdown or plain text. No account needed.">
+<meta property="og:url" content="https://YOUR-DOMAIN.example/tools/study-notes-organizer/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Study Notes Organiser",
+  "url": "https://YOUR-DOMAIN.example/tools/study-notes-organizer/",
+  "description": "A free study notes organiser that saves notes only in your browser. Add tags, search, edit and export notes as JSON, Markdown or plain text. No account needed.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://YOUR-DOMAIN.example/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Study Notes Organiser",
+      "item": "https://YOUR-DOMAIN.example/tools/study-notes-organizer/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="#1d4ed8"/><path d="M8 9h10a3 3 0 0 1 3 3v11H11a3 3 0 0 1-3-3z" fill="#fff"/><path d="M21 12h3v11h-3z" fill="#93b4ff"/><path d="M11 13h7M11 16h7M11 19h5" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/></svg><span>StudyKit Tools</span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../#tools">Tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><span aria-current="page">Study Notes Organiser</span></li></ol></nav>
+<h1>Study notes organiser</h1>
+<p class="lead">Keep revision notes, reading summaries and lesson ideas in one place, sorted by tag, without creating an account.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Your text is still processed only in your browser.</p></noscript>
+<div class="notice" role="note"><strong>Your notes are stored only in this browser on this device.</strong>They are not uploaded and do not sync to your other devices. Clearing your browser data, using a private window, or switching browser will remove them or hide them. Export a backup regularly.</div>
+<p class="notice" id="nt-storage-warning" role="alert" hidden><strong>This browser is blocking storage.</strong>Notes will work for this visit only. Export them before you close the tab.</p>
+<section class="tool" aria-labelledby="nt-form-heading">
+<h2 id="nt-form-heading">Add a note</h2>
+<form id="nt-form" novalidate>
+<div class="field">
+<label for="nt-title">Title</label>
+<input type="text" id="nt-title" maxlength="200" autocomplete="off" aria-describedby="nt-form-error">
+</div>
+<div class="field">
+<label for="nt-body">Note</label>
+<textarea id="nt-body" rows="7"></textarea>
+</div>
+<div class="field">
+<label for="nt-tags">Tags</label>
+<input type="text" id="nt-tags" autocomplete="off" aria-describedby="nt-tags-hint">
+<span class="hint" id="nt-tags-hint">Separate tags with commas, for example: biology, exam, chapter 3</span>
+</div>
+<p class="field-error" id="nt-form-error" role="alert"></p>
+<div class="actions">
+<button type="submit" id="nt-save">Save note</button>
+<button type="button" id="nt-cancel" class="secondary" hidden>Cancel editing</button>
+</div>
+</form>
+<p class="status" id="nt-status" role="status" aria-live="polite"></p>
+</section>
+<section class="tool" aria-labelledby="nt-list-heading">
+<h2 id="nt-list-heading">Your notes</h2>
+<div class="row">
+<div class="field">
+<label for="nt-search">Search notes</label>
+<input type="search" id="nt-search" autocomplete="off" aria-describedby="nt-search-hint">
+<span class="hint" id="nt-search-hint">Searches titles, text and tags. Accents are ignored.</span>
+</div>
+<div class="field">
+<label for="nt-tag-filter">Show tag</label>
+<select id="nt-tag-filter"><option value="">All tags</option></select>
+</div>
+</div>
+<div class="actions"><button type="button" id="nt-clear-search" class="secondary">Clear search</button></div>
+<p id="nt-count" aria-live="polite"></p>
+<ul class="notes-list" id="nt-list"></ul>
+</section>
+<section class="tool" aria-labelledby="nt-backup-heading">
+<h2 id="nt-backup-heading">Back up, move or delete notes</h2>
+<p>JSON files can be imported again here, in this or another browser. Markdown and plain text are for reading, printing or pasting elsewhere.</p>
+<div class="actions">
+<button type="button" id="nt-export-json">Export JSON backup</button>
+<button type="button" id="nt-export-md" class="secondary">Export Markdown</button>
+<button type="button" id="nt-export-txt" class="secondary">Export plain text</button>
+</div>
+<div class="field">
+<label for="nt-import">Import a JSON backup</label>
+<input type="file" id="nt-import" accept=".json,application/json" aria-describedby="nt-import-hint">
+<span class="hint" id="nt-import-hint">Imported notes are added to your current notes. If the same note exists in both, the most recently edited copy is kept.</span>
+</div>
+<div class="actions"><button type="button" id="nt-delete-all" class="danger">Delete all notes</button></div>
+</section>
+<div class="prose">
+<h2>How to use the notes organiser</h2>
+<ol>
+<li>Give the note a title, write the note, and add a few tags such as the subject and the exam it is for.</li>
+<li>Choose <strong>Save note</strong>. The note appears in <strong>Your notes</strong>, newest first.</li>
+<li>Find notes later by typing in <strong>Search notes</strong> or picking a tag from <strong>Show tag</strong>.</li>
+<li>Choose <strong>Edit</strong> on a note to change it, or <strong>Delete</strong> to remove it. You will be asked to confirm before anything is deleted.</li>
+<li>Choose <strong>Export JSON backup</strong> now and then, and keep the file somewhere safe, such as your school drive.</li>
+</ol>
+<h2>Worked example: organising revision by tag</h2>
+<div class="example">
+<p>Create three notes:</p>
+<ul>
+<li>&ldquo;Cell structure&rdquo; with the tags <code>biology, unit 1</code></li>
+<li>&ldquo;Enzymes&rdquo; with the tags <code>biology, unit 2</code></li>
+<li>&ldquo;Moles and mass&rdquo; with the tags <code>chemistry, unit 1</code></li>
+</ul>
+<p>Choosing <strong>unit 1</strong> in <strong>Show tag</strong> lists &ldquo;Cell structure&rdquo; and &ldquo;Moles and mass&rdquo;. Searching for <code>enzyme</code> finds the second note. Tags are stored in lowercase, so <code>Biology</code> and <code>biology</code> become the same tag.</p>
+</div>
+<h2>Moving notes to another device</h2>
+<p>Export a JSON backup on the first device, send the file to yourself, then open this page on the second device and use <strong>Import a JSON backup</strong>.</p>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Can anyone else see my notes?</dt><dd>Notes never leave your device through this site. Anyone who uses the same browser profile on the same device can open this page and see them, so do not store passwords or very private information here.</dd><dt>How many notes can I keep?</dt><dd>Browsers usually allow about 5 MB for this kind of storage, which is enough for thousands of typical notes. You will see a message if storage is full.</dd><dt>Why did my notes disappear?</dt><dd>Usually because browser data was cleared, a private or incognito window was used, or you are in a different browser or profile. Import your latest JSON backup to restore them.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a>: Count words, characters, sentences, paragraphs and lines as you type. Works with emoji, accents, Urdu, Arabic and Chinese.</li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a>: Estimate how long a text takes to read silently or to say aloud, at a speed you choose.</li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a>: Delete repeated lines from a list while keeping the original order, and see how many were removed.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">All tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<p>&copy; 2026 StudyKit Tools.</p>
+</div>
+</footer>
+<script src="../../assets/js/text-utils.js" defer></script>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/tools/study-notes.js" defer></script>
+</body>
+</html>

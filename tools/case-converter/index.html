@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case Converter: Upper, Lower, Title and Sentence Case | StudyKit Tools</title>
+<meta name="description" content="Convert text to UPPERCASE, lowercase, Title Case or Sentence case. Handles accents and non-English letters, with undo. Free and runs in your browser.">
+<link rel="canonical" href="https://YOUR-DOMAIN.example/tools/case-converter/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a202b" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Tools">
+<meta property="og:title" content="Case Converter: Upper, Lower, Title and Sentence Case">
+<meta property="og:description" content="Convert text to UPPERCASE, lowercase, Title Case or Sentence case. Handles accents and non-English letters, with undo. Free and runs in your browser.">
+<meta property="og:url" content="https://YOUR-DOMAIN.example/tools/case-converter/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Case Converter",
+  "url": "https://YOUR-DOMAIN.example/tools/case-converter/",
+  "description": "Convert text to UPPERCASE, lowercase, Title Case or Sentence case. Handles accents and non-English letters, with undo. Free and runs in your browser.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://YOUR-DOMAIN.example/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Case Converter",
+      "item": "https://YOUR-DOMAIN.example/tools/case-converter/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="#1d4ed8"/><path d="M8 9h10a3 3 0 0 1 3 3v11H11a3 3 0 0 1-3-3z" fill="#fff"/><path d="M21 12h3v11h-3z" fill="#93b4ff"/><path d="M11 13h7M11 16h7M11 19h5" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/></svg><span>StudyKit Tools</span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../#tools">Tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><span aria-current="page">Case Converter</span></li></ol></nav>
+<h1>Case converter</h1>
+<p class="lead">Fix text typed with Caps Lock on, or format headings consistently, in one click.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Your text is still processed only in your browser.</p></noscript>
+<section class="tool" aria-labelledby="tool-heading">
+<h2 id="tool-heading" class="visually-hidden">Converter</h2>
+<div class="field">
+<label for="cc-input">Your text</label>
+<textarea id="cc-input" rows="9" aria-describedby="cc-hint"></textarea>
+<span class="hint" id="cc-hint">The text in this box is changed when you choose a case. Use Undo to go back one step.</span>
+</div>
+<div class="actions" role="group" aria-label="Convert to">
+<button type="button" data-case="upper">UPPERCASE</button>
+<button type="button" data-case="lower">lowercase</button>
+<button type="button" data-case="title">Title Case</button>
+<button type="button" data-case="sentence">Sentence case</button>
+</div>
+<fieldset>
+<legend>Title Case options</legend>
+<div class="check"><input type="checkbox" id="cc-small-words" checked><label for="cc-small-words">Keep short words such as &ldquo;of&rdquo;, &ldquo;and&rdquo; and &ldquo;the&rdquo; in lowercase</label></div>
+<div class="check"><input type="checkbox" id="cc-acronyms" checked><label for="cc-acronyms">Leave words in ALL CAPS unchanged (for abbreviations such as NASA or UK)</label></div>
+</fieldset>
+<div class="actions">
+<button type="button" id="cc-undo" class="secondary" disabled>Undo</button>
+<button type="button" id="cc-copy" class="secondary">Copy text</button>
+<button type="button" id="cc-clear" class="secondary">Clear text</button>
+</div>
+<p class="status" id="cc-status" role="status" aria-live="polite"></p>
+</section>
+<div class="prose">
+<h2>How to use the case converter</h2>
+<ol>
+<li>Paste or type your text.</li>
+<li>Choose <strong>UPPERCASE</strong>, <strong>lowercase</strong>, <strong>Title Case</strong> or <strong>Sentence case</strong>. The text in the box changes.</li>
+<li>If the result is not what you wanted, choose <strong>Undo</strong>, change the options and try again.</li>
+<li>Choose <strong>Copy text</strong> and paste it back where you need it.</li>
+</ol>
+<h2>What each case does</h2>
+<ul>
+<li><strong>UPPERCASE</strong> makes every letter a capital. Useful for short labels, never for whole paragraphs.</li>
+<li><strong>lowercase</strong> removes all capitals. A quick first step when text was typed with Caps Lock on.</li>
+<li><strong>Title Case</strong> capitalises the main words, which suits essay titles and headings. Short words such as <em>of</em>, <em>the</em> and <em>and</em> stay lowercase unless they come first, come last or follow a colon.</li>
+<li><strong>Sentence case</strong> capitalises only the first letter of each sentence and each line, which is the normal style for body text.</li>
+</ul>
+<h2>Worked examples</h2>
+<div class="example">
+<h3>An essay title</h3>
+<pre><code>the causes of the FIRST world war: an overview</code></pre>
+<p>Title Case (both options on):</p>
+<pre><code>The Causes of the FIRST World War: An Overview</code></pre>
+<p>Sentence case:</p>
+<pre><code>The causes of the first world war: an overview</code></pre>
+<p>Notice that Sentence case turns <em>FIRST</em> into <em>first</em> and does not capitalise <em>World War</em>. Names and proper nouns need a quick manual check.</p>
+</div>
+<div class="example">
+<h3>Accented letters</h3>
+<pre><code>ÉCOLE ET ÇA VA. PRÊT?</code></pre>
+<p>Sentence case:</p>
+<pre><code>École et ça va. Prêt?</code></pre>
+<p>Accented letters such as É, Ç and Ê convert correctly.</p>
+</div>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Does it work with Urdu or Arabic text?</dt><dd>Urdu, Arabic, Chinese and many other scripts have no capital letters, so the converter leaves them as they are. Any English or other Latin-script words mixed in are still converted.</dd><dt>Which title case style does it follow?</dt><dd>It follows a simple common style: capitalise every word except short articles, conjunctions and prepositions in the middle of a title. Style guides such as APA, MLA and Chicago differ in the details, so check your guide for formal work.</dd><dt>Why did a name lose its capital letter?</dt><dd>Lowercase and Sentence case cannot tell names from ordinary words. After converting, fix names, places and abbreviations by hand.</dd><dt>Is my text sent anywhere?</dt><dd>No. The conversion runs in your browser and nothing is uploaded.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a>: Fix messy spacing from PDFs and web pages: extra spaces, blank lines, tabs and invisible characters.</li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a>: Delete repeated lines from a list while keeping the original order, and see how many were removed.</li><li><a href="../../tools/word-counter/">Word and Character Counter</a>: Count words, characters, sentences, paragraphs and lines as you type. Works with emoji, accents, Urdu, Arabic and Chinese.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">All tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<p>&copy; 2026 StudyKit Tools.</p>
+</div>
+</footer>
+<script src="../../assets/js/text-utils.js" defer></script>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/tools/case-converter.js" defer></script>
+</body>
+</html>

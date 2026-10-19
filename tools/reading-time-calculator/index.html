@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reading Time Calculator | StudyKit Tools</title>
+<meta name="description" content="Estimate reading time and speaking time for any text. Set your own words-per-minute speed. Free, private and runs in your browser.">
+<link rel="canonical" href="https://YOUR-DOMAIN.example/tools/reading-time-calculator/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#f5f7fa" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a202b" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Tools">
+<meta property="og:title" content="Reading Time Calculator">
+<meta property="og:description" content="Estimate reading time and speaking time for any text. Set your own words-per-minute speed. Free, private and runs in your browser.">
+<meta property="og:url" content="https://YOUR-DOMAIN.example/tools/reading-time-calculator/">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Reading Time Calculator",
+  "url": "https://YOUR-DOMAIN.example/tools/reading-time-calculator/",
+  "description": "Estimate reading time and speaking time for any text. Set your own words-per-minute speed. Free, private and runs in your browser.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://YOUR-DOMAIN.example/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Reading Time Calculator",
+      "item": "https://YOUR-DOMAIN.example/tools/reading-time-calculator/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="7" fill="#1d4ed8"/><path d="M8 9h10a3 3 0 0 1 3 3v11H11a3 3 0 0 1-3-3z" fill="#fff"/><path d="M21 12h3v11h-3z" fill="#93b4ff"/><path d="M11 13h7M11 16h7M11 19h5" stroke="#1d4ed8" stroke-width="1.6" stroke-linecap="round"/></svg><span>StudyKit Tools</span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../#tools">Tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><span aria-current="page">Reading Time Calculator</span></li></ol></nav>
+<h1>Reading time calculator</h1>
+<p class="lead">Find out how long a chapter, article or speech will take, either reading silently or speaking aloud.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Your text is still processed only in your browser.</p></noscript>
+<section class="tool" aria-labelledby="tool-heading">
+<h2 id="tool-heading" class="visually-hidden">Calculator</h2>
+<div class="field">
+<label for="rt-input">Your text</label>
+<textarea id="rt-input" rows="9" aria-describedby="rt-hint"></textarea>
+<span class="hint" id="rt-hint">Your text stays in this browser tab and is not uploaded.</span>
+</div>
+<div class="row">
+<div class="field">
+<label for="rt-read-wpm">Reading speed (words per minute)</label>
+<input type="number" id="rt-read-wpm" inputmode="numeric" min="50" max="1000" step="1" value="238" aria-describedby="rt-read-hint rt-read-error">
+<span class="hint" id="rt-read-hint">238 is a typical adult silent reading speed for non-fiction.</span>
+<p class="field-error" id="rt-read-error"></p>
+</div>
+<div class="field">
+<label for="rt-speak-wpm">Speaking speed (words per minute)</label>
+<input type="number" id="rt-speak-wpm" inputmode="numeric" min="50" max="1000" step="1" value="140" aria-describedby="rt-speak-hint rt-speak-error">
+<span class="hint" id="rt-speak-hint">Presentations are often 120 to 160 words per minute.</span>
+<p class="field-error" id="rt-speak-error"></p>
+</div>
+</div>
+<div class="actions">
+<button type="button" id="rt-copy">Copy results</button>
+<button type="button" id="rt-reset" class="secondary">Reset speeds</button>
+<button type="button" id="rt-clear" class="secondary">Clear text</button>
+</div>
+<p class="status" id="rt-status" role="status" aria-live="polite"></p>
+<h3 id="rt-results">Results</h3>
+<dl class="stats" aria-labelledby="rt-results">
+<div><dt>Words</dt><dd id="rt-words">0</dd></div>
+<div><dt>Reading time</dt><dd id="rt-reading">0 sec</dd></div>
+<div><dt>Speaking time</dt><dd id="rt-speaking">0 sec</dd></div>
+</dl>
+</section>
+<div class="prose">
+<h2>How to use the reading time calculator</h2>
+<ol>
+<li>Paste your text. The calculator counts the words for you.</li>
+<li>Leave the default speeds, or enter your own. Any whole number from 50 to 1,000 words per minute works.</li>
+<li>Read the reading and speaking times. Times are rounded up to the next second.</li>
+<li>Use <strong>Copy results</strong> to paste a one-line summary into a lesson plan or presentation notes.</li>
+</ol>
+<h2>How the estimate works</h2>
+<p>Time = number of words &divide; words per minute. A large 2019 review of reading research by Marc Brysbaert put average adult silent reading at about 238 words per minute for non-fiction and about 260 for fiction. Your own speed may be quite different. Reading in a second language, reading technical material, and taking notes all slow you down.</p>
+<p>To find your own speed, read a passage for exactly one minute, paste what you read into the box, and use the word count as your reading speed.</p>
+<h2>Worked examples</h2>
+<div class="example">
+<h3>A 1,500-word essay</h3>
+<p>At 238 words per minute it takes about <strong>6 min 19 sec</strong> to read. Read aloud at 140 words per minute it takes about <strong>10 min 43 sec</strong>.</p>
+</div>
+<div class="example">
+<h3>A five-minute class presentation</h3>
+<p>If you speak at 130 words per minute, a five-minute talk needs about 650 words. Paste your script and set the speaking speed to 130 to check: 650 words gives <strong>5 min</strong>.</p>
+</div>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>What speed should I use for students?</dt><dd>Reading speed grows with age and practice, and it varies a lot from person to person. For a class, time a few students on a sample passage instead of relying on an adult average.</dd><dt>Why does the speaking time seem long?</dt><dd>People speak much more slowly than they read silently. Speeches also have pauses, so add a little extra time for questions or slides.</dd><dt>Does the calculator count pictures or tables?</dt><dd>No. It only counts the words in the text you paste. Allow extra time for diagrams, equations and tables.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a>: Count words, characters, sentences, paragraphs and lines as you type. Works with emoji, accents, Urdu, Arabic and Chinese.</li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a>: Write, tag and search study notes that are saved only in your own browser. Export them any time.</li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a>: Fix messy spacing from PDFs and web pages: extra spaces, blank lines, tabs and invisible characters.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">All tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<p>&copy; 2026 StudyKit Tools.</p>
+</div>
+</footer>
+<script src="../../assets/js/text-utils.js" defer></script>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/tools/reading-time.js" defer></script>
+</body>
+</html>

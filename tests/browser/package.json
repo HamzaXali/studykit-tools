@@ -1,0 +1,14 @@
+{
+  "name": "studykit-tools-browser-tests",
+  "private": true,
+  "description": "Test-only dependencies. Not part of the published site.",
+  "type": "module",
+  "scripts": {
+    "test": "node run.mjs"
+  },
+  "devDependencies": {
+    "axe-core": "^4.10.0",
+    "html-validate": "^9.0.0",
+    "playwright-core": "^1.48.0"
+  }
+}

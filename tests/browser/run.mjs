@@ -47,7 +47,7 @@ async function newPage(width, scheme = 'light') {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: `http://127.0.0.1:${PORT}` });
   // The 404 page uses absolute links to the configured base URL; map those to the local server.
   await context.route(BASE_URL + '/**', async (route) => {
-    let rel = decodeURIComponent(new URL(route.request().url()).pathname).replace(/^\/+/, '');
+    let rel = decodeURIComponent(new URL(route.request().url()).pathname).slice(new URL(BASE_URL).pathname.length).replace(/^\/+/, '');
     let file = path.join(ROOT, rel);
     if (rel === '' || rel.endsWith('/')) file = path.join(file, 'index.html');
     if (!fs.existsSync(file)) return route.fulfill({ status: 404, body: 'not found' });

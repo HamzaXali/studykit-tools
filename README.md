@@ -7,7 +7,7 @@ revision notes and worksheets are planned and are not published yet.
 Plain static HTML, CSS and vanilla JavaScript: no framework, no build step, no external fonts,
 scripts, analytics, ads or cookies. All text processing happens in the visitor's browser.
 
-> **Status:** published with GitHub Pages at <https://hamzaxali.github.io/studykit-tools/>, built
+> **Status:** published with GitHub Pages at <https://studykithub.online/> (custom domain; the old <https://hamzaxali.github.io/studykit-tools/> address redirects there), built
 > from the `main` branch (folder `/`). The repository keeps its original name, `studykit-tools`, so
 > the live URL is unchanged by the StudyKit Hub rebrand. Changes reach the live site only when they
 > are merged into `main`.
@@ -99,7 +99,7 @@ python3 -m http.server 8000
 
 ## 3. Base URL
 
-The base URL is already set to `https://hamzaxali.github.io/studykit-tools` (stored in
+The base URL is already set to `https://studykithub.online` (stored in
 `scripts/base-url.txt`). Canonical tags, Open Graph URLs, JSON-LD, `sitemap.xml`, `robots.txt` and
 the 404 page use it. Do not change it to a domain you do not own yet.
 

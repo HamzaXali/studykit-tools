@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://hamzaxali.github.io/studykit-tools/sitemap.xml
+Sitemap: https://studykithub.online/sitemap.xml

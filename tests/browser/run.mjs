@@ -31,7 +31,7 @@ function check(cond, msg) {
 }
 
 const PAGES = ['', 'about/', 'contact/', 'privacy-policy/', 'terms/', 'disclaimer/', '404.html',
-  'tools/word-counter/', 'tools/reading-time-calculator/', 'tools/case-converter/',
+  'tools/', 'tools/word-counter/', 'tools/reading-time-calculator/', 'tools/case-converter/',
   'tools/remove-duplicate-lines/', 'tools/whitespace-cleaner/', 'tools/study-notes-organizer/'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', serveDir], { stdio: 'ignore' });
@@ -158,7 +158,7 @@ console.log(`Page sweep done: ${PAGES.length} pages x 2 widths x 2 colour scheme
     const doc = new DOMParser().parseFromString(txt, 'application/xml');
     return { error: !!doc.querySelector('parsererror'), urls: doc.getElementsByTagName('url').length };
   }, SITE + 'sitemap.xml');
-  check(!xmlOk.error && xmlOk.urls === 12, `sitemap.xml parses in browser with 12 urls: ${JSON.stringify(xmlOk)}`);
+  check(!xmlOk.error && xmlOk.urls === 13, `sitemap.xml parses in browser with 13 urls: ${JSON.stringify(xmlOk)}`);
   for (const p of PAGES) {
     await page.goto(SITE + p);
     const ld = await page.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => { try { return JSON.parse(s.textContent)['@type']; } catch (e) { return 'PARSE-ERROR'; } }));

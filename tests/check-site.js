@@ -108,6 +108,32 @@ for (const f of htmlFiles) {
   }
 }
 
+// Brand and owner details (StudyKit Hub rebrand)
+const BRAND = 'StudyKit Hub';
+const OWNER_EMAIL = 'hamzaxali44@gmail.com';
+for (const f of files.filter((x) => /\.(html|css|js|xml|txt|svg)$/.test(x))) {
+  const txt = fs.readFileSync(f, 'utf8');
+  ok(!/StudyKit Tools/.test(txt), `${rel(f)}: old brand name "StudyKit Tools" is still present`);
+}
+for (const f of htmlFiles) {
+  const html = fs.readFileSync(f, 'utf8');
+  const name = rel(f);
+  const title = decode(attr(html, /<title>([^<]+)<\/title>/) || '');
+  ok(title.startsWith(BRAND + ':') || title.endsWith('| ' + BRAND), `${name}: title should carry the brand: ${title}`);
+  ok(!/id="advertising-details"/.test(html), `${name}: hidden advertising placeholder section must not exist`);
+  if (name === '404.html') continue;
+  ok(html.includes(`<meta property="og:site_name" content="${BRAND}">`), `${name}: og:site_name should be ${BRAND}`);
+  ok(html.includes('<span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span>'), `${name}: header wordmark`);
+  ok(html.includes('&copy; 2026 Ali Hamza. All rights reserved.'), `${name}: footer copyright`);
+  ok(/<a href="(\.\.\/)*(tools\/|\.\/)"( aria-current="page")?>Study tools<\/a>/.test(html), `${name}: main nav links to the Study tools hub`);
+}
+for (const p of ['contact/index.html', 'privacy-policy/index.html', 'terms/index.html']) {
+  ok(fs.readFileSync(path.join(root, p), 'utf8').includes(`mailto:${OWNER_EMAIL}`), `${p}: contact email link missing`);
+}
+for (const p of ['privacy-policy/index.html', 'terms/index.html', 'disclaimer/index.html']) {
+  ok(/20 October 2026/.test(fs.readFileSync(path.join(root, p), 'utf8')), `${p}: effective / last-updated date missing`);
+}
+
 // sitemap & robots
 const sm = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');
 ok(/^<\?xml version="1.0" encoding="UTF-8"\?>\n<urlset xmlns="http:\/\/www.sitemaps.org\/schemas\/sitemap\/0.9">/.test(sm), 'sitemap header');
@@ -133,6 +159,13 @@ if (process.argv.includes('--launch')) {
     const n = (html.match(/PLACEHOLDER/g) || []).length;
     ok(n === 0, `launch: ${rel(f)} still has ${n} PLACEHOLDER marker(s)`);
     ok(!/Template: review before publishing|Before publishing:/.test(html), `launch: ${rel(f)} still shows the "review before publishing" notice`);
+    ok(!/class="placeholder"/.test(html), `launch: ${rel(f)} still has a highlighted placeholder`);
+  }
+  for (const f of files.filter((x) => /\.(html|css|js|xml|txt)$/.test(x))) {
+    const txt = fs.readFileSync(f, 'utf8');
+    for (const [re, label] of [[/YOUR-DOMAIN/, 'YOUR-DOMAIN'], [/example\.com/, 'example.com'], [/\bTODO\b/, 'TODO'], [/\bFIXME\b/, 'FIXME'], [/\bTBD\b/, 'TBD'], [/lorem ipsum/i, 'lorem ipsum']]) {
+      ok(!re.test(txt), `launch: ${rel(f)} contains ${label}`);
+    }
   }
 }
 if (BASE.includes('YOUR-DOMAIN')) warn.push(`Base URL is still the placeholder ${BASE}. Run scripts/set-base-url.js before publishing.`);

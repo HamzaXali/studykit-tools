@@ -31,7 +31,7 @@ function check(cond, msg) {
 }
 
 const PAGES = ['', 'about/', 'contact/', 'privacy-policy/', 'terms/', 'disclaimer/', '404.html',
-  'tools/word-counter/', 'tools/reading-time-calculator/', 'tools/case-converter/',
+  'tools/', 'tools/word-counter/', 'tools/reading-time-calculator/', 'tools/case-converter/',
   'tools/remove-duplicate-lines/', 'tools/whitespace-cleaner/', 'tools/study-notes-organizer/'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', serveDir], { stdio: 'ignore' });
@@ -47,7 +47,7 @@ async function newPage(width, scheme = 'light') {
   await context.grantPermissions(['clipboard-read', 'clipboard-write'], { origin: `http://127.0.0.1:${PORT}` });
   // The 404 page uses absolute links to the configured base URL; map those to the local server.
   await context.route(BASE_URL + '/**', async (route) => {
-    let rel = decodeURIComponent(new URL(route.request().url()).pathname).replace(/^\/+/, '');
+    let rel = decodeURIComponent(new URL(route.request().url()).pathname).slice(new URL(BASE_URL).pathname.length).replace(/^\/+/, '');
     let file = path.join(ROOT, rel);
     if (rel === '' || rel.endsWith('/')) file = path.join(file, 'index.html');
     if (!fs.existsSync(file)) return route.fulfill({ status: 404, body: 'not found' });
@@ -125,7 +125,7 @@ for (const width of [375, 1280]) {
         const f = await page.evaluate(() => { const el = document.activeElement; const cs = getComputedStyle(el); return { tag: el.tagName, outline: cs.outlineStyle !== 'none' }; });
         check(f.tag === 'A' && f.outline, `${label}: first Tab focuses a link with visible focus`);
         await Promise.all([page.waitForNavigation(), page.keyboard.press('Enter')]);
-        check((await page.textContent('h1')).includes('Free text tools'), `${label}: home link works (base URL mapped to local server)`);
+        check((await page.textContent('h1')).includes('Learn smarter'), `${label}: home link works (base URL mapped to local server)`);
       }
       check(log.pageErrors.length === 0, `${label}: page errors ${log.pageErrors.join(' | ')}`);
       check(log.console.length === 0, `${label}: console errors/warnings ${log.console.join(' | ')}`);
@@ -158,7 +158,7 @@ console.log(`Page sweep done: ${PAGES.length} pages x 2 widths x 2 colour scheme
     const doc = new DOMParser().parseFromString(txt, 'application/xml');
     return { error: !!doc.querySelector('parsererror'), urls: doc.getElementsByTagName('url').length };
   }, SITE + 'sitemap.xml');
-  check(!xmlOk.error && xmlOk.urls === 12, `sitemap.xml parses in browser with 12 urls: ${JSON.stringify(xmlOk)}`);
+  check(!xmlOk.error && xmlOk.urls === 13, `sitemap.xml parses in browser with 13 urls: ${JSON.stringify(xmlOk)}`);
   for (const p of PAGES) {
     await page.goto(SITE + p);
     const ld = await page.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => { try { return JSON.parse(s.textContent)['@type']; } catch (e) { return 'PARSE-ERROR'; } }));

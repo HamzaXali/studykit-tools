@@ -1,4 +1,4 @@
-/* StudyKit Tools — single shared stylesheet. Mobile first, light/dark via prefers-color-scheme. */
+/* StudyKit Hub — single shared stylesheet. Mobile first, light/dark via prefers-color-scheme. */
 :root {
   --bg: #ffffff;
   --surface: #f5f7fa;

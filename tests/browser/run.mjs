@@ -125,7 +125,7 @@ for (const width of [375, 1280]) {
         const f = await page.evaluate(() => { const el = document.activeElement; const cs = getComputedStyle(el); return { tag: el.tagName, outline: cs.outlineStyle !== 'none' }; });
         check(f.tag === 'A' && f.outline, `${label}: first Tab focuses a link with visible focus`);
         await Promise.all([page.waitForNavigation(), page.keyboard.press('Enter')]);
-        check((await page.textContent('h1')).includes('Free text tools'), `${label}: home link works (base URL mapped to local server)`);
+        check((await page.textContent('h1')).includes('Learn smarter'), `${label}: home link works (base URL mapped to local server)`);
       }
       check(log.pageErrors.length === 0, `${label}: page errors ${log.pageErrors.join(' | ')}`);
       check(log.console.length === 0, `${label}: console errors/warnings ${log.console.join(' | ')}`);

@@ -1,4 +1,4 @@
-/* StudyKit Tools — small shared helpers for the tool pages. No tracking, no network requests. */
+/* StudyKit Hub — small shared helpers for the tool pages. No tracking, no network requests. */
 (function () {
   'use strict';
 

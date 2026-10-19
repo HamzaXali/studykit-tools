@@ -1,5 +1,5 @@
 /*!
- * StudyKit Tools — shared text utilities.
+ * StudyKit Hub — shared text utilities.
  * Pure functions with no DOM access, so they run in the browser
  * (window.StudyKitText) and in Node (require) for the unit tests.
  * Nothing here sends data anywhere.

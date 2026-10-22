@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GPA and CGPA Calculator with Percentage Conversion | StudyKit Hub</title>
+<meta name="description" content="Free GPA and CGPA calculator. Add courses with credit hours and grade points, update your CGPA, and convert CGPA to percentage with the formula shown.">
+<link rel="canonical" href="https://studykithub.online/tools/gpa-cgpa-calculator/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111a2e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Hub">
+<meta property="og:title" content="GPA and CGPA Calculator">
+<meta property="og:description" content="Free GPA and CGPA calculator. Add courses with credit hours and grade points, update your CGPA, and convert CGPA to percentage with the formula shown.">
+<meta property="og:url" content="https://studykithub.online/tools/gpa-cgpa-calculator/">
+<meta property="og:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GPA and CGPA Calculator">
+<meta name="twitter:description" content="Free GPA and CGPA calculator. Add courses with credit hours and grade points, update your CGPA, and convert CGPA to percentage with the formula shown.">
+<meta name="twitter:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta name="twitter:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "GPA and CGPA Calculator",
+  "url": "https://studykithub.online/tools/gpa-cgpa-calculator/",
+  "description": "Free GPA and CGPA calculator. Add courses with credit hours and grade points, update your CGPA, and convert CGPA to percentage with the formula shown.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://studykithub.online/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Study tools",
+      "item": "https://studykithub.online/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GPA and CGPA Calculator",
+      "item": "https://studykithub.online/tools/gpa-cgpa-calculator/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0f766e"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0f766e" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#fbbf24"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../tools/">Study tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><a href="../">Study tools</a></li><li><span aria-current="page">GPA and CGPA Calculator</span></li></ol></nav>
+<h1>GPA and CGPA calculator</h1>
+<p class="lead">Work out your semester GPA from credit hours and grade points, update your cumulative CGPA, and convert a CGPA to a percentage.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Everything you enter is still processed only in your browser.</p></noscript>
+<section class="tool" aria-labelledby="gp-heading">
+<h2 id="gp-heading">Semester GPA</h2>
+<div class="field">
+<label for="gp-scale">Grading scale</label>
+<select id="gp-scale" aria-describedby="gp-scale-hint"><option value="4">4.0 scale</option><option value="5">5.0 scale</option><option value="10">10-point scale</option></select>
+<span class="hint" id="gp-scale-hint">Use the grade points printed on your result card or transcript.</span>
+</div>
+<div id="gp-rows" class="course-rows"></div>
+<div class="actions">
+<button type="button" id="gp-add" class="secondary">Add course</button>
+<button type="button" id="gp-clear" class="secondary">Clear all</button>
+</div>
+<p class="status" id="gp-status" role="status" aria-live="polite"></p>
+<h3 id="gp-results">Result</h3>
+<dl class="stats" aria-labelledby="gp-results">
+<div><dt>Semester GPA</dt><dd id="gp-gpa">—</dd></div>
+<div><dt>Credit hours</dt><dd id="gp-credits">0</dd></div>
+<div><dt>Quality points</dt><dd id="gp-qp">0</dd></div>
+</dl>
+</section>
+<section class="tool" aria-labelledby="cg-heading">
+<h2 id="cg-heading">Update your CGPA</h2>
+<p>Add this semester to the CGPA you already have. Leave these empty if this is your first semester.</p>
+<div class="row">
+<div class="field">
+<label for="cg-prev">Current CGPA</label>
+<input type="number" id="cg-prev" inputmode="decimal" min="0" step="0.01" aria-describedby="cg-prev-error">
+<p class="field-error" id="cg-prev-error"></p>
+</div>
+<div class="field">
+<label for="cg-prev-credits">Credit hours already completed</label>
+<input type="number" id="cg-prev-credits" inputmode="decimal" min="0" step="0.5" aria-describedby="cg-prev-credits-error">
+<p class="field-error" id="cg-prev-credits-error"></p>
+</div>
+</div>
+<dl class="stats">
+<div><dt>New CGPA</dt><dd id="cg-new">—</dd></div>
+<div><dt>Total credit hours</dt><dd id="cg-total">0</dd></div>
+</dl>
+</section>
+<section class="tool" aria-labelledby="cp-heading">
+<h2 id="cp-heading">Convert CGPA to percentage</h2>
+<div class="row">
+<div class="field">
+<label for="cp-cgpa">CGPA to convert</label>
+<input type="number" id="cp-cgpa" inputmode="decimal" min="0" step="0.01" aria-describedby="cp-cgpa-hint cp-cgpa-error">
+<span class="hint" id="cp-cgpa-hint">Filled in from the calculators above. You can type your own.</span>
+<p class="field-error" id="cp-cgpa-error"></p>
+</div>
+<div class="field">
+<label for="cp-method">Formula</label>
+<select id="cp-method"><option value="proportional">Proportional: CGPA &divide; scale &times; 100</option><option value="multiplier">My own formula: CGPA &times; multiplier + number</option></select>
+</div>
+</div>
+<div class="row" id="cp-custom" hidden>
+<div class="field">
+<label for="cp-mult">Multiplier</label>
+<input type="number" id="cp-mult" inputmode="decimal" step="0.01" value="25" aria-describedby="cp-mult-error">
+<p class="field-error" id="cp-mult-error"></p>
+</div>
+<div class="field">
+<label for="cp-add">Number to add (can be negative)</label>
+<input type="number" id="cp-add" inputmode="decimal" step="0.01" value="0" aria-describedby="cp-add-error">
+<p class="field-error" id="cp-add-error"></p>
+</div>
+</div>
+<p class="callout" id="cp-formula" aria-live="polite"></p>
+<dl class="stats">
+<div><dt>Percentage</dt><dd id="cp-percent">—</dd></div>
+</dl>
+<div class="actions"><button type="button" id="gp-copy">Copy results</button></div>
+</section>
+<div class="notice" role="note"><strong>Check your institution's own rules.</strong>Universities and boards use different grade points and different CGPA-to-percentage formulas. This calculator does not apply any official formula for you. Use the one your institution publishes, and treat the result here as an estimate.</div>
+<div class="prose">
+<h2>How to use the GPA and CGPA calculator</h2>
+<ol>
+<li>Choose your grading scale (4.0, 5.0 or 10-point).</li>
+<li>For each course, enter the credit hours and the grade points you received. The course name is optional.</li>
+<li>Your semester GPA updates as you type. Use <strong>Add course</strong> for more rows.</li>
+<li>To update your CGPA, enter your current CGPA and the credit hours you had already completed.</li>
+<li>To get a percentage, pick a formula. If your university gives a formula such as &ldquo;CGPA &times; 9.5&rdquo;, choose <strong>My own formula</strong> and enter its numbers.</li>
+</ol>
+<h2>The formulas</h2>
+<p><strong>GPA</strong> = sum of (credit hours &times; grade points) &divide; total credit hours. The top part is called the quality points.</p>
+<p><strong>New CGPA</strong> = (current CGPA &times; credit hours completed + semester GPA &times; semester credit hours) &divide; all credit hours.</p>
+<p><strong>Proportional percentage</strong> = CGPA &divide; scale &times; 100. On a 4.0 scale this is the same as CGPA &times; 25, so a CGPA of 3.2 gives 80%. Many institutions use a different conversion, so always check.</p>
+<h2>Worked example</h2>
+<div class="example">
+<h3>Three courses on a 4.0 scale</h3>
+<p>Course A: 3 credit hours, 4.0 points. Course B: 3 credit hours, 3.33 points. Course C: 2 credit hours, 2.67 points. Quality points = 12 + 9.99 + 5.34 = 27.33. GPA = 27.33 &divide; 8 = <strong>3.42</strong>.</p>
+</div>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Where do I find my grade points?</dt><dd>Your result card, transcript or student portal lists the grade points for each letter grade. Grade point tables differ between universities, so this tool asks for the points rather than the letter.</dd><dt>Is CGPA &times; 25 the official formula?</dt><dd>Not necessarily. It is simply the proportional conversion on a 4.0 scale. Your university, board or employer may require a different formula. Use <strong>My own formula</strong> to apply theirs.</dd><dt>Are my grades saved?</dt><dd>No. Everything is calculated in your browser and nothing is stored or uploaded. Reloading the page clears the form.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/percentage-calculator/">Percentage and Marks Calculator</a>: Turn marks into a percentage, total several subjects, and work out the marks you need for a target.</li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a>: Write, tag and search study notes that are saved only in your own browser. Export them any time.</li><li><a href="../../tools/pomodoro-timer/">Pomodoro Study Timer</a>: Study in focused blocks with short and long breaks. Start, pause, reset, with an optional sound or notification.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="../../tools/">All study tools</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<div class="footer-bottom"><p class="footer-brand"><strong>StudyKit Hub</strong> &middot; Learn smarter. Study better.</p><p>&copy; 2026 Ali Hamza. All rights reserved.</p></div>
+</div>
+</footer>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/study-utils.js" defer></script>
+<script src="../../assets/js/tools/gpa-calculator.js" defer></script>
+</body>
+</html>

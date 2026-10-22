@@ -14,6 +14,7 @@ const require = createRequire(import.meta.url);
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '../..');
 const T = require(path.join(ROOT, 'assets/js/text-utils.js'));
+const S = require(path.join(ROOT, 'assets/js/study-utils.js'));
 const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const BASE_URL = fs.readFileSync(path.join(ROOT, 'scripts/base-url.txt'), 'utf8').trim();
 const SHOTS = process.env.SHOTS_DIR || path.resolve(ROOT, '..', 'studykit-tools-screenshots');
@@ -32,7 +33,9 @@ function check(cond, msg) {
 
 const PAGES = ['', 'about/', 'contact/', 'privacy-policy/', 'terms/', 'disclaimer/', '404.html',
   'tools/', 'tools/word-counter/', 'tools/reading-time-calculator/', 'tools/case-converter/',
-  'tools/remove-duplicate-lines/', 'tools/whitespace-cleaner/', 'tools/study-notes-organizer/'];
+  'tools/remove-duplicate-lines/', 'tools/whitespace-cleaner/', 'tools/study-notes-organizer/',
+  'tools/gpa-cgpa-calculator/', 'tools/percentage-calculator/', 'tools/pomodoro-timer/', 'tools/flashcards/',
+  'tools/citation-generator/', 'tools/age-date-calculator/', 'tools/text-to-speech/'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', serveDir], { stdio: 'ignore' });
 await new Promise((r) => setTimeout(r, 800));
@@ -158,7 +161,7 @@ console.log(`Page sweep done: ${PAGES.length} pages x 2 widths x 2 colour scheme
     const doc = new DOMParser().parseFromString(txt, 'application/xml');
     return { error: !!doc.querySelector('parsererror'), urls: doc.getElementsByTagName('url').length };
   }, SITE + 'sitemap.xml');
-  check(!xmlOk.error && xmlOk.urls === 13, `sitemap.xml parses in browser with 13 urls: ${JSON.stringify(xmlOk)}`);
+  check(!xmlOk.error && xmlOk.urls === 20, `sitemap.xml parses in browser with 20 urls: ${JSON.stringify(xmlOk)}`);
   for (const p of PAGES) {
     await page.goto(SITE + p);
     const ld = await page.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => { try { return JSON.parse(s.textContent)['@type']; } catch (e) { return 'PARSE-ERROR'; } }));
@@ -416,6 +419,196 @@ for (const width of [375, 1280]) {
     await page.fill('#nt-title', 'Temp'); await page.click('#nt-save');
     check((await page.locator('#nt-list > li').count()) === 1, `notes ${W}: works in memory when storage blocked`);
     check(log.pageErrors.length === 0, `notes ${W}: no page errors when storage blocked`);
+    await context.close();
+  }
+  // GPA and CGPA calculator
+  {
+    const { context, page, log } = await newPage(width);
+    await page.goto(SITE + 'tools/gpa-cgpa-calculator/');
+    await page.fill('#gp-cr-1', '3'); await page.fill('#gp-pt-1', '4');
+    await page.fill('#gp-cr-2', '3'); await page.fill('#gp-pt-2', '3.33');
+    await page.fill('#gp-cr-3', '2'); await page.fill('#gp-pt-3', '2.67');
+    check((await page.textContent('#gp-gpa')) === '3.42' && (await page.textContent('#gp-credits')) === '8', `gpa ${W}: semester GPA 3.42 over 8 credits`);
+    check((await page.inputValue('#cp-cgpa')) === '3.42' && (await page.textContent('#cp-percent')) === '85.50%', `gpa ${W}: proportional % ${await page.textContent('#cp-percent')}`);
+    check((await page.textContent('#cp-formula')).includes('CGPA × 25'), `gpa ${W}: formula shown`);
+    await page.fill('#cg-prev', '3.0'); await page.fill('#cg-prev-credits', '32');
+    check((await page.textContent('#cg-new')) === S.round(S.combineCgpa(3, 32, 27.33 / 8, 8), 2).toFixed(2) && (await page.textContent('#cg-total')) === '40', `gpa ${W}: new CGPA ${await page.textContent('#cg-new')}`);
+    await page.selectOption('#cp-method', 'multiplier');
+    check(await page.isVisible('#cp-mult'), `gpa ${W}: custom formula fields shown`);
+    await page.fill('#cp-cgpa', '3.5'); await page.fill('#cp-mult', '9.5'); await page.fill('#cp-add', '0');
+    check((await page.textContent('#cp-percent')) === '33.25%', `gpa ${W}: custom multiplier`);
+    await page.fill('#gp-pt-1', '5');
+    check((await page.textContent('#gp-pt-1-error')).includes('0 to 4') && (await page.textContent('#gp-gpa')) === '—', `gpa ${W}: points over scale rejected`);
+    await page.click('#gp-add');
+    check(await page.isVisible('#gp-cr-5') && await page.evaluate(() => document.activeElement.id === 'gp-cr-5'), `gpa ${W}: add course focuses new row`);
+    await page.fill('#gp-pt-1', '4');
+    await page.click('#gp-copy');
+    check((await clip(page)).startsWith('Semester GPA: 3.42'), `gpa ${W}: copy`);
+    await page.click('#gp-clear');
+    check((await page.textContent('#gp-gpa')) === '—', `gpa ${W}: clear`);
+    check(log.pageErrors.length + log.console.length === 0, `gpa ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
+    await context.close();
+  }
+  // Percentage calculator
+  {
+    const { context, page, log } = await newPage(width);
+    await page.goto(SITE + 'tools/percentage-calculator/');
+    await page.fill('#pc-obtained', '942'); await page.fill('#pc-total', '1100');
+    check((await page.textContent('#pc-percent')) === '85.64%', `percent ${W}: 942/1100`);
+    await page.fill('#pc-obtained', '1200');
+    check((await page.textContent('#pc-obtained-error')).includes('more than the total'), `percent ${W}: over total warning`);
+    await page.fill('#ps-o-1', '80'); await page.fill('#ps-t-1', '100'); await page.fill('#ps-o-2', '45'); await page.fill('#ps-t-2', '50');
+    check((await page.textContent('#ps-percent')) === '83.33%' && (await page.textContent('#ps-obtained')) === '125', `percent ${W}: subjects total`);
+    await page.fill('#pn-target', '33'); await page.fill('#pn-total', '75');
+    check((await page.textContent('#pn-marks')).startsWith('24.75 (at least 25'), `percent ${W}: marks needed ${await page.textContent('#pn-marks')}`);
+    await page.fill('#pd-from', '60'); await page.fill('#pd-to', '75');
+    check((await page.textContent('#pd-points')) === '+15 points' && (await page.textContent('#pd-change')) === '+25%', `percent ${W}: compare`);
+    await page.click('#pc-copy');
+    check((await clip(page)).includes('Subjects total: 125 out of 150 = 83.33%'), `percent ${W}: copy`);
+    check(log.pageErrors.length + log.console.length === 0, `percent ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
+    await context.close();
+  }
+  // Pomodoro timer
+  {
+    const { context, page, log } = await newPage(width);
+    await page.clock.install();
+    await page.goto(SITE + 'tools/pomodoro-timer/');
+    check((await page.textContent('#pm-clock')) === '25:00', `pomodoro ${W}: initial 25:00`);
+    await page.fill('#pm-focus', '1'); await page.fill('#pm-short', '1');
+    check((await page.textContent('#pm-clock')) === '01:00', `pomodoro ${W}: length change updates clock`);
+    await page.click('#pm-start');
+    check((await page.textContent('#pm-start')) === 'Pause', `pomodoro ${W}: start -> Pause label`);
+    await page.clock.runFor(10500);
+    check((await page.textContent('#pm-clock')) === '00:50', `pomodoro ${W}: counts down ${await page.textContent('#pm-clock')}`);
+    await page.click('#pm-start');
+    await page.clock.runFor(5000);
+    check((await page.textContent('#pm-clock')) === '00:50' && (await page.textContent('#pm-start')) === 'Resume', `pomodoro ${W}: pause holds`);
+    await page.click('#pm-start');
+    await page.clock.runFor(51000);
+    check((await page.textContent('#pm-phase')) === 'Short break' && (await page.textContent('#pm-count')).endsWith('1'), `pomodoro ${W}: switches to short break`);
+    check((await status(page, '#pm-status')).includes('Focus finished'), `pomodoro ${W}: finish announced`);
+    await page.click('#pm-reset');
+    check((await page.textContent('#pm-clock')) === '01:00', `pomodoro ${W}: reset`);
+    await page.click('#pm-skip');
+    check((await page.textContent('#pm-phase')) === 'Focus', `pomodoro ${W}: skip`);
+    await page.fill('#pm-focus', '0');
+    await page.click('#pm-start');
+    check((await page.textContent('#pm-focus-error')).includes('1 to 180') && (await status(page, '#pm-status')).includes('Fix'), `pomodoro ${W}: invalid length blocked`);
+    check(log.pageErrors.length + log.console.length === 0, `pomodoro ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
+    await context.close();
+  }
+  // Flashcards
+  {
+    const { context, page, log } = await newPage(width);
+    await page.goto(SITE + 'tools/flashcards/');
+    await page.click('#fc-add');
+    check((await page.textContent('#fc-form-error')).includes('both'), `flashcards ${W}: empty card error`);
+    await page.fill('#fc-new-deck', 'Biology'); await page.click('#fc-create-deck');
+    for (const [f, b] of [['Mitochondria', 'Releases energy'], ['Ribosome', 'Makes proteins'], ['<img src=x onerror="window.__xss=1">', 'safe']]) { await page.fill('#fc-front', f); await page.fill('#fc-back', b); await page.click('#fc-add'); }
+    check((await page.locator('#fc-list li').count()) === 3, `flashcards ${W}: 3 cards listed`);
+    check(await page.evaluate(() => !window.__xss), `flashcards ${W}: card text not executed as HTML`);
+    await page.reload();
+    check((await page.locator('#fc-list li').count()) === 3 && (await page.textContent('#fc-deck')).includes('Biology (3 cards)'), `flashcards ${W}: saved after reload`);
+    await page.uncheck('#fc-shuffle');
+    await page.click('#fc-start');
+    check((await page.textContent('#fc-card-text')) === 'Mitochondria' && await page.isDisabled('#fc-know'), `flashcards ${W}: practice shows front`);
+    await page.click('#fc-flip');
+    check((await page.textContent('#fc-card-text')) === 'Releases energy' && !(await page.isDisabled('#fc-know')), `flashcards ${W}: flip shows back`);
+    await page.click('#fc-again');
+    await page.click('#fc-flip'); await page.click('#fc-know');
+    await page.click('#fc-flip'); await page.click('#fc-know');
+    check((await page.textContent('#fc-card-text')) === 'Mitochondria', `flashcards ${W}: review-again card comes back`);
+    await page.click('#fc-flip'); await page.click('#fc-know');
+    check((await status(page, '#fc-practice-status')).includes('knew all 3') && await page.isHidden('#fc-practice'), `flashcards ${W}: round finished`);
+    const [dl] = await Promise.all([page.waitForEvent('download'), page.click('#fc-export')]);
+    const p = path.join(os.tmpdir(), `sk-fc-${width}.json`); await dl.saveAs(p);
+    check(JSON.parse(fs.readFileSync(p, 'utf8'))[0].cards.length === 3, `flashcards ${W}: export`);
+    await page.click('#fc-delete-deck');
+    check((await page.locator('#fc-deck option').count()) === 0, `flashcards ${W}: delete deck`);
+    await page.setInputFiles('#fc-import', p); await page.waitForTimeout(200);
+    check((await page.locator('#fc-list li').count()) === 3, `flashcards ${W}: import`);
+    check(log.pageErrors.length + log.console.length === 0, `flashcards ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
+    await context.close();
+  }
+  // Citation generator
+  {
+    const { context, page, log } = await newPage(width);
+    await page.goto(SITE + 'tools/citation-generator/');
+    await page.click('#ct-copy');
+    check((await status(page, '#ct-status')).includes('Nothing to copy'), `citation ${W}: empty copy`);
+    await page.fill('#ct-authors', 'Smith, John Adam\nLee, Mary'); await page.fill('#ct-title', 'Learning how to learn'); await page.fill('#ct-year', '2020');
+    await page.fill('#ct-edition', '2'); await page.fill('#ct-publisher', 'Oxford University Press');
+    check((await page.textContent('#ct-output')) === 'Smith, J. A., & Lee, M. (2020). Learning how to learn (2nd ed.). Oxford University Press.', `citation ${W}: APA book "${await page.textContent('#ct-output')}"`);
+    check((await page.innerHTML('#ct-output')).includes('<i>Learning how to learn</i>'), `citation ${W}: italic title`);
+    await page.selectOption('#ct-style', 'mla');
+    check((await page.textContent('#ct-output')) === 'Smith, John Adam, and Mary Lee. Learning how to learn. 2nd ed., Oxford University Press, 2020.', `citation ${W}: MLA book`);
+    await page.selectOption('#ct-type', 'journal');
+    check(await page.isVisible('#ct-journal') && await page.isHidden('#ct-publisher') && await page.isHidden('#ct-site'), `citation ${W}: fields switch by type`);
+    await page.fill('#ct-journal', 'Journal of Memory and Language'); await page.fill('#ct-volume', '109'); await page.fill('#ct-pages', '1-20'); await page.fill('#ct-doi', '10.1016/j.jml.2019.104047');
+    check((await page.textContent('#ct-output')).endsWith('Journal of Memory and Language, vol. 109, 2020, pp. 1–20. https://doi.org/10.1016/j.jml.2019.104047.'), `citation ${W}: MLA journal`);
+    await page.click('#ct-copy');
+    check((await status(page, '#ct-status')).includes('Citation copied'), `citation ${W}: copy status`);
+    await page.waitForTimeout(200);
+    check((await clip(page)).startsWith('Smith, John Adam, and Mary Lee.'), `citation ${W}: copy ${await clip(page)}`);
+    await page.selectOption('#ct-type', 'website'); await page.selectOption('#ct-style', 'apa');
+    check((await page.textContent('#ct-output')).includes('Add the URL'), `citation ${W}: website needs URL`);
+    await page.click('#ct-clear');
+    check((await page.inputValue('#ct-title')) === '', `citation ${W}: clear`);
+    check(log.pageErrors.length + log.console.length === 0, `citation ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
+    await context.close();
+  }
+  // Age and date calculator
+  {
+    const { context, page, log } = await newPage(width);
+    await page.goto(SITE + 'tools/age-date-calculator/');
+    await page.fill('#ag-dob', '2000-02-29'); await page.fill('#ag-on', '2026-10-22');
+    check((await page.textContent('#ag-age')) === '26 years, 7 months, 23 days', `age ${W}: exact age ${await page.textContent('#ag-age')}`);
+    check((await page.textContent('#ag-days')).replace(/\D/g, '') === '9732' && (await page.textContent('#ag-next')).startsWith('In 129 days'), `age ${W}: total days and next birthday`);
+    await page.fill('#ag-dob', '2030-01-01');
+    check((await page.textContent('#ag-dob-error')).includes('after'), `age ${W}: future dob error`);
+    await page.fill('#dd-start', '2026-10-22'); await page.fill('#dd-end', '2027-03-01');
+    check((await page.textContent('#dd-days')) === '130' && (await page.textContent('#dd-weeks')) === '18 weeks, 4 days', `age ${W}: days between`);
+    await page.check('#dd-inclusive');
+    check((await page.textContent('#dd-days')) === '131', `age ${W}: inclusive`);
+    await page.click('#ad-copy');
+    check((await clip(page)).includes('2026-10-22 to 2027-03-01 (inclusive): 131 days'), `age ${W}: copy`);
+    check(log.pageErrors.length + log.console.length === 0, `age ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
+    await context.close();
+  }
+  // Text to speech (fake speechSynthesis so the test does not depend on installed voices)
+  {
+    const { context, page, log } = await newPage(width);
+    await context.addInitScript(() => {
+      const spoken = []; window.__spoken = spoken;
+      class U { constructor(t) { this.text = t; this.rate = 1; } }
+      window.SpeechSynthesisUtterance = U;
+      const synth = new EventTarget();
+      synth.getVoices = () => [{ name: 'Test Local', lang: 'en-GB', localService: true, voiceURI: 'local' }, { name: 'Test Cloud', lang: 'en-US', localService: false, voiceURI: 'cloud' }];
+      synth.onvoiceschanged = null;
+      synth.speak = (u) => { spoken.push({ text: u.text, rate: u.rate, voice: u.voice && u.voice.name }); };
+      synth.cancel = () => { window.__cancelled = (window.__cancelled || 0) + 1; };
+      synth.pause = () => { window.__paused = true; };
+      synth.resume = () => { window.__paused = false; };
+      Object.defineProperty(window, 'speechSynthesis', { value: synth });
+    });
+    await page.goto(SITE + 'tools/text-to-speech/');
+    check((await page.locator('#ts-voice option').count()) === 3 && (await page.textContent('#ts-voice')).includes('Test Cloud (en-US) – online'), `tts ${W}: voices listed, online labelled`);
+    await page.click('#ts-play');
+    check((await status(page, '#ts-status')).includes('Type or paste'), `tts ${W}: empty error`);
+    await page.fill('#ts-input', 'First sentence. Second sentence!');
+    await page.selectOption('#ts-voice', { label: 'Test Local (en-GB)' });
+    await page.fill('#ts-rate', '1.5');
+    await page.click('#ts-play');
+    const spoken = await page.evaluate(() => window.__spoken);
+    check(spoken.map((s) => s.text).join('').trim() === 'First sentence. Second sentence!' && spoken[0].rate === 1.5 && spoken[0].voice === 'Test Local', `tts ${W}: speaks with voice and rate ${JSON.stringify(spoken)}`);
+    check(!(await page.isDisabled('#ts-pause')) && !(await page.isDisabled('#ts-stop')), `tts ${W}: pause/stop enabled while speaking`);
+    await page.click('#ts-pause');
+    check(await page.evaluate(() => window.__paused) && (await page.textContent('#ts-pause')) === 'Resume', `tts ${W}: pause`);
+    await page.click('#ts-pause');
+    check(await page.evaluate(() => window.__paused === false), `tts ${W}: resume`);
+    await page.click('#ts-stop');
+    check(await page.isDisabled('#ts-stop') && (await page.textContent('#ts-play')) === 'Play', `tts ${W}: stop`);
+    check(log.pageErrors.length + log.console.length === 0, `tts ${W}: console clean ${log.console.concat(log.pageErrors).join('|')}`);
     await context.close();
   }
 }

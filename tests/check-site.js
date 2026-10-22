@@ -76,7 +76,7 @@ for (const f of htmlFiles) {
     let data;
     try { data = JSON.parse(m[1]); } catch (e) { ok(false, `${name}: JSON-LD does not parse: ${e.message}`); continue; }
     ok(data['@context'] === 'https://schema.org', `${name}: JSON-LD @context`);
-    ok(['WebApplication', 'BreadcrumbList'].includes(data['@type']), `${name}: unexpected JSON-LD type ${data['@type']}`);
+    ok(['WebApplication', 'BreadcrumbList', 'WebSite', 'Organization'].includes(data['@type']), `${name}: unexpected JSON-LD type ${data['@type']}`);
     if (data['@type'] === 'BreadcrumbList') {
       data.itemListElement.forEach((it, i) => {
         ok(it['@type'] === 'ListItem' && it.position === i + 1 && it.name && it.item, `${name}: breadcrumb item ${i}`);
@@ -84,6 +84,11 @@ for (const f of htmlFiles) {
         ok(fs.existsSync(resolveTarget(f, it.item)), `${name}: breadcrumb target missing ${it.item}`);
       });
       ok(data.itemListElement[data.itemListElement.length - 1].item === canonical, `${name}: last breadcrumb should equal canonical`);
+    }
+    if (data['@type'] === 'WebSite' || data['@type'] === 'Organization') {
+      ok(name === 'index.html', `${name}: ${data['@type']} JSON-LD belongs on the home page only`);
+      ok(data.name === 'StudyKit Hub' && data.url === `${BASE}/`, `${name}: ${data['@type']} name/url`);
+      if (data.logo) ok(data.logo.startsWith(BASE + '/') && fs.existsSync(resolveTarget(f, data.logo)), `${name}: Organization logo missing ${data.logo}`);
     }
     if (data['@type'] === 'WebApplication') {
       ok(data.name && data.url === canonical && data.applicationCategory && data.offers && data.offers.price === '0', `${name}: WebApplication fields`);
@@ -122,6 +127,12 @@ for (const f of htmlFiles) {
   ok(title.startsWith(BRAND + ':') || title.endsWith('| ' + BRAND), `${name}: title should carry the brand: ${title}`);
   ok(!/id="advertising-details"/.test(html), `${name}: hidden advertising placeholder section must not exist`);
   if (name === '404.html') continue;
+  const ogImage = attr(html, /<meta property="og:image" content="([^"]+)">/);
+  ok(ogImage && ogImage.startsWith(BASE + '/') && fs.existsSync(resolveTarget(f, ogImage)), `${name}: og:image missing or file not found`);
+  ok(/<meta name="twitter:card" content="summary_large_image">/.test(html), `${name}: twitter:card`);
+  ok(attr(html, /<meta name="twitter:title" content="([^"]+)">/) === attr(html, /<meta property="og:title" content="([^"]+)">/), `${name}: twitter:title should match og:title`);
+  ok(attr(html, /<meta name="twitter:description" content="([^"]+)">/) === attr(html, /<meta property="og:description" content="([^"]+)">/), `${name}: twitter:description should match og:description`);
+  ok(attr(html, /<meta name="twitter:image" content="([^"]+)">/) === ogImage, `${name}: twitter:image should match og:image`);
   ok(html.includes(`<meta property="og:site_name" content="${BRAND}">`), `${name}: og:site_name should be ${BRAND}`);
   ok(html.includes('<span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span>'), `${name}: header wordmark`);
   ok(html.includes('&copy; 2026 Ali Hamza. All rights reserved.'), `${name}: footer copyright`);

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Text to Speech Reader: Listen to Your Notes | StudyKit Hub</title>
+<meta name="description" content="Free text to speech reader that uses your browser’s built-in voices. Choose a voice and speed, then play, pause or stop. No sign-up and no AI.">
+<link rel="canonical" href="https://studykithub.online/tools/text-to-speech/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111a2e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Hub">
+<meta property="og:title" content="Text to Speech Reader">
+<meta property="og:description" content="Free text to speech reader that uses your browser’s built-in voices. Choose a voice and speed, then play, pause or stop. No sign-up and no AI.">
+<meta property="og:url" content="https://studykithub.online/tools/text-to-speech/">
+<meta property="og:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Text to Speech Reader">
+<meta name="twitter:description" content="Free text to speech reader that uses your browser’s built-in voices. Choose a voice and speed, then play, pause or stop. No sign-up and no AI.">
+<meta name="twitter:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta name="twitter:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Text to Speech Reader",
+  "url": "https://studykithub.online/tools/text-to-speech/",
+  "description": "Free text to speech reader that uses your browser’s built-in voices. Choose a voice and speed, then play, pause or stop. No sign-up and no AI.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://studykithub.online/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Study tools",
+      "item": "https://studykithub.online/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Text to Speech Reader",
+      "item": "https://studykithub.online/tools/text-to-speech/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0f766e"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0f766e" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#fbbf24"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../tools/">Study tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><a href="../">Study tools</a></li><li><span aria-current="page">Text to Speech Reader</span></li></ol></nav>
+<h1>Text to speech reader</h1>
+<p class="lead">Listen to your notes, an essay draft or a reading passage, using the voices built into your browser or device.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Everything you enter is still processed only in your browser.</p></noscript>
+<p class="notice" id="ts-unsupported" role="alert" hidden><strong>Your browser does not support speech.</strong>Try a recent version of Chrome, Edge, Safari or Firefox.</p>
+<section class="tool" aria-labelledby="ts-heading">
+<h2 id="ts-heading" class="visually-hidden">Reader</h2>
+<div class="field">
+<label for="ts-input">Text to read aloud</label>
+<textarea id="ts-input" rows="9" aria-describedby="ts-hint"></textarea>
+<span class="hint" id="ts-hint">Up to 20,000 characters at a time.</span>
+</div>
+<div class="row">
+<div class="field">
+<label for="ts-voice">Voice</label>
+<select id="ts-voice" aria-describedby="ts-voice-hint"><option value="">Default voice</option></select>
+<span class="hint" id="ts-voice-hint">Voices come from your device and browser, so the list is different on each device. Voices marked &ldquo;online&rdquo; may send the text to your browser maker to be spoken.</span>
+</div>
+<div class="field">
+<label for="ts-rate">Speed: <span id="ts-rate-value">1.0</span>&times;</label>
+<input type="range" id="ts-rate" min="0.5" max="2" step="0.1" value="1">
+</div>
+</div>
+<div class="actions">
+<button type="button" id="ts-play">Play</button>
+<button type="button" id="ts-pause" class="secondary" disabled>Pause</button>
+<button type="button" id="ts-stop" class="secondary" disabled>Stop</button>
+<button type="button" id="ts-clear" class="secondary">Clear text</button>
+</div>
+<p class="status" id="ts-status" role="status" aria-live="polite"></p>
+</section>
+<div class="prose">
+<h2>How to use the text to speech reader</h2>
+<ol>
+<li>Paste or type your text.</li>
+<li>Choose a voice. Pick one that matches the language of your text for the clearest result.</li>
+<li>Set the speed, then press <strong>Play</strong>. Use <strong>Pause</strong> to resume later from the same place, or <strong>Stop</strong> to start again from the beginning.</li>
+</ol>
+<h2>Ways to use it for study</h2>
+<ul>
+<li><strong>Proofread.</strong> Hearing an essay read aloud makes missing words and long sentences easier to notice.</li>
+<li><strong>Revise.</strong> Listen to your notes while you follow along on the page.</li>
+<li><strong>Practise listening.</strong> Slow the speed down for a new language, then speed it up as you improve.</li>
+</ul>
+<h2>Privacy</h2>
+<p>This page uses the speech feature built into your browser. StudyKit Hub does not receive your text. Most voices run on your device; some browsers also offer online voices that are processed by the browser maker&rsquo;s service. These are labelled &ldquo;online&rdquo; in the list, so choose a voice without that label if this matters to you.</p>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Why are there only a few voices?</dt><dd>The voices come from your operating system and browser. You can usually add more in your device’s language or accessibility settings.</dd><dt>Can it read Urdu or Arabic?</dt><dd>Yes, if your device has a voice for that language. Choose it in the voice list.</dd><dt>Can I download the audio?</dt><dd>No. Browsers do not let a web page record their built-in voices, so the speech plays live only.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a>: Write, tag and search study notes that are saved only in your own browser. Export them any time.</li><li><a href="../../tools/word-counter/">Word and Character Counter</a>: Count words, characters, sentences, paragraphs and lines as you type. Works with emoji, accents, Urdu, Arabic and Chinese.</li><li><a href="../../tools/flashcards/">Flashcards Maker</a>: Make flashcard decks and practise them with flip, know and review. Saved only in your own browser.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="../../tools/">All study tools</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<div class="footer-bottom"><p class="footer-brand"><strong>StudyKit Hub</strong> &middot; Learn smarter. Study better.</p><p>&copy; 2026 Ali Hamza. All rights reserved.</p></div>
+</div>
+</footer>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/study-utils.js" defer></script>
+<script src="../../assets/js/tools/text-to-speech.js" defer></script>
+</body>
+</html>

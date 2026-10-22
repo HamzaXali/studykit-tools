@@ -66,7 +66,7 @@ body {
 img, svg { max-width: 100%; height: auto; }
 a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
 a:hover { color: var(--accent-hover); text-decoration-thickness: 2px; }
-:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+:focus-visible, input[type="date"]:focus, input[type="date"]:focus-within { outline: 3px solid var(--focus); outline-offset: 2px; }
 .skip-link {
   position: absolute; left: 0.5rem; top: -3rem; z-index: 10;
   background: var(--accent); color: var(--accent-text); padding: 0.5rem 1rem; border-radius: var(--radius-sm);
@@ -122,6 +122,30 @@ pre code { background: none; padding: 0; }
 .tool-grid { list-style: none; margin: 1rem 0; padding: 0; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); }
 .tool-card { display: flex; flex-direction: column; gap: 0.35rem; height: 100%; padding: 1.1rem 1.2rem 1.2rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); color: var(--text); text-decoration: none; transition: border-color 0.15s, transform 0.15s; }
 .tool-card:hover { border-color: var(--accent); color: var(--text); }
+/* Calculators, timer, flashcards, citations and reader */
+textarea.short { min-height: 5rem; }
+input[type="date"] { max-width: 14rem; }
+input[type="range"] { width: 100%; min-height: 44px; accent-color: var(--accent); }
+.course-rows { display: grid; gap: 0.6rem; }
+.course-row { margin: 0; }
+.course-row .field { margin-bottom: 0.3rem; }
+.timer-face { text-align: center; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); padding: 1rem; }
+.timer-phase { margin: 0; font-weight: 700; color: var(--accent); font-size: 1.15rem; }
+.timer-clock { margin: 0.2rem 0; font-size: clamp(3.5rem, 16vw, 6rem); font-weight: 800; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.timer-count { margin: 0; color: var(--muted); }
+.timer-actions { justify-content: center; }
+.card-list { list-style: none; padding: 0; margin: 0.8rem 0; display: grid; gap: 0.6rem; }
+.card-item { background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 0.6rem 0.9rem; }
+.card-item p { margin: 0 0 0.35rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.card-front { font-weight: 650; }
+.card-back { color: var(--muted); }
+.flashcard { min-height: 10rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; background: var(--bg); border: 2px solid var(--accent); border-radius: var(--radius); padding: 1rem; margin: 0.6rem 0; }
+.flashcard.is-flipped { border-style: dashed; }
+.flashcard-side { margin: 0; font-size: 0.88rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.flashcard-text { margin: 0.3rem 0 0; font-size: 1.35rem; font-weight: 650; white-space: pre-wrap; overflow-wrap: anywhere; }
+.citation-output { background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.8rem 1rem; padding-left: 2.6rem; text-indent: -1.6rem; overflow-wrap: anywhere; }
+.citation-output.is-empty { color: var(--muted); text-indent: 0; padding-left: 1rem; }
+
 @media (prefers-reduced-motion: no-preference) { .tool-card:hover { transform: translateY(-2px); } }
 .tool-card h3 { margin: 0; color: var(--accent); font-size: 1.12rem; }
 .tool-card p { margin: 0; color: var(--muted); font-size: 0.97rem; }
@@ -145,7 +169,7 @@ pre code { background: none; padding: 0; }
 .field { margin-bottom: 0.9rem; }
 .field label, .label { display: block; font-weight: 600; margin-bottom: 0.3rem; }
 .hint { display: block; font-size: 0.9rem; color: var(--muted); margin-top: 0.2rem; }
-textarea, input[type="text"], input[type="number"], input[type="search"], select {
+textarea, input[type="text"], input[type="number"], input[type="search"], input[type="date"], select {
   width: 100%; font: inherit; color: var(--text); background: var(--bg);
   border: 1px solid var(--field-border); border-radius: var(--radius-sm); padding: 0.6rem 0.75rem; min-height: 44px;
 }

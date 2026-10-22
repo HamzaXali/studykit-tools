@@ -1,7 +1,7 @@
 # StudyKit Hub
 
 **Learn smarter. Study better.** A free educational website for students, teachers and education
-creators, run by Ali Hamza. It currently offers six browser-based study tools; study guides,
+creators, run by Ali Hamza. It currently offers thirteen browser-based study tools; study guides,
 revision notes and worksheets are planned and are not published yet.
 
 Plain static HTML, CSS and vanilla JavaScript: no framework, no build step, no external fonts,
@@ -27,6 +27,13 @@ Pages:
 | Case converter (UPPER, lower, Title, Sentence) | `/tools/case-converter/` |
 | Whitespace cleaner | `/tools/whitespace-cleaner/` |
 | Duplicate line remover | `/tools/remove-duplicate-lines/` |
+| GPA and CGPA Calculator | `/tools/gpa-cgpa-calculator/` |
+| Percentage and Marks Calculator | `/tools/percentage-calculator/` |
+| Pomodoro Study Timer | `/tools/pomodoro-timer/` |
+| Flashcards Maker (browser storage only) | `/tools/flashcards/` |
+| Citation Generator (APA 7 and MLA 9) | `/tools/citation-generator/` |
+| Age and Date Difference Calculator | `/tools/age-date-calculator/` |
+| Text to Speech Reader | `/tools/text-to-speech/` |
 | About, Contact, Privacy policy, Terms of use, Disclaimer | `/about/`, `/contact/`, `/privacy-policy/`, `/terms/`, `/disclaimer/` |
 
 **Planned sections (not built):** Study guides, Revision notes, Worksheets. The home page lists them

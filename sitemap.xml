@@ -2,11 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://studykithub.online/</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/about/</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/contact/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://studykithub.online/privacy-policy/</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/terms/</loc>
@@ -26,7 +26,7 @@
   </url>
   <url>
     <loc>https://studykithub.online/tools/</loc>
-    <lastmod>2026-10-20</lastmod>
+    <lastmod>2026-10-22</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/tools/word-counter/</loc>
@@ -51,5 +51,33 @@
   <url>
     <loc>https://studykithub.online/tools/study-notes-organizer/</loc>
     <lastmod>2026-10-20</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/gpa-cgpa-calculator/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/percentage-calculator/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/pomodoro-timer/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/flashcards/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/citation-generator/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/age-date-calculator/</loc>
+    <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/tools/text-to-speech/</loc>
+    <lastmod>2026-10-22</lastmod>
   </url>
 </urlset>

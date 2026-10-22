@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Percentage and Marks Calculator for Exam Results | StudyKit Hub</title>
+<meta name="description" content="Free percentage calculator for exam results. Turn marks into a percentage, add up subjects, find the marks you need, and compare two scores.">
+<link rel="canonical" href="https://studykithub.online/tools/percentage-calculator/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111a2e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Hub">
+<meta property="og:title" content="Percentage and Marks Calculator">
+<meta property="og:description" content="Free percentage calculator for exam results. Turn marks into a percentage, add up subjects, find the marks you need, and compare two scores.">
+<meta property="og:url" content="https://studykithub.online/tools/percentage-calculator/">
+<meta property="og:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Percentage and Marks Calculator">
+<meta name="twitter:description" content="Free percentage calculator for exam results. Turn marks into a percentage, add up subjects, find the marks you need, and compare two scores.">
+<meta name="twitter:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta name="twitter:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Percentage and Marks Calculator",
+  "url": "https://studykithub.online/tools/percentage-calculator/",
+  "description": "Free percentage calculator for exam results. Turn marks into a percentage, add up subjects, find the marks you need, and compare two scores.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://studykithub.online/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Study tools",
+      "item": "https://studykithub.online/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Percentage and Marks Calculator",
+      "item": "https://studykithub.online/tools/percentage-calculator/"
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0f766e"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0f766e" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#fbbf24"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../tools/">Study tools</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><a href="../">Study tools</a></li><li><span aria-current="page">Percentage and Marks Calculator</span></li></ol></nav>
+<h1>Percentage and marks calculator</h1>
+<p class="lead">Turn exam marks into a percentage, total several subjects, find the marks needed for a target, and compare two results.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Everything you enter is still processed only in your browser.</p></noscript>
+<section class="tool" aria-labelledby="pc-heading">
+<h2 id="pc-heading">Marks to percentage</h2>
+<div class="row">
+<div class="field">
+<label for="pc-obtained">Marks obtained</label>
+<input type="number" id="pc-obtained" inputmode="decimal" min="0" step="any" aria-describedby="pc-obtained-error">
+<p class="field-error" id="pc-obtained-error"></p>
+</div>
+<div class="field">
+<label for="pc-total">Total marks</label>
+<input type="number" id="pc-total" inputmode="decimal" min="0" step="any" aria-describedby="pc-total-error">
+<p class="field-error" id="pc-total-error"></p>
+</div>
+</div>
+<dl class="stats">
+<div><dt>Percentage</dt><dd id="pc-percent">—</dd></div>
+</dl>
+</section>
+<section class="tool" aria-labelledby="ps-heading">
+<h2 id="ps-heading">Total of several subjects</h2>
+<div id="ps-rows" class="course-rows"></div>
+<div class="actions">
+<button type="button" id="ps-add" class="secondary">Add subject</button>
+<button type="button" id="ps-clear" class="secondary">Clear subjects</button>
+</div>
+<dl class="stats">
+<div><dt>Total obtained</dt><dd id="ps-obtained">0</dd></div>
+<div><dt>Out of</dt><dd id="ps-total">0</dd></div>
+<div><dt>Overall percentage</dt><dd id="ps-percent">—</dd></div>
+</dl>
+</section>
+<section class="tool" aria-labelledby="pt-heading">
+<h2 id="pt-heading">Marks needed for a target</h2>
+<div class="row">
+<div class="field">
+<label for="pn-target">Target percentage</label>
+<input type="number" id="pn-target" inputmode="decimal" min="0" max="100" step="any" aria-describedby="pn-target-error">
+<p class="field-error" id="pn-target-error"></p>
+</div>
+<div class="field">
+<label for="pn-total">Total marks</label>
+<input type="number" id="pn-total" inputmode="decimal" min="0" step="any" aria-describedby="pn-total-error">
+<p class="field-error" id="pn-total-error"></p>
+</div>
+</div>
+<dl class="stats">
+<div><dt>Marks needed</dt><dd id="pn-marks">—</dd></div>
+</dl>
+</section>
+<section class="tool" aria-labelledby="pd-heading">
+<h2 id="pd-heading">Compare two percentages</h2>
+<div class="row">
+<div class="field">
+<label for="pd-from">Earlier result (%)</label>
+<input type="number" id="pd-from" inputmode="decimal" step="any" aria-describedby="pd-from-error">
+<p class="field-error" id="pd-from-error"></p>
+</div>
+<div class="field">
+<label for="pd-to">Later result (%)</label>
+<input type="number" id="pd-to" inputmode="decimal" step="any" aria-describedby="pd-to-error">
+<p class="field-error" id="pd-to-error"></p>
+</div>
+</div>
+<dl class="stats">
+<div><dt>Difference</dt><dd id="pd-points">—</dd></div>
+<div><dt>Relative change</dt><dd id="pd-change">—</dd></div>
+</dl>
+<div class="actions"><button type="button" id="pc-copy">Copy results</button></div>
+<p class="status" id="pc-status" role="status" aria-live="polite"></p>
+</section>
+<div class="prose">
+<h2>How to use the percentage calculator</h2>
+<ol>
+<li>Enter the marks you obtained and the total marks. The percentage appears straight away.</li>
+<li>To find an overall result, add each subject's marks and total in <strong>Total of several subjects</strong>.</li>
+<li>To plan ahead, enter a target percentage and the total marks to see how many marks you need.</li>
+<li>To see progress, compare an earlier and a later percentage.</li>
+</ol>
+<h2>The formulas</h2>
+<p><strong>Percentage</strong> = marks obtained &divide; total marks &times; 100.</p>
+<p><strong>Marks needed</strong> = target percentage &divide; 100 &times; total marks. Round up, because a mark short of the target is not enough.</p>
+<p><strong>Difference</strong> is the later result minus the earlier one, in percentage points. <strong>Relative change</strong> = difference &divide; earlier result &times; 100.</p>
+<h2>Worked examples</h2>
+<div class="example">
+<h3>Board exam result</h3>
+<p>You scored 942 out of 1,100. Percentage = 942 &divide; 1,100 &times; 100 = <strong>85.64%</strong>.</p>
+</div>
+<div class="example">
+<h3>Progress between two tests</h3>
+<p>Your score went from 60% to 75%. That is <strong>15 percentage points</strong> higher, and a <strong>25%</strong> relative improvement.</p>
+</div>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Why are percentage points different from percent change?</dt><dd>Percentage points are a simple subtraction (75 &minus; 60 = 15 points). Percent change compares the difference with where you started (15 &divide; 60 = 25%).</dd><dt>Can I enter half marks?</dt><dd>Yes. Decimals such as 47.5 work in every box.</dd><dt>Is anything saved or uploaded?</dt><dd>No. The calculations happen in your browser. Nothing is stored or sent anywhere.</dd></dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/gpa-cgpa-calculator/">GPA and CGPA Calculator</a>: Work out semester GPA from credit hours and grade points, update your CGPA, and convert CGPA to a percentage.</li><li><a href="../../tools/age-date-calculator/">Age and Date Difference Calculator</a>: Find an exact age in years, months and days, or count the days and weeks between two dates.</li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a>: Estimate how long a text takes to read silently or to say aloud, at a speed you choose.</li></ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="../../tools/">All study tools</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<div class="footer-bottom"><p class="footer-brand"><strong>StudyKit Hub</strong> &middot; Learn smarter. Study better.</p><p>&copy; 2026 Ali Hamza. All rights reserved.</p></div>
+</div>
+</footer>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/study-utils.js" defer></script>
+<script src="../../assets/js/tools/percentage-calculator.js" defer></script>
+</body>
+</html>

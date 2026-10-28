@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Word and Character Counter | StudyKit Hub</title>
-<meta name="description" content="Free word and character counter. Count words, characters with and without spaces, sentences, paragraphs and lines. Runs in your browser; text is not uploaded.">
+<meta name="description" content="Free word counter with keyword density, Flesch reading level estimates and a private draft saved only on this device. Text is not uploaded.">
 <link rel="canonical" href="https://studykithub.online/tools/word-counter/">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
@@ -13,7 +13,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="StudyKit Hub">
 <meta property="og:title" content="Word and Character Counter">
-<meta property="og:description" content="Free word and character counter. Count words, characters with and without spaces, sentences, paragraphs and lines. Runs in your browser; text is not uploaded.">
+<meta property="og:description" content="Free word counter with keyword density, Flesch reading level estimates and a private draft saved only on this device. Text is not uploaded.">
 <meta property="og:url" content="https://studykithub.online/tools/word-counter/">
 <meta property="og:image" content="https://studykithub.online/assets/img/og-image.png">
 <meta property="og:image:type" content="image/png">
@@ -22,7 +22,7 @@
 <meta property="og:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Word and Character Counter">
-<meta name="twitter:description" content="Free word and character counter. Count words, characters with and without spaces, sentences, paragraphs and lines. Runs in your browser; text is not uploaded.">
+<meta name="twitter:description" content="Free word counter with keyword density, Flesch reading level estimates and a private draft saved only on this device. Text is not uploaded.">
 <meta name="twitter:image" content="https://studykithub.online/assets/img/og-image.png">
 <meta name="twitter:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
@@ -34,7 +34,7 @@
   "@type": "WebApplication",
   "name": "Word and Character Counter",
   "url": "https://studykithub.online/tools/word-counter/",
-  "description": "Free word and character counter. Count words, characters with and without spaces, sentences, paragraphs and lines. Runs in your browser; text is not uploaded.",
+  "description": "Free word counter with keyword density, Flesch reading level estimates and a private draft saved only on this device. Text is not uploaded.",
   "applicationCategory": "UtilitiesApplication",
   "operatingSystem": "Any",
   "browserRequirements": "Requires JavaScript and a modern web browser",
@@ -72,6 +72,47 @@
   ]
 }
 </script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why is my count different from Microsoft Word or Google Docs?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Every program has its own rules for things like hyphenated words, numbers with dots, dashes and web addresses, so small differences are normal. If a teacher or journal sets a limit, check which program they use to count."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it work for languages other than English?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Words are found with your browser's built-in language rules (Intl.Segmenter), which also work for Urdu, Arabic, Hindi, Chinese, Japanese and many others. For Chinese and Japanese, which are written without spaces, word counts are an estimate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my text saved or sent anywhere?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Nothing is uploaded. Counts and reading-level estimates run in this tab. If your browser allows it, a draft of the text box is saved in local storage on this device only so you can continue later. Use Clear draft to remove it."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is there a length limit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "There is no fixed limit. Very long texts of a million characters or more still work, but counts may take a moment to update on older phones."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
@@ -85,7 +126,7 @@
 <div class="wrap">
 <nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><a href="../">Study tools</a></li><li><span aria-current="page">Word and Character Counter</span></li></ol></nav>
 <h1>Word and character counter</h1>
-<p class="lead">Paste an essay, assignment or caption to see its length straight away. Counts update as you type.</p>
+<p class="lead">Paste an essay, assignment or caption to see its length, keyword density and an English reading-level estimate. A draft can stay on this device until you clear it.</p>
 <noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Your text is still processed only in your browser.</p></noscript>
 <section class="tool" aria-labelledby="tool-heading">
 <h2 id="tool-heading" class="visually-hidden">Counter</h2>
@@ -108,6 +149,33 @@
 <div><dt>Paragraphs</dt><dd id="wc-paragraphs">0</dd></div>
 <div><dt>Lines</dt><dd id="wc-lines">0</dd></div>
 </dl>
+<div class="wc-extra">
+<section class="wc-panel" aria-labelledby="wc-density-heading">
+<h3 id="wc-density-heading">Keyword density</h3>
+<p class="hint">Top words in your text, as a share of all words. Useful for spotting repetition while you draft.</p>
+<div class="field checkbox-field">
+<label for="wc-filter-stopwords"><input type="checkbox" id="wc-filter-stopwords" checked> Hide common English words (the, and, of…)</label>
+</div>
+<p id="wc-keyword-empty" class="hint">Type or paste text to see keyword density.</p>
+<ol id="wc-keyword-list" class="wc-keyword-list" hidden></ol>
+</section>
+<section class="wc-panel" aria-labelledby="wc-level-heading">
+<h3 id="wc-level-heading">Reading level <span class="badge">English estimate</span></h3>
+<p class="hint">Flesch Reading Ease and Flesch–Kincaid grade are rough estimates for English prose only.</p>
+<dl class="stats" aria-label="Reading level estimates">
+<div><dt>Flesch Reading Ease</dt><dd id="wc-flesch-ease">—</dd></div>
+<div><dt>Flesch–Kincaid grade</dt><dd id="wc-flesch-grade">—</dd></div>
+</dl>
+<p class="hint" id="wc-reading-note">Need at least one word and one sentence for an estimate.</p>
+</section>
+<section class="wc-panel" aria-labelledby="wc-draft-heading">
+<h3 id="wc-draft-heading">Draft on this device</h3>
+<p class="hint" id="wc-draft-note">No draft saved on this device.</p>
+<div class="actions">
+<button type="button" id="wc-clear-draft" class="secondary">Clear draft</button>
+</div>
+</section>
+</div>
 </section>
 <div class="prose">
 <h2>How to use the word counter</h2>
@@ -115,6 +183,8 @@
 <li>Type in the box, or paste text from a document, web page or email.</li>
 <li>Read the counts underneath. They change as you edit, so you can trim an essay to a word limit while you watch.</li>
 <li>Use <strong>Copy text</strong> to take your edited text back to your document, or <strong>Clear text</strong> to start again.</li>
+<li>Check <strong>keyword density</strong> to see which words you repeat, and the <strong>reading level</strong> estimates if you are writing in English.</li>
+<li>Your draft is saved on this device only. Use <strong>Clear draft</strong> when you want it removed.</li>
 </ol>
 <h2>What each number means</h2>
 <ul>
@@ -144,8 +214,9 @@ It happens mainly in the leaves.</code></pre>
 <p>Result: <strong>5 words</strong>, 27 characters and 1 sentence, ending with the Urdu full stop (۔).</p>
 </div>
 </div>
-<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Why is my count different from Microsoft Word or Google Docs?</dt><dd>Every program has its own rules for things like hyphenated words, numbers with dots, dashes and web addresses, so small differences are normal. If a teacher or journal sets a limit, check which program they use to count.</dd><dt>Does it work for languages other than English?</dt><dd>Yes. Words are found with your browser&rsquo;s built-in language rules (<code>Intl.Segmenter</code>), which also work for Urdu, Arabic, Hindi, Chinese, Japanese and many others. For Chinese and Japanese, which are written without spaces, word counts are an estimate.</dd><dt>Is my text saved or sent anywhere?</dt><dd>No. Counting happens in this tab and nothing is uploaded. The site does not save the text; some browsers may restore what you typed if you reload the page.</dd><dt>Is there a length limit?</dt><dd>There is no fixed limit. Very long texts of a million characters or more still work, but counts may take a moment to update on older phones.</dd></dl></section>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq"><dt>Why is my count different from Microsoft Word or Google Docs?</dt><dd>Every program has its own rules for things like hyphenated words, numbers with dots, dashes and web addresses, so small differences are normal. If a teacher or journal sets a limit, check which program they use to count.</dd><dt>Does it work for languages other than English?</dt><dd>Yes. Words are found with your browser&rsquo;s built-in language rules (<code>Intl.Segmenter</code>), which also work for Urdu, Arabic, Hindi, Chinese, Japanese and many others. For Chinese and Japanese, which are written without spaces, word counts are an estimate.</dd><dt>Is my text saved or sent anywhere?</dt><dd>Nothing is uploaded. Counts and reading-level estimates run in this tab. If your browser allows it, a draft of the text box is saved in local storage on this device only so you can continue later. Use Clear draft to remove it.</dd><dt>Is there a length limit?</dt><dd>There is no fixed limit. Very long texts of a million characters or more still work, but counts may take a moment to update on older phones.</dd></dl></section>
 <section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a>: Estimate how long a text takes to read silently or to say aloud, at a speed you choose.</li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a>: Fix messy spacing from PDFs and web pages: extra spaces, blank lines, tabs and invisible characters.</li><li><a href="../../tools/case-converter/">Case Converter</a>: Switch text to UPPERCASE, lowercase, Title Case or Sentence case, with undo.</li></ul></section>
+<section class="related" aria-labelledby="related-guides-heading"><h2 id="related-guides-heading">Related guides</h2><ul><li><a href="../../guides/essay-word-counts/">Essay word counts and limits</a>: Typical university word ranges and how to stay inside them.</li><li><a href="../../guides/how-to-cut-word-count/">How to cut your essay word count</a>: Practical ways to shorten a draft without losing the argument.</li><li><a href="../../guides/readability-scores-explained/">Readability scores explained</a>: What Flesch Reading Ease and grade level mean for student writing.</li></ul></section>
 </div>
 </main>
 <footer class="site-footer">

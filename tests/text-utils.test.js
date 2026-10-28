@@ -527,3 +527,45 @@ test('chunking: 1 MB with no spaces or punctuation stays fast and nearly exact',
   const exact = 480000; // dictionary splits each 12-character unit into 6 words
   assert.ok(Math.abs(z - exact) / exact < 0.005, `CJK words ${z} within 0.5% of ${exact}`);
 });
+
+// ---------------- Keyword density ----------------
+test('keywordDensity: ranks content words and can filter stopwords', () => {
+  const text = 'The cat sat on the mat. The cat and the dog sat on the mat.';
+  const filtered = T.keywordDensity(text, { filterStopwords: true, limit: 5 });
+  assert.equal(filtered.totalWords, 15);
+  assert.ok(filtered.items.length >= 2);
+  assert.equal(filtered.items[0].word, 'cat');
+  assert.equal(filtered.items[0].count, 2);
+  assert.equal(filtered.items[0].density, 13.3); // 2/15
+  const raw = T.keywordDensity(text, { filterStopwords: false, limit: 5 });
+  assert.equal(raw.items[0].word, 'the');
+  assert.equal(raw.items[0].count, 5);
+});
+
+test('keywordDensity: empty and whitespace', () => {
+  assert.deepEqual(T.keywordDensity(''), { totalWords: 0, uniqueWords: 0, items: [], filteredStopwords: 0 });
+  assert.equal(T.keywordDensity('   \n\t ').totalWords, 0);
+});
+
+// ---------------- Reading level ----------------
+test('readingLevel: empty unavailable', () => {
+  const r = T.readingLevel('');
+  assert.equal(r.available, false);
+  assert.equal(r.fleschReadingEase, null);
+});
+
+test('readingLevel: simple English sentence is available', () => {
+  const r = T.readingLevel('The cat sat on the mat. The dog ran home.');
+  assert.equal(r.available, true);
+  assert.equal(typeof r.fleschReadingEase, 'number');
+  assert.equal(typeof r.fleschKincaidGrade, 'number');
+  assert.ok(r.fleschReadingEase > 60, 'simple prose should score fairly easy: ' + r.fleschReadingEase);
+  assert.ok(r.syllables >= r.words);
+});
+
+test('countSyllablesInWord: basic English heuristics', () => {
+  assert.equal(T.countSyllablesInWord('cat'), 1);
+  assert.equal(T.countSyllablesInWord('table'), 2);
+  assert.equal(T.countSyllablesInWord('education'), 4);
+  assert.equal(T.countSyllablesInWord(''), 0);
+});

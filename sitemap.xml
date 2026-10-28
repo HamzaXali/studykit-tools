@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://studykithub.online/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-28</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/about/</loc>
@@ -14,7 +14,7 @@
   </url>
   <url>
     <loc>https://studykithub.online/privacy-policy/</loc>
-    <lastmod>2026-10-22</lastmod>
+    <lastmod>2026-10-28</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/terms/</loc>
@@ -27,6 +27,10 @@
   <url>
     <loc>https://studykithub.online/tools/</loc>
     <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/</loc>
+    <lastmod>2026-10-28</lastmod>
   </url>
   <url>
     <loc>https://studykithub.online/tools/word-counter/</loc>
@@ -79,5 +83,85 @@
   <url>
     <loc>https://studykithub.online/tools/text-to-speech/</loc>
     <lastmod>2026-10-22</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/essay-word-counts/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/how-to-cut-word-count/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/reading-time-for-speeches/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/title-case-rules/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/how-to-calculate-gpa/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/uk-degree-classifications/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/dutch-grading-scale/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/pomodoro-for-exams/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/active-recall-flashcards/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/spaced-repetition/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/citation-basics-apa-mla/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/harvard-referencing/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/cornell-note-taking/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/readability-scores-explained/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/organising-study-notes/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/marks-percentages-grades/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/cleaning-text-from-pdfs/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/cleaning-duplicate-study-lists/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/revising-with-text-to-speech/</loc>
+    <lastmod>2026-10-28</lastmod>
+  </url>
+  <url>
+    <loc>https://studykithub.online/guides/planning-deadlines-with-dates/</loc>
+    <lastmod>2026-10-28</lastmod>
   </url>
 </urlset>

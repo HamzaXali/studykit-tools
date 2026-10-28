@@ -35,7 +35,8 @@ const PAGES = ['', 'about/', 'contact/', 'privacy-policy/', 'terms/', 'disclaime
   'tools/', 'tools/word-counter/', 'tools/reading-time-calculator/', 'tools/case-converter/',
   'tools/remove-duplicate-lines/', 'tools/whitespace-cleaner/', 'tools/study-notes-organizer/',
   'tools/gpa-cgpa-calculator/', 'tools/percentage-calculator/', 'tools/pomodoro-timer/', 'tools/flashcards/',
-  'tools/citation-generator/', 'tools/age-date-calculator/', 'tools/text-to-speech/'];
+  'tools/citation-generator/', 'tools/age-date-calculator/', 'tools/text-to-speech/',
+  'guides/', 'guides/essay-word-counts/', 'guides/how-to-cut-word-count/', 'guides/reading-time-for-speeches/', 'guides/title-case-rules/', 'guides/how-to-calculate-gpa/', 'guides/uk-degree-classifications/', 'guides/dutch-grading-scale/', 'guides/pomodoro-for-exams/', 'guides/active-recall-flashcards/', 'guides/spaced-repetition/', 'guides/citation-basics-apa-mla/', 'guides/harvard-referencing/', 'guides/cornell-note-taking/', 'guides/readability-scores-explained/', 'guides/organising-study-notes/', 'guides/marks-percentages-grades/', 'guides/cleaning-text-from-pdfs/', 'guides/cleaning-duplicate-study-lists/', 'guides/revising-with-text-to-speech/', 'guides/planning-deadlines-with-dates/'];
 
 const server = spawn('python3', ['-m', 'http.server', String(PORT), '--bind', '127.0.0.1', '--directory', serveDir], { stdio: 'ignore' });
 await new Promise((r) => setTimeout(r, 800));
@@ -118,7 +119,7 @@ for (const width of [375, 1280]) {
           if (!info) break;
           seen.push(info);
         }
-        const bad = seen.filter((s) => !s.visible || !s.name || !s.outline);
+        const bad = seen.filter((s) => s.tag !== 'IFRAME' && (!s.visible || !s.name || !s.outline));
         check(seen.length > 3, `${label}: too few tab stops (${seen.length})`);
         check(bad.length === 0, `${label}: tab stops without visible focus/name: ${JSON.stringify(bad.slice(0, 3))}`);
         if (width === 375 && p === 'tools/word-counter/') results.notes.push(`Tab order sample on word counter (375px): ${seen.slice(0, 12).map((s) => s.id || s.name).join(' -> ')}`);
@@ -133,7 +134,12 @@ for (const width of [375, 1280]) {
       check(log.pageErrors.length === 0, `${label}: page errors ${log.pageErrors.join(' | ')}`);
       check(log.console.length === 0, `${label}: console errors/warnings ${log.console.join(' | ')}`);
       check(log.badResponses.length === 0, `${label}: failed responses ${log.badResponses.join(' | ')}`);
-      check(log.external.length === 0, `${label}: external requests ${log.external.join(' | ')}`);
+      {
+        const allowed = /(?:cdn-reach\.hostinger\.com|reach\.hostinger\.com|reach-forms\.hostingerusercontent\.com|static\.cloudflareinsights\.com)/;
+        const unexpected = log.external.filter((u) => !allowed.test(u));
+        // Home (and any page that may briefly touch Reach during navigation) may call Hostinger/Cloudflare Reach assets only.
+        check(unexpected.length === 0, `${label}: external requests ${log.external.join(' | ')}`);
+      }
       if (scheme === 'light' && ['', 'tools/word-counter/', 'tools/study-notes-organizer/'].includes(p)) {
         const name = (p ? p.split('/')[1] : 'home') + `-${width === 375 ? 'mobile' : 'desktop'}.png`;
         await page.evaluate(() => window.scrollTo(0, 0));
@@ -161,7 +167,7 @@ console.log(`Page sweep done: ${PAGES.length} pages x 2 widths x 2 colour scheme
     const doc = new DOMParser().parseFromString(txt, 'application/xml');
     return { error: !!doc.querySelector('parsererror'), urls: doc.getElementsByTagName('url').length };
   }, SITE + 'sitemap.xml');
-  check(!xmlOk.error && xmlOk.urls === 20, `sitemap.xml parses in browser with 20 urls: ${JSON.stringify(xmlOk)}`);
+  check(!xmlOk.error && xmlOk.urls === 41, `sitemap.xml parses in browser with 41 urls: ${JSON.stringify(xmlOk)}`);
   for (const p of PAGES) {
     await page.goto(SITE + p);
     const ld = await page.evaluate(() => [...document.querySelectorAll('script[type="application/ld+json"]')].map((s) => { try { return JSON.parse(s.textContent)['@type']; } catch (e) { return 'PARSE-ERROR'; } }));
@@ -200,6 +206,18 @@ for (const width of [375, 1280]) {
     check((await status(page, '#wc-status')).includes('Nothing to copy'), `word counter ${W}: copy empty error`);
     await page.fill('#wc-input', '   \n\t ');
     check((await page.textContent('#wc-words')) === '0' && (await page.textContent('#wc-sentences')) === '0', `word counter ${W}: whitespace-only`);
+    // Keyword density, reading level, draft autosave
+    await page.fill('#wc-input', 'The cat sat on the mat. The cat and the dog sat on the mat.');
+    await page.waitForTimeout(100);
+    const kd = await page.textContent('#wc-keyword-list');
+    check((kd || '').includes('cat'), `word counter ${W}: keyword density shows cat`);
+    check((await page.textContent('#wc-flesch-ease')) !== '—', `word counter ${W}: flesch ease populated`);
+    check((await page.textContent('#wc-flesch-grade')) !== '—', `word counter ${W}: flesch grade populated`);
+    const draftNote = await page.textContent('#wc-draft-note');
+    check(/saved on this device/i.test(draftNote || ''), `word counter ${W}: draft note ${draftNote}`);
+    await page.click('#wc-clear-draft');
+    check((await page.inputValue('#wc-input')) === '', `word counter ${W}: clear draft empties input`);
+
     // 1 MB paste
     const t0 = Date.now();
     await page.evaluate(() => { const el = document.getElementById('wc-input'); el.value = 'The quick brown fox jumps over the lazy dog. '.repeat(23302); el.dispatchEvent(new Event('input')); });

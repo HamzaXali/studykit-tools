@@ -68,7 +68,8 @@ for (const f of htmlFiles) {
   // No external scripts, styles, fonts or iframes
   for (const m of html.matchAll(/<(script|link|iframe|img)\b[^>]*\s(?:src|href)="(https?:[^"]+)"/g)) {
     if (m[1] === 'link' && /rel="canonical"/.test(m[0])) continue;
-    ok(m[2].startsWith(BASE), `${name}: external resource ${m[2]}`);
+    const allowedHostinger = name === 'index.html' && /^https:\/\/(cdn-reach\.hostinger\.com|reach\.hostinger\.com|reach-forms\.hostingerusercontent\.com)\//.test(m[2]);
+    ok(m[2].startsWith(BASE) || allowedHostinger, `${name}: external resource ${m[2]}`);
   }
   ok(!/adsbygoogle|googlesyndication|google-adsense-account|gtag\(|googletagmanager/.test(html), `${name}: contains ad/analytics code`);
   // JSON-LD
@@ -76,7 +77,7 @@ for (const f of htmlFiles) {
     let data;
     try { data = JSON.parse(m[1]); } catch (e) { ok(false, `${name}: JSON-LD does not parse: ${e.message}`); continue; }
     ok(data['@context'] === 'https://schema.org', `${name}: JSON-LD @context`);
-    ok(['WebApplication', 'BreadcrumbList', 'WebSite', 'Organization'].includes(data['@type']), `${name}: unexpected JSON-LD type ${data['@type']}`);
+    ok(['WebApplication', 'BreadcrumbList', 'WebSite', 'Organization', 'Article', 'FAQPage'].includes(data['@type']), `${name}: unexpected JSON-LD type ${data['@type']}`);
     if (data['@type'] === 'BreadcrumbList') {
       data.itemListElement.forEach((it, i) => {
         ok(it['@type'] === 'ListItem' && it.position === i + 1 && it.name && it.item, `${name}: breadcrumb item ${i}`);
@@ -93,6 +94,15 @@ for (const f of htmlFiles) {
     if (data['@type'] === 'WebApplication') {
       ok(data.name && data.url === canonical && data.applicationCategory && data.offers && data.offers.price === '0', `${name}: WebApplication fields`);
     }
+    if (data['@type'] === 'Article') {
+      ok(data.headline && data.datePublished && data.author && data.publisher, `${name}: Article fields`);
+      ok(data.author.name === 'Ali Hamza', `${name}: Article author`);
+      ok(data.publisher.name === 'StudyKit Hub', `${name}: Article publisher`);
+    }
+    if (data['@type'] === 'FAQPage') {
+      ok(Array.isArray(data.mainEntity) && data.mainEntity.length > 0, `${name}: FAQPage mainEntity`);
+    }
+
   }
   // Links and assets
   for (const m of html.matchAll(/\s(href|src)="([^"]+)"/g)) {
@@ -141,9 +151,11 @@ for (const f of htmlFiles) {
 for (const p of ['contact/index.html', 'privacy-policy/index.html', 'terms/index.html']) {
   ok(fs.readFileSync(path.join(root, p), 'utf8').includes(`mailto:${OWNER_EMAIL}`), `${p}: contact email link missing`);
 }
-for (const p of ['privacy-policy/index.html', 'terms/index.html', 'disclaimer/index.html']) {
-  ok(/20 October 2026/.test(fs.readFileSync(path.join(root, p), 'utf8')), `${p}: effective / last-updated date missing`);
-}
+ok(/20 October 2026/.test(fs.readFileSync(path.join(root, 'terms/index.html'), 'utf8')), 'terms/index.html: effective / last-updated date missing');
+ok(/20 October 2026/.test(fs.readFileSync(path.join(root, 'disclaimer/index.html'), 'utf8')), 'disclaimer/index.html: effective / last-updated date missing');
+ok(/28 October 2026/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: last-updated date missing');
+ok(/20 October 2026/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: effective date missing');
+
 
 // sitemap & robots
 const sm = fs.readFileSync(path.join(root, 'sitemap.xml'), 'utf8');

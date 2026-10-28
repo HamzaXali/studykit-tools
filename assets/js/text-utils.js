@@ -646,6 +646,142 @@
     }).join('\n\n');
   }
 
+
+  // ---------- Keyword density (English-oriented) ----------
+
+  /** Common English function words excluded from density by default. */
+  var EN_STOPWORDS = {
+    a:1, about:1, above:1, after:1, again:1, against:1, all:1, am:1, an:1, and:1, any:1, are:1, as:1, at:1,
+    be:1, because:1, been:1, before:1, being:1, below:1, between:1, both:1, but:1, by:1,
+    can:1, could:1, did:1, do:1, does:1, doing:1, down:1, during:1, each:1, few:1, for:1, from:1, further:1,
+    had:1, has:1, have:1, having:1, he:1, her:1, here:1, hers:1, herself:1, him:1, himself:1, his:1, how:1,
+    i:1, if:1, in:1, into:1, is:1, it:1, its:1, itself:1, just:1,
+    me:1, more:1, most:1, my:1, myself:1, no:1, nor:1, not:1, now:1, of:1, off:1, on:1, once:1, only:1, or:1, other:1, our:1, ours:1, ourselves:1, out:1, over:1, own:1,
+    same:1, she:1, should:1, so:1, some:1, such:1, than:1, that:1, the:1, their:1, theirs:1, them:1, themselves:1, then:1, there:1, these:1, they:1, this:1, those:1, through:1, to:1, too:1,
+    under:1, until:1, up:1, very:1, was:1, we:1, were:1, what:1, when:1, where:1, which:1, while:1, who:1, whom:1, why:1, will:1, with:1, would:1, you:1, your:1, yours:1, yourself:1, yourselves:1
+  };
+
+  /**
+   * Keyword density for English-like text.
+   * Returns { totalWords, uniqueWords, items: [{word, count, density}], filteredStopwords }.
+   * density is percentage of totalWords (0–100), one decimal.
+   */
+  function keywordDensity(text, opts) {
+    opts = opts || {};
+    var filterStop = opts.filterStopwords !== false;
+    var limit = opts.limit == null ? 10 : Math.max(0, opts.limit | 0);
+    var words = [];
+    var s = toStr(text);
+    if (s) {
+      // Prefer Segmenter word breaks when available; else split on non-letters/digits.
+      if (HAS_SEGMENTER && !(opts && opts.forceFallback)) {
+        var seg = new Intl.Segmenter(undefined, { granularity: 'word' });
+        for (var part of seg.segment(s)) {
+          if (part.isWordLike) words.push(String(part.segment).toLowerCase());
+        }
+      } else {
+        var m = s.toLowerCase().match(/[a-z0-9]+(?:'[a-z]+)?/gi);
+        if (m) words = m.map(function (w) { return w.toLowerCase(); });
+      }
+    }
+    var totalWords = words.length;
+    var counts = Object.create(null);
+    var filteredStopwords = 0;
+    for (var i = 0; i < words.length; i++) {
+      var w = words[i];
+      if (filterStop && EN_STOPWORDS[w]) { filteredStopwords++; continue; }
+      // Skip pure numbers and single-char tokens for density ranking
+      if (/^\d+$/.test(w) || w.length < 2) continue;
+      counts[w] = (counts[w] || 0) + 1;
+    }
+    var items = Object.keys(counts).map(function (word) {
+      var count = counts[word];
+      var density = totalWords === 0 ? 0 : Math.round((count / totalWords) * 1000) / 10;
+      return { word: word, count: count, density: density };
+    });
+    items.sort(function (a, b) {
+      if (b.count !== a.count) return b.count - a.count;
+      return a.word < b.word ? -1 : a.word > b.word ? 1 : 0;
+    });
+    if (limit >= 0) items = items.slice(0, limit);
+    return {
+      totalWords: totalWords,
+      uniqueWords: Object.keys(counts).length,
+      items: items,
+      filteredStopwords: filteredStopwords
+    };
+  }
+
+  // ---------- Reading level (English estimates) ----------
+
+  /** Approximate English syllable count for one word (heuristic). */
+  function countSyllablesInWord(word) {
+    var w = String(word || '').toLowerCase().replace(/[^a-z]/g, '');
+    if (!w) return 0;
+    if (w.length <= 2) return 1;
+    w = w.replace(/(?:[^laeiouy]es|ed|[^laeiouy]e)$/, '');
+    w = w.replace(/^y/, '');
+    var m = w.match(/[aeiouy]{1,2}/g);
+    var n = m ? m.length : 0;
+    return n < 1 ? 1 : n;
+  }
+
+  function countSyllables(text, opts) {
+    var s = toStr(text);
+    if (!s) return 0;
+    var words = [];
+    if (HAS_SEGMENTER && !(opts && opts.forceFallback)) {
+      var seg = new Intl.Segmenter('en', { granularity: 'word' });
+      for (var part of seg.segment(s)) {
+        if (part.isWordLike) words.push(part.segment);
+      }
+    } else {
+      var m = s.match(/[A-Za-z]+(?:'[A-Za-z]+)?/g);
+      if (m) words = m;
+    }
+    var total = 0;
+    for (var i = 0; i < words.length; i++) total += countSyllablesInWord(words[i]);
+    return total;
+  }
+
+  /**
+   * Flesch Reading Ease and Flesch–Kincaid grade (English estimates).
+   * Returns { words, sentences, syllables, fleschReadingEase, fleschKincaidGrade, available, note }.
+   */
+  function readingLevel(text, opts) {
+    var s = toStr(text);
+    var words = countWords(s, opts);
+    var sentences = countSentences(s, opts);
+    var syllables = countSyllables(s, opts);
+    if (words === 0 || sentences === 0) {
+      return {
+        words: words,
+        sentences: sentences,
+        syllables: syllables,
+        fleschReadingEase: null,
+        fleschKincaidGrade: null,
+        available: false,
+        note: 'Need at least one word and one sentence for an estimate.'
+      };
+    }
+    var asl = words / sentences;
+    var asw = syllables / words;
+    var fre = 206.835 - (1.015 * asl) - (84.6 * asw);
+    var fkg = (0.39 * asl) + (11.8 * asw) - 15.59;
+    // Round for display
+    fre = Math.round(fre * 10) / 10;
+    fkg = Math.round(fkg * 10) / 10;
+    return {
+      words: words,
+      sentences: sentences,
+      syllables: syllables,
+      fleschReadingEase: fre,
+      fleschKincaidGrade: fkg,
+      available: true,
+      note: 'Estimates for English text only. Other languages are not scored.'
+    };
+  }
+
   return {
     HAS_SEGMENTER: HAS_SEGMENTER,
     _chunkText: chunkText,
@@ -657,6 +793,11 @@
     countParagraphs: countParagraphs,
     countLines: countLines,
     getTextStats: getTextStats,
+    keywordDensity: keywordDensity,
+    EN_STOPWORDS: EN_STOPWORDS,
+    countSyllablesInWord: countSyllablesInWord,
+    countSyllables: countSyllables,
+    readingLevel: readingLevel,
     WPM_MIN: WPM_MIN,
     WPM_MAX: WPM_MAX,
     validateWpm: validateWpm,

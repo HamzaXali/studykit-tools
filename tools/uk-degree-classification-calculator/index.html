@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UK Degree Classification Calculator | StudyKit Hub</title>
+<meta name="description" content="Work out your UK degree class from module marks, credits and year weights. Free First / 2:1 / 2:2 calculator — private, runs in your browser.">
+<link rel="canonical" href="https://studykithub.online/tools/uk-degree-classification-calculator/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111a2e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Hub">
+<meta property="og:title" content="UK Degree Classification Calculator | StudyKit Hub">
+<meta property="og:description" content="Work out your UK degree class from module marks, credits and year weights. Free First / 2:1 / 2:2 calculator — private, runs in your browser.">
+<meta property="og:url" content="https://studykithub.online/tools/uk-degree-classification-calculator/">
+<meta property="og:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="UK Degree Classification Calculator | StudyKit Hub">
+<meta name="twitter:description" content="Work out your UK degree class from module marks, credits and year weights. Free First / 2:1 / 2:2 calculator — private, runs in your browser.">
+<meta name="twitter:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta name="twitter:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "UK Degree Classification Calculator",
+  "url": "https://studykithub.online/tools/uk-degree-classification-calculator/",
+  "description": "Work out your UK degree class from module marks, credits and year weights. Runs in your browser — nothing is uploaded.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://studykithub.online/" },
+    { "@type": "ListItem", "position": 2, "name": "Study tools", "item": "https://studykithub.online/tools/" },
+    { "@type": "ListItem", "position": 3, "name": "UK degree classification calculator", "item": "https://studykithub.online/tools/uk-degree-classification-calculator/" }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How is a UK degree classification calculated?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Credit-weight your modules into a year average, then year-weight those averages into a degree average. Map the result to the usual bands: First 70%+, Upper Second (2:1) 60–69%, Lower Second (2:2) 50–59%, Third 40–49%. For example, year 2 at 63% with weight 40% and year 3 at 70% with weight 60% gives 67.2% — a 2:1 on those boundaries."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What percentage is a 2:1 / First / 2:2 / Third?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Usual undergraduate honours bands are First 70% and above, Upper Second (2:1) 60–69%, Lower Second (2:2) 50–59%, and Third 40–49%. Confirm the exact cutoffs in your programme regulations."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does first year count towards my degree class?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Often year 1 must be passed but carries 0% weight. Some courses give it a small share (for example 10%). Enter 0, or your handbook figure, for any year that does not count."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What average do I need in my final year for a 2:1?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "It depends on locked year averages and year weights. Use the target mode. For example, with weights 0 / 40 / 60 and year 2 locked at 58%, you need about 61.3% across final-year credits for an overall 60% (2:1), before any university-specific borderline rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if I am within 1% or 2% of a boundary?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Many universities have borderline rules (a margin plus a share of final-year credits in the higher band, rounding, or exam-board discretion). This calculator only flags the zone; it does not apply uplift rules."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use this if my university discounts my lowest credits?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Not automatically in this version. Enter only the modules your handbook includes, or exclude discounted credits yourself. Official university Excel tools encode local rules that this generic calculator will not."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this the same as a US GPA?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. A UK class is a weighted percentage band, not a 4.0 GPA. See the UK degree classifications guide for context, and the GPA calculator only when an application asks for a GPA estimate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is anything saved or uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Calculations run in your browser only. Nothing is stored or uploaded."
+      }
+    }
+  ]
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0f766e"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0f766e" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#fbbf24"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../tools/">Study tools</a></li><li><a href="../../guides/">Guides</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><a href="../">Study tools</a></li><li><span aria-current="page">UK degree classification calculator</span></li></ol></nav>
+<h1>UK degree classification calculator</h1>
+<p class="lead">Work out your First, 2:1, 2:2 or Third from module marks, credits and year weights.</p>
+<p class="callout">UK undergraduate honours classifications usually map a credit- and year-weighted average to First (70%+), Upper Second / 2:1 (60–69%), Lower Second / 2:2 (50–59%) and Third (40–49%). For example, with year 2 weighted 40% at 63% and year 3 weighted 60% at 70%, the degree average is 67.2% — a 2:1 on those usual boundaries.</p>
+<p class="notice"><strong>Handbook disclaimer.</strong> This is an estimate using the marks and weights you enter and the usual UK honours boundaries. Each university (and sometimes each course) sets its own year weights, rounding, discounted credits, resit caps and borderline rules. Check your programme handbook or classification regulations before relying on the result — only your exam board confirms the award.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong> Turn JavaScript on for this site to use it. Everything you enter is still processed only in your browser.</p></noscript>
+
+<section class="tool" aria-labelledby="uk-weights-heading">
+<h2 id="uk-weights-heading">Year weights</h2>
+<p>Pick a common three-year pattern, or enter custom weights. Relative parts such as 0 / 1 / 2 are normalised to the same shares as 0 / 33.3 / 66.7. Year 4 Scottish or integrated pathways are not modelled in this version — fold them into custom weights if your handbook needs them.</p>
+<div class="actions" role="group" aria-label="Year-weight presets">
+<button type="button" class="secondary" data-uk-preset="0-50-50" aria-pressed="false">0 / 50 / 50</button>
+<button type="button" class="secondary" data-uk-preset="0-40-60" aria-pressed="true">0 / 40 / 60</button>
+<button type="button" class="secondary" data-uk-preset="0-33-67" aria-pressed="false">0 / 33 / 67</button>
+<button type="button" class="secondary" data-uk-preset="0-1-2" aria-pressed="false">0 / 1 / 2</button>
+<button type="button" class="secondary" data-uk-preset="0-25-75" aria-pressed="false">0 / 25 / 75</button>
+</div>
+<div class="row">
+<div class="field"><label for="uk-w1">Year 1 weight</label><input type="number" id="uk-w1" inputmode="decimal" min="0" step="any"></div>
+<div class="field"><label for="uk-w2">Year 2 weight</label><input type="number" id="uk-w2" inputmode="decimal" min="0" step="any"></div>
+<div class="field"><label for="uk-w3">Year 3 weight</label><input type="number" id="uk-w3" inputmode="decimal" min="0" step="any"></div>
+</div>
+<p class="hint" id="uk-share-hint"></p>
+<p class="field-error" id="uk-weight-error"></p>
+</section>
+
+<div id="uk-years">
+<section class="tool" aria-labelledby="uk-y0-heading">
+<h2 id="uk-y0-heading">Year 1 modules</h2>
+<div id="uk-year-0" class="course-rows"></div>
+<div class="actions"><button type="button" id="uk-add-0" class="secondary">Add module</button></div>
+</section>
+<section class="tool" aria-labelledby="uk-y1-heading">
+<h2 id="uk-y1-heading">Year 2 modules</h2>
+<div id="uk-year-1" class="course-rows"></div>
+<div class="actions"><button type="button" id="uk-add-1" class="secondary">Add module</button></div>
+</section>
+<section class="tool" aria-labelledby="uk-y2-heading">
+<h2 id="uk-y2-heading">Year 3 modules</h2>
+<div id="uk-year-2" class="course-rows"></div>
+<div class="actions"><button type="button" id="uk-add-2" class="secondary">Add module</button></div>
+</section>
+</div>
+
+<section class="tool" aria-labelledby="uk-result-heading">
+<h2 id="uk-result-heading">Your degree class</h2>
+<dl class="stats">
+<div><dt>Degree weighted average</dt><dd id="uk-degree-avg">—</dd></div>
+<div><dt>Classification (usual boundaries)</dt><dd id="uk-class">—</dd></div>
+</dl>
+<ul id="uk-year-results"></ul>
+<p id="uk-borderline" class="notice" hidden></p>
+<p>Everything is calculated in your browser. Nothing is stored or uploaded.</p>
+</section>
+
+<section class="tool" aria-labelledby="uk-target-heading">
+<h2 id="uk-target-heading">What do I need for a 2:1 or First?</h2>
+<p>Mark unfinished modules as <strong>Remaining / not yet marked</strong>. The calculator solves for the average still needed across those remaining credits.</p>
+<div class="row">
+<div class="field">
+<label for="uk-target-class">Target class</label>
+<select id="uk-target-class">
+<option value="first">First (70%)</option>
+<option value="2:1" selected>Upper Second / 2:1 (60%)</option>
+<option value="2:2">Lower Second / 2:2 (50%)</option>
+<option value="third">Third (40%)</option>
+</select>
+</div>
+<div class="field">
+<label for="uk-target-custom">Or custom target average (%)</label>
+<input type="number" id="uk-target-custom" inputmode="decimal" min="0" max="100" step="any" placeholder="Optional">
+</div>
+</div>
+<dl class="stats">
+<div><dt>Average needed on remaining credits</dt><dd id="uk-needed">—</dd></div>
+</dl>
+<p id="uk-needed-detail" class="notice" hidden></p>
+<div class="actions">
+<button type="button" id="uk-load-demo">Load worked example</button>
+<button type="button" id="uk-copy">Copy results</button>
+<button type="button" id="uk-clear" class="secondary">Clear</button>
+</div>
+<p class="status" id="uk-status" role="status" aria-live="polite"></p>
+</section>
+
+<div class="prose">
+<h2>How to use the UK degree classification calculator</h2>
+<ol>
+<li>Pick a year-weight preset that matches your handbook, or enter custom weights.</li>
+<li>Add each module’s mark and credits for the years that count. Tick <strong>Remaining</strong> for unfinished modules.</li>
+<li>Read your weighted average and class; use the target section to see what you still need for a 2:1 or First.</li>
+<li>If you are within 1–2% of a boundary, check your university’s borderline rules — the tool only flags the zone.</li>
+</ol>
+<h2>How UK degree classification is calculated</h2>
+<p><strong>Year average</strong> = Σ (module mark × credits) ÷ Σ credits.</p>
+<p><strong>Degree average</strong> = Σ (year average × year weight) ÷ Σ year weights (weights are normalised if they do not total 100).</p>
+<h3>Worked example</h3>
+<div class="example">
+<p>Course weights: year 2 = 40%, year 3 = 60% (year 1 = 0%). Each counted year = 120 credits.</p>
+<p><strong>Year 2:</strong> 58×20 + 64×20 + 61×40 + 67×40 = 7,560 ÷ 120 = <strong>63%</strong>.</p>
+<p><strong>Year 3:</strong> 64×20 + 68×20 + 70×40 + 74×40 = 8,400 ÷ 120 = <strong>70%</strong>.</p>
+<p><strong>Degree average:</strong> (63 × 40 + 70 × 60) ÷ 100 = <strong>67.2%</strong> → Upper Second (2:1), 2.8 points below a First on the usual boundaries.</p>
+</div>
+<h3>What do I need for a 2:1</h3>
+<div class="example">
+<p>Same weights (0 / 40 / 60). Year 2 locked at <strong>58%</strong>. Target overall <strong>60%</strong>.</p>
+<p>0.40 × 58 + 0.60 × <em>y</em> = 60 → <em>y</em> = (60 − 23.2) ÷ 0.60 = <strong>61.33%</strong>.</p>
+<p>You need about <strong>61.3%</strong> across the remaining final-year credits for a 2:1 (before handbook borderline, discount or rounding rules).</p>
+</div>
+<h3>Class boundaries</h3>
+<table>
+<thead><tr><th>Class</th><th>Usual weighted average</th></tr></thead>
+<tbody>
+<tr><td>First Class Honours (1st)</td><td>70% and above</td></tr>
+<tr><td>Upper Second (2:1)</td><td>60–69%</td></tr>
+<tr><td>Lower Second (2:2)</td><td>50–59%</td></tr>
+<tr><td>Third Class (3rd)</td><td>40–49%</td></tr>
+<tr><td>Below third</td><td>Under 40% (ordinary / fail — local rules)</td></tr>
+</tbody>
+</table>
+<h2>Year weights, borderlines and why handbooks differ</h2>
+<p>Common presets (0/50/50, 0/40/60, about 1:2, 0/25/75) cover many three-year English programmes, but they are illustrative. Pass/fail modules are usually left out of the classification average unless the handbook says otherwise. Borderline uplift, discounted lowest credits and resit caps are local — see the <a href="../../guides/uk-degree-classifications/">UK degree classifications</a> guide.</p>
+</div>
+
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2>
+<dl class="faq">
+<dt>How is a UK degree classification calculated?</dt>
+<dd>Credit-weight your modules into a year average, then year-weight those averages into a degree average. Map the result to the usual bands: First 70%+, Upper Second (2:1) 60–69%, Lower Second (2:2) 50–59%, Third 40–49%. For example, year 2 at 63% with weight 40% and year 3 at 70% with weight 60% gives 67.2% — a 2:1 on those boundaries.</dd>
+<dt>What percentage is a 2:1 / First / 2:2 / Third?</dt>
+<dd>Usual undergraduate honours bands are First 70% and above, Upper Second (2:1) 60–69%, Lower Second (2:2) 50–59%, and Third 40–49%. Confirm the exact cutoffs in your programme regulations.</dd>
+<dt>Does first year count towards my degree class?</dt>
+<dd>Often year 1 must be passed but carries 0% weight. Some courses give it a small share (for example 10%). Enter 0, or your handbook figure, for any year that does not count.</dd>
+<dt>What average do I need in my final year for a 2:1?</dt>
+<dd>It depends on locked year averages and year weights. Use the target mode. For example, with weights 0 / 40 / 60 and year 2 locked at 58%, you need about 61.3% across final-year credits for an overall 60% (2:1), before any university-specific borderline rules.</dd>
+<dt>What if I am within 1% or 2% of a boundary?</dt>
+<dd>Many universities have borderline rules (a margin plus a share of final-year credits in the higher band, rounding, or exam-board discretion). This calculator only flags the zone; it does not apply uplift rules.</dd>
+<dt>Can I use this if my university discounts my lowest credits?</dt>
+<dd>Not automatically in this version. Enter only the modules your handbook includes, or exclude discounted credits yourself. Official university Excel tools encode local rules that this generic calculator will not.</dd>
+<dt>Is this the same as a US GPA?</dt>
+<dd>No. A UK class is a weighted percentage band, not a 4.0 GPA. See the <a href="../../guides/uk-degree-classifications/">UK degree classifications</a> guide for context, and the <a href="../../tools/gpa-cgpa-calculator/">GPA and CGPA Calculator</a> only when an application asks for a GPA estimate.</dd>
+<dt>Is anything saved or uploaded?</dt>
+<dd>No. Calculations run in your browser only. Nothing is stored or uploaded.</dd>
+</dl>
+</section>
+
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2>
+<ul>
+<li><a href="../../tools/final-grade-calculator/">Final Grade Calculator</a>: Find the score you need on a weighted final within a module or course.</li>
+<li><a href="../../tools/gpa-cgpa-calculator/">GPA and CGPA Calculator</a>: US-style semester GPA and CGPA — not a UK class.</li>
+<li><a href="../../tools/percentage-calculator/">Percentage and Marks Calculator</a>: Turn marks into a percentage and plan for a target.</li>
+<li><a href="../../tools/">All study tools</a></li>
+</ul>
+</section>
+<section class="related" aria-labelledby="related-guides-heading"><h2 id="related-guides-heading">Related guides</h2>
+<ul>
+<li><a href="../../guides/uk-degree-classifications/">UK degree classifications</a></li>
+<li><a href="../../guides/how-to-calculate-gpa/">How to calculate GPA</a></li>
+<li><a href="../../guides/marks-percentages-grades/">Marks, percentages and grades</a></li>
+<li><a href="../../guides/dutch-grading-scale/">Dutch grading scale explained</a></li>
+</ul>
+</section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="../../tools/">All study tools</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../guides/">Guides</a></li>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<div class="footer-bottom"><p class="footer-brand"><strong>StudyKit Hub</strong> &middot; Learn smarter. Study better.</p><p>&copy; 2026 Ali Hamza. All rights reserved.</p></div>
+</div>
+</footer>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/study-utils.js" defer></script>
+<script src="../../assets/js/tools/uk-degree-classification-calculator.js" defer></script>
+</body>
+</html>

@@ -98,6 +98,134 @@ test('courseGradeAfterFinal: reverse of worked example', () => {
   assert.equal(S.round(S.courseGradeAfterFinal(85, 25, 100), 2), 88.75);
   assert.equal(S.courseGradeAfterFinal(80, 0, 90), null);
 });
+
+// ---------------- UK degree classification ----------------
+test('yearFromModules: credit-weighted year average (brief year 2)', () => {
+  const y = S.yearFromModules([
+    { mark: 58, credits: 20 },
+    { mark: 64, credits: 20 },
+    { mark: 61, credits: 40 },
+    { mark: 67, credits: 40 }
+  ]);
+  assert.equal(y.ok, true);
+  assert.equal(S.round(y.average, 2), 63);
+  assert.equal(y.lockedCredits, 120);
+  assert.equal(y.lockedQuality, 7560);
+});
+test('yearFromModules: remaining credits excluded from average', () => {
+  const y = S.yearFromModules([
+    { mark: 70, credits: 40 },
+    { mark: '', credits: 40, remaining: true },
+    { mark: 60, credits: 40 }
+  ]);
+  assert.equal(S.round(y.average, 2), 65);
+  assert.equal(y.lockedCredits, 80);
+  assert.equal(y.remainingCredits, 40);
+});
+test('yearFromModules: invalid mark and credits', () => {
+  const bad = S.yearFromModules([{ mark: 120, credits: 20 }, { mark: 50, credits: 0 }]);
+  assert.equal(bad.ok, false);
+  assert.ok(bad.errors.length >= 2);
+});
+test('normaliseYearWeights: 40/60 and relative 2/3 match', () => {
+  const a = S.normaliseYearWeights([0, 40, 60]);
+  const b = S.normaliseYearWeights([0, 2, 3]);
+  assert.equal(a.ok, true);
+  assert.equal(S.round(a.shares[1], 4), 0.4);
+  assert.equal(S.round(a.shares[2], 4), 0.6);
+  assert.equal(S.round(b.shares[1], 4), 0.4);
+  assert.equal(S.round(b.shares[2], 4), 0.6);
+  assert.equal(S.normaliseYearWeights([0, 0, 0]).ok, false);
+});
+test('calcUkDegree: brief example 63/70 → 67.2 → 2:1', () => {
+  const r = S.calcUkDegree([
+    { weight: 0, modules: [{ mark: 55, credits: 120 }] },
+    { weight: 40, modules: [
+      { mark: 58, credits: 20 }, { mark: 64, credits: 20 },
+      { mark: 61, credits: 40 }, { mark: 67, credits: 40 }
+    ]},
+    { weight: 60, modules: [
+      { mark: 64, credits: 20 }, { mark: 68, credits: 20 },
+      { mark: 70, credits: 40 }, { mark: 74, credits: 40 }
+    ]}
+  ]);
+  assert.equal(r.ok, true);
+  assert.equal(S.round(r.years[1].average, 2), 63);
+  assert.equal(S.round(r.years[2].average, 2), 70);
+  assert.equal(S.round(r.degreeAverage, 2), 67.2);
+  assert.equal(r.classification.id, '2:1');
+  assert.equal(r.years[0].contributes, false); // weight 0
+});
+test('classifyUkHonours: each class boundary', () => {
+  assert.equal(S.classifyUkHonours(70).id, 'first');
+  assert.equal(S.classifyUkHonours(69.99).id, '2:1');
+  assert.equal(S.classifyUkHonours(60).id, '2:1');
+  assert.equal(S.classifyUkHonours(59.99).id, '2:2');
+  assert.equal(S.classifyUkHonours(50).id, '2:2');
+  assert.equal(S.classifyUkHonours(49.99).id, 'third');
+  assert.equal(S.classifyUkHonours(40).id, 'third');
+  assert.equal(S.classifyUkHonours(39.99).id, 'below');
+});
+test('ukBorderlineZone: within 2 points of next band', () => {
+  const nearFirst = S.ukBorderlineZone(68.5, 2);
+  assert.equal(nearFirst.nextBoundary, 70);
+  assert.equal(nearFirst.gap, 1.5);
+  assert.equal(S.ukBorderlineZone(67.2, 2), null); // 2.8 below First — outside 2pt zone
+  const near21 = S.ukBorderlineZone(58.5, 2);
+  assert.equal(near21.nextBoundary, 60);
+  assert.equal(S.ukBorderlineZone(70, 2), null);
+});
+test('requiredRemainingForUkTarget: 58% y2 / 40-60 → ~61.34 for 2:1', () => {
+  // Year 2 locked 58% over 120 credits; year 3 entirely remaining 120 credits
+  const r = S.requiredRemainingForUkTarget([
+    { weight: 0, average: 50, lockedCredits: 120, remainingCredits: 0 },
+    { weight: 40, average: 58, lockedCredits: 120, remainingCredits: 0, lockedQuality: 58 * 120 },
+    { weight: 60, lockedCredits: 0, remainingCredits: 120, lockedQuality: 0 }
+  ], 60);
+  assert.equal(r.ok, true);
+  assert.equal(r.status, 'ok');
+  // (60 - 0.4*58)/0.6 = 61.333... → ceil to 2dp = 61.34
+  assert.equal(r.required, 61.34);
+});
+test('requiredRemainingForUkTarget: already safe and unreachable', () => {
+  // y2 weight 80% at 80% already locks 64% of the degree; target 60 → safe even at 0% on remaining
+  const safe = S.requiredRemainingForUkTarget([
+    { weight: 0, lockedCredits: 0, remainingCredits: 0, lockedQuality: 0 },
+    { weight: 80, average: 80, lockedCredits: 120, remainingCredits: 0, lockedQuality: 80 * 120 },
+    { weight: 20, lockedCredits: 0, remainingCredits: 120, lockedQuality: 0 }
+  ], 60);
+  assert.equal(safe.status, 'safe');
+  assert.equal(safe.required, 0);
+  // Unreachable First: y2=40 at weight 80%, y3 weight 20% remaining → need 190%
+  const hard = S.requiredRemainingForUkTarget([
+    { weight: 0, lockedCredits: 0, remainingCredits: 0, lockedQuality: 0 },
+    { weight: 80, average: 40, lockedCredits: 120, remainingCredits: 0, lockedQuality: 40 * 120 },
+    { weight: 20, lockedCredits: 0, remainingCredits: 120, lockedQuality: 0 }
+  ], 70);
+  assert.equal(hard.status, 'unreachable');
+  assert.ok(hard.required > 100);
+  assert.equal(hard.bestPossible, 52); // 0.8*40 + 0.2*100 = 52
+});
+test('requiredRemainingForUkTarget: custom weights 0/1/2 same as 0/33.333/66.667', () => {
+  const parts = S.requiredRemainingForUkTarget([
+    { weight: 0, lockedCredits: 0, remainingCredits: 0, lockedQuality: 0 },
+    { weight: 1, average: 58, lockedCredits: 120, remainingCredits: 0, lockedQuality: 58 * 120 },
+    { weight: 2, lockedCredits: 0, remainingCredits: 120, lockedQuality: 0 }
+  ], 60);
+  const pct = S.requiredRemainingForUkTarget([
+    { weight: 0, lockedCredits: 0, remainingCredits: 0, lockedQuality: 0 },
+    { weight: 1, average: 58, lockedCredits: 120, remainingCredits: 0, lockedQuality: 58 * 120 },
+    { weight: 2, lockedCredits: 0, remainingCredits: 120, lockedQuality: 0 }
+  ], 60);
+  assert.equal(parts.required, pct.required);
+  // shares 1/3 and 2/3: (60 - 58/3) / (2/3) = (60 - 19.333...)*1.5 = 61
+  assert.equal(parts.required, 61);
+});
+test('calcUkDegree: empty / all weights zero', () => {
+  assert.equal(S.calcUkDegree([{ weight: 0, modules: [] }, { weight: 0, modules: [] }, { weight: 0, modules: [] }]).ok, false);
+  const empty = S.calcUkDegree([{ weight: 40, modules: [] }, { weight: 60, modules: [] }]);
+  assert.equal(empty.empty, true);
+});
 // ---------------- Dates ----------------
 test('dates: parse rejects impossible dates', () => {
   assert.equal(D('2026-02-30'), null);

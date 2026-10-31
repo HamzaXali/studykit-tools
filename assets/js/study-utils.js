@@ -392,6 +392,302 @@
     return current * (1 - w) + finalScore * w;
   }
 
+
+  // ---------------- UK degree classification ----------------
+  var UK_CLASS_BANDS = [
+    { id: 'first', label: 'First Class Honours (1st)', short: 'First', min: 70, next: null },
+    { id: '2:1', label: 'Upper Second (2:1)', short: '2:1', min: 60, next: 70 },
+    { id: '2:2', label: 'Lower Second (2:2)', short: '2:2', min: 50, next: 60 },
+    { id: 'third', label: 'Third Class (3rd)', short: 'Third', min: 40, next: 50 },
+    { id: 'below', label: 'Below third (ordinary / fail — check regulations)', short: 'Below third', min: 0, next: 40 }
+  ];
+
+  function classifyUkHonours(average) {
+    if (average === null || average === undefined || isNaN(average)) return null;
+    for (var i = 0; i < UK_CLASS_BANDS.length; i++) {
+      if (average >= UK_CLASS_BANDS[i].min) return UK_CLASS_BANDS[i];
+    }
+    return UK_CLASS_BANDS[UK_CLASS_BANDS.length - 1];
+  }
+
+  /** Flag when average is within `margin` points below the next higher boundary. */
+  function ukBorderlineZone(average, margin) {
+    margin = margin === undefined ? 2 : margin;
+    var cls = classifyUkHonours(average);
+    if (!cls || cls.next === null || cls.next === undefined) return null;
+    var gap = cls.next - average;
+    if (gap > 0 && gap <= margin) {
+      var nextBand = classifyUkHonours(cls.next);
+      return { nextBoundary: cls.next, gap: round(gap, 2), nextLabel: nextBand ? nextBand.short : String(cls.next) + '%', currentLabel: cls.short };
+    }
+    return null;
+  }
+
+  /**
+   * Credit-weighted year average from modules.
+   * modules: [{ mark, credits, remaining }]
+   * remaining / empty marks are excluded from the average; remaining credits are tallied separately.
+   */
+  function yearFromModules(modules) {
+    var lockedQ = 0;
+    var lockedC = 0;
+    var remC = 0;
+    var errors = [];
+    (modules || []).forEach(function (m, i) {
+      var cr = parseNum(m && m.credits);
+      var mk = parseNum(m && m.mark);
+      var remaining = !!(m && m.remaining);
+      if ((cr === null || cr === undefined || String(m && m.credits).trim() === '') &&
+          (mk === null || mk === undefined || String(m && m.mark).trim() === '') && !remaining) {
+        return;
+      }
+      if (cr === null || isNaN(cr) || !(cr > 0)) {
+        errors.push({ index: i, field: 'credits', message: 'Enter credits greater than 0.' });
+        return;
+      }
+      if (remaining) {
+        remC += cr;
+        return;
+      }
+      if (mk === null || String(m && m.mark).trim() === '') {
+        remC += cr;
+        return;
+      }
+      if (isNaN(mk) || mk < 0 || mk > 100) {
+        errors.push({ index: i, field: 'mark', message: 'Enter a mark from 0 to 100.' });
+        return;
+      }
+      lockedQ += mk * cr;
+      lockedC += cr;
+    });
+    return {
+      ok: errors.length === 0,
+      errors: errors,
+      average: lockedC > 0 ? lockedQ / lockedC : null,
+      lockedCredits: lockedC,
+      remainingCredits: remC,
+      lockedQuality: lockedQ,
+      totalCredits: lockedC + remC
+    };
+  }
+
+  /** Normalise year weights to shares of their positive sum. Zeros stay zero. */
+  function normaliseYearWeights(weights) {
+    var list = (weights || []).map(function (w) {
+      var n = parseNum(w);
+      if (n === null || isNaN(n) || n < 0) return 0;
+      return n;
+    });
+    var sum = 0;
+    list.forEach(function (w) { sum += w; });
+    if (!(sum > 0)) return { ok: false, weights: list, shares: list.map(function () { return 0; }), sum: 0 };
+    return {
+      ok: true,
+      weights: list,
+      shares: list.map(function (w) { return w / sum; }),
+      sum: sum
+    };
+  }
+
+  /**
+   * years: [{ weight, modules }] OR [{ weight, average, lockedCredits, remainingCredits, lockedQuality }]
+   * Builds credit-weighted year averages, then a year-weighted degree average.
+   */
+  function calcUkDegree(years) {
+    var rawWeights = (years || []).map(function (y) { return y.weight; });
+    var nw = normaliseYearWeights(rawWeights);
+    var yearResults = [];
+    var allErrors = [];
+    (years || []).forEach(function (y, i) {
+      var yr;
+      if (y.modules) {
+        yr = yearFromModules(y.modules);
+        if (!yr.ok) yr.errors.forEach(function (e) { allErrors.push({ year: i, index: e.index, field: e.field, message: e.message }); });
+      } else {
+        var avg = y.average === null || y.average === undefined ? null : Number(y.average);
+        yr = {
+          ok: true,
+          errors: [],
+          average: (avg !== null && !isNaN(avg)) ? avg : null,
+          lockedCredits: y.lockedCredits || 0,
+          remainingCredits: y.remainingCredits || 0,
+          lockedQuality: y.lockedQuality !== undefined ? y.lockedQuality : ((avg !== null && !isNaN(avg) && y.lockedCredits) ? avg * y.lockedCredits : 0),
+          totalCredits: (y.lockedCredits || 0) + (y.remainingCredits || 0)
+        };
+      }
+      yearResults.push({
+        weight: nw.weights[i] || 0,
+        share: nw.shares[i] || 0,
+        average: yr.average,
+        lockedCredits: yr.lockedCredits,
+        remainingCredits: yr.remainingCredits,
+        lockedQuality: yr.lockedQuality,
+        totalCredits: yr.totalCredits,
+        contributes: (nw.shares[i] || 0) > 0 && yr.average !== null
+      });
+    });
+
+    if (allErrors.length) {
+      return { ok: false, errors: allErrors, years: yearResults, degreeAverage: null, classification: null, borderline: null, normalised: nw };
+    }
+    if (!nw.ok) {
+      return { ok: false, errors: [{ message: 'Enter at least one positive year weight for a year that counts.' }], years: yearResults, degreeAverage: null, classification: null, borderline: null, normalised: nw };
+    }
+
+    var contribSum = 0;
+    var shareSum = 0;
+    yearResults.forEach(function (yr) {
+      if (yr.share > 0 && yr.average !== null) {
+        contribSum += yr.average * yr.share;
+        shareSum += yr.share;
+      }
+    });
+    if (!(shareSum > 0)) {
+      return { ok: false, empty: true, errors: [], years: yearResults, degreeAverage: null, classification: null, borderline: null, normalised: nw };
+    }
+    // Re-normalise among years that actually have an average (weights with marks).
+    var degreeAverage = contribSum / shareSum;
+    // Contribution display uses original shares of the full preset; also expose effective shares among contributing years.
+    yearResults.forEach(function (yr) {
+      yr.effectiveShare = (yr.share > 0 && yr.average !== null) ? yr.share / shareSum : 0;
+      yr.contribution = yr.effectiveShare > 0 ? yr.average * yr.effectiveShare : null;
+    });
+    var classification = classifyUkHonours(degreeAverage);
+    var borderline = ukBorderlineZone(degreeAverage, 2);
+    return {
+      ok: true,
+      errors: [],
+      years: yearResults,
+      degreeAverage: degreeAverage,
+      classification: classification,
+      borderline: borderline,
+      normalised: nw
+    };
+  }
+
+  /**
+   * Solve for the average still needed on all remaining credit to hit targetAvg.
+   * Linear model: each year with remaining credits has yearAvg = (Q + x*R)/(C+R).
+   * Years with no remaining stay fixed. Year weights are normalised across years that
+   * will have a total credit pool (locked + remaining) > 0 and a positive weight.
+   */
+  function requiredRemainingForUkTarget(years, targetAvg) {
+    if (targetAvg === null || targetAvg === undefined || isNaN(Number(targetAvg))) {
+      return { ok: false, status: 'invalid', required: null, message: 'Choose a target class or enter a target average.' };
+    }
+    targetAvg = Number(targetAvg);
+    var prepared = (years || []).map(function (y) {
+      if (y.modules) {
+        var yr = yearFromModules(y.modules);
+        return {
+          weight: y.weight,
+          lockedQuality: yr.lockedQuality,
+          lockedCredits: yr.lockedCredits,
+          remainingCredits: yr.remainingCredits
+        };
+      }
+      return {
+        weight: y.weight,
+        lockedQuality: y.lockedQuality !== undefined ? y.lockedQuality : ((y.average != null && y.lockedCredits) ? Number(y.average) * Number(y.lockedCredits) : 0),
+        lockedCredits: y.lockedCredits || 0,
+        remainingCredits: y.remainingCredits || 0
+      };
+    });
+
+    var nw = normaliseYearWeights(prepared.map(function (y) { return y.weight; }));
+    if (!nw.ok) {
+      return { ok: false, status: 'invalid', required: null, message: 'Enter at least one positive year weight.' };
+    }
+
+    var totalRemaining = 0;
+    prepared.forEach(function (y) { totalRemaining += y.remainingCredits; });
+    if (!(totalRemaining > 0)) {
+      // No remaining credit — evaluate current degree only.
+      var current = calcUkDegree(years);
+      if (!current.ok || current.degreeAverage === null) {
+        return { ok: false, status: 'invalid', required: null, message: 'Add module marks or mark some credits as remaining.' };
+      }
+      if (current.degreeAverage + 1e-9 >= targetAvg) {
+        return { ok: true, status: 'safe', required: 0, bestPossible: round(current.degreeAverage, 2), classification: current.classification, message: 'You are already at or above this target with the marks entered.' };
+      }
+      return { ok: true, status: 'unreachable', required: null, bestPossible: round(current.degreeAverage, 2), classification: current.classification, message: 'No remaining credits are marked, and the current average is below the target.' };
+    }
+
+    // Coefficients: degree(x) = A + B*x, using effective shares among years that have (C+R)>0 and share>0.
+    var participating = [];
+    prepared.forEach(function (y, i) {
+      var total = y.lockedCredits + y.remainingCredits;
+      if ((nw.shares[i] || 0) > 0 && total > 0) {
+        participating.push({
+          share: nw.shares[i],
+          a: y.lockedCredits > 0 || y.remainingCredits > 0 ? y.lockedQuality / total : 0,
+          b: y.remainingCredits / total,
+          lockedQuality: y.lockedQuality,
+          lockedCredits: y.lockedCredits,
+          remainingCredits: y.remainingCredits,
+          total: total
+        });
+      }
+    });
+    if (!participating.length) {
+      return { ok: false, status: 'invalid', required: null, message: 'Add credits to at least one year that has a positive weight.' };
+    }
+    var shareSum = 0;
+    participating.forEach(function (p) { shareSum += p.share; });
+    var A = 0;
+    var B = 0;
+    participating.forEach(function (p) {
+      var es = p.share / shareSum;
+      // yearAvg = (Q + x*R)/total = (Q/total) + (R/total)*x
+      A += es * (p.lockedQuality / p.total);
+      B += es * (p.remainingCredits / p.total);
+    });
+
+    if (!(B > 0)) {
+      return { ok: false, status: 'invalid', required: null, message: 'Mark some modules as remaining to calculate a target.' };
+    }
+
+    var required = (targetAvg - A) / B;
+    // Best possible with 100% on remaining
+    var bestPossible = A + B * 100;
+    var bestClass = classifyUkHonours(bestPossible);
+
+    if (required <= 0) {
+      return {
+        ok: true,
+        status: 'safe',
+        required: 0,
+        bestPossible: round(bestPossible, 2),
+        classification: bestClass,
+        message: 'You are already at or above this target, even with 0% on the remaining credits.'
+      };
+    }
+    var ceil2 = Math.ceil(required * 100 - 1e-9) / 100;
+    if (ceil2 > 100) {
+      return {
+        ok: true,
+        status: 'unreachable',
+        required: ceil2,
+        bestPossible: round(bestPossible, 2),
+        classification: bestClass,
+        message: 'The target is not reachable with 100% on the remaining credits. Best possible degree average: ' + round(bestPossible, 2) + '% (' + (bestClass ? bestClass.short : '') + ').'
+      };
+    }
+    return {
+      ok: true,
+      status: 'ok',
+      required: ceil2,
+      bestPossible: round(bestPossible, 2),
+      classification: classifyUkHonours(A + B * ceil2),
+      message: ''
+    };
+  }
+
+  function ukTargetAverageForClass(classId) {
+    var map = { first: 70, '2:1': 60, '2:2': 50, third: 40 };
+    return map[classId] !== undefined ? map[classId] : null;
+  }
+
   // ---------------- Timer ----------------
   /** Seconds -> "MM:SS" (or "H:MM:SS" for an hour or more). */
   function formatClock(totalSeconds) {
@@ -430,6 +726,14 @@
     formatClock: formatClock,
     nextPhase: nextPhase,
     requiredFinalScore: requiredFinalScore,
-    courseGradeAfterFinal: courseGradeAfterFinal
+    courseGradeAfterFinal: courseGradeAfterFinal,
+    classifyUkHonours: classifyUkHonours,
+    ukBorderlineZone: ukBorderlineZone,
+    yearFromModules: yearFromModules,
+    normaliseYearWeights: normaliseYearWeights,
+    calcUkDegree: calcUkDegree,
+    requiredRemainingForUkTarget: requiredRemainingForUkTarget,
+    ukTargetAverageForClass: ukTargetAverageForClass,
+    UK_CLASS_BANDS: UK_CLASS_BANDS
   };
 });

@@ -302,3 +302,24 @@ button:disabled { opacity: 0.55; cursor: not-allowed; }
 
 .guides-cta { margin-top: 1rem; }
 .reach-newsletter { max-width: 600px; margin: 60px auto; padding: 20px; text-align: center; }
+
+/* Data tables (guides and tool explainers) */
+.prose table, table.data {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+.prose th, .prose td, table.data th, table.data td {
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+.prose th, table.data th {
+  background: var(--surface-2, var(--surface));
+  font-weight: 700;
+}
+.prose tr:nth-child(even) td, table.data tr:nth-child(even) td {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+}

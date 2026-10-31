@@ -345,6 +345,53 @@
     return a;
   }
 
+
+  // ---------------- Final grade ----------------
+  /**
+   * required final score = (target - current * (1 - w)) / w, where w is weight/100.
+   * Rounds the required score UP to 2 decimal places so the result is always enough.
+   * Returns { ok, status, required, bestPossible, message }.
+   * status: 'ok' | 'safe' | 'unreachable' | 'invalid'
+   */
+  function requiredFinalScore(current, weightPercent, target) {
+    if (current === null || weightPercent === null || target === null) {
+      return { ok: false, status: 'invalid', required: null, bestPossible: null, message: '' };
+    }
+    if (isNaN(current) || isNaN(weightPercent) || isNaN(target)) {
+      return { ok: false, status: 'invalid', required: null, bestPossible: null, message: 'Enter a number.' };
+    }
+    if (weightPercent <= 0 || weightPercent > 100) {
+      return { ok: false, status: 'invalid', required: null, bestPossible: null, message: 'Final weight must be greater than 0 and at most 100.' };
+    }
+    var w = weightPercent / 100;
+    var required = weightPercent === 100 ? target : (target - current * (1 - w)) / w;
+    var bestPossible = current * (1 - w) + 100 * w;
+    if (required <= 0) {
+      return { ok: true, status: 'safe', required: 0, bestPossible: round(bestPossible, 2), message: 'You are already at or above the target, even with 0% on the final.' };
+    }
+    // Round UP to 2 dp so the shown score is always enough.
+    var ceil2 = Math.ceil(required * 100 - 1e-9) / 100;
+    if (ceil2 > 100) {
+      return {
+        ok: true,
+        status: 'unreachable',
+        required: ceil2,
+        bestPossible: round(bestPossible, 2),
+        message: 'The target is not reachable with a 100% final. Best possible course grade with a perfect final: ' + round(bestPossible, 2) + '%.'
+      };
+    }
+    return { ok: true, status: 'ok', required: ceil2, bestPossible: round(bestPossible, 2), message: '' };
+  }
+
+  /** Predicted course grade after a final: current * (1 - w) + finalScore * w. */
+  function courseGradeAfterFinal(current, weightPercent, finalScore) {
+    if (current === null || weightPercent === null || finalScore === null) return null;
+    if (isNaN(current) || isNaN(weightPercent) || isNaN(finalScore)) return null;
+    if (!(weightPercent > 0) || weightPercent > 100) return null;
+    var w = weightPercent / 100;
+    return current * (1 - w) + finalScore * w;
+  }
+
   // ---------------- Timer ----------------
   /** Seconds -> "MM:SS" (or "H:MM:SS" for an hour or more). */
   function formatClock(totalSeconds) {
@@ -381,6 +428,8 @@
     normaliseDecks: normaliseDecks,
     shuffle: shuffle,
     formatClock: formatClock,
-    nextPhase: nextPhase
+    nextPhase: nextPhase,
+    requiredFinalScore: requiredFinalScore,
+    courseGradeAfterFinal: courseGradeAfterFinal
   };
 });

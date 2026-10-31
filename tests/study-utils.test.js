@@ -53,6 +53,51 @@ test('percentages', () => {
   assert.equal(S.round(1.005, 2), 1.01);
 });
 
+
+// ---------------- Final grade ----------------
+test('requiredFinalScore: 82/30/85 → 92', () => {
+  const r = S.requiredFinalScore(82, 30, 85);
+  assert.equal(r.ok, true);
+  assert.equal(r.status, 'ok');
+  assert.equal(r.required, 92);
+});
+test('requiredFinalScore: unreachable 85/25/90 → 105, best 88.75', () => {
+  const r = S.requiredFinalScore(85, 25, 90);
+  assert.equal(r.ok, true);
+  assert.equal(r.status, 'unreachable');
+  assert.equal(r.required, 105);
+  assert.equal(r.bestPossible, 88.75);
+});
+test('requiredFinalScore: already safe', () => {
+  // (60 − 90×0.7) ÷ 0.3 = −10 → already safe even with 0% on the final
+  const r = S.requiredFinalScore(90, 30, 60);
+  assert.equal(r.ok, true);
+  assert.equal(r.status, 'safe');
+  assert.equal(r.required, 0);
+});
+test('requiredFinalScore: weight 100 equals target; weight 0 invalid', () => {
+  const full = S.requiredFinalScore(50, 100, 88);
+  assert.equal(full.ok, true);
+  assert.equal(full.status, 'ok');
+  assert.equal(full.required, 88);
+  const zero = S.requiredFinalScore(80, 0, 90);
+  assert.equal(zero.ok, false);
+  assert.equal(zero.status, 'invalid');
+});
+test('requiredFinalScore: rounds up to 2 dp', () => {
+  // (90 - 80*0.8)/0.2 = (90-64)/0.2 = 130 → unreachable
+  // slight non-integer: current 81, weight 30, target 85
+  // (85 - 81*0.7)/0.3 = (85 - 56.7)/0.3 = 28.3/0.3 = 94.333... → 94.34
+  const r = S.requiredFinalScore(81, 30, 85);
+  assert.equal(r.ok, true);
+  assert.equal(r.status, 'ok');
+  assert.equal(r.required, 94.34);
+});
+test('courseGradeAfterFinal: reverse of worked example', () => {
+  assert.equal(S.round(S.courseGradeAfterFinal(82, 30, 92), 2), 85);
+  assert.equal(S.round(S.courseGradeAfterFinal(85, 25, 100), 2), 88.75);
+  assert.equal(S.courseGradeAfterFinal(80, 0, 90), null);
+});
 // ---------------- Dates ----------------
 test('dates: parse rejects impossible dates', () => {
   assert.equal(D('2026-02-30'), null);

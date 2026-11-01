@@ -77,7 +77,7 @@ for (const f of htmlFiles) {
     let data;
     try { data = JSON.parse(m[1]); } catch (e) { ok(false, `${name}: JSON-LD does not parse: ${e.message}`); continue; }
     ok(data['@context'] === 'https://schema.org', `${name}: JSON-LD @context`);
-    ok(['WebApplication', 'BreadcrumbList', 'WebSite', 'Organization', 'Article', 'FAQPage'].includes(data['@type']), `${name}: unexpected JSON-LD type ${data['@type']}`);
+    ok(['WebApplication', 'BreadcrumbList', 'WebSite', 'Organization', 'Article', 'FAQPage', 'ItemList'].includes(data['@type']), `${name}: unexpected JSON-LD type ${data['@type']}`);
     if (data['@type'] === 'BreadcrumbList') {
       data.itemListElement.forEach((it, i) => {
         ok(it['@type'] === 'ListItem' && it.position === i + 1 && it.name && it.item, `${name}: breadcrumb item ${i}`);
@@ -90,14 +90,31 @@ for (const f of htmlFiles) {
       ok(name === 'index.html', `${name}: ${data['@type']} JSON-LD belongs on the home page only`);
       ok(data.name === 'StudyKit Hub' && data.url === `${BASE}/`, `${name}: ${data['@type']} name/url`);
       if (data.logo) ok(data.logo.startsWith(BASE + '/') && fs.existsSync(resolveTarget(f, data.logo)), `${name}: Organization logo missing ${data.logo}`);
+      if (data['@type'] === 'Organization') {
+        ok(Array.isArray(data.sameAs) && data.sameAs.includes('https://github.com/HamzaXali/studykit-tools'), `${name}: Organization sameAs GitHub`);
+        ok(data.contactPoint && data.contactPoint['@type'] === 'ContactPoint' && data.contactPoint.contactType === 'customer support' && data.contactPoint.url === `${BASE}/contact/`, `${name}: Organization contactPoint`);
+        ok(fs.existsSync(resolveTarget(f, `${BASE}/contact/`)), `${name}: contact page missing`);
+      }
+    }
+    if (data['@type'] === 'ItemList') {
+      ok(name === 'tools/index.html', `${name}: ItemList JSON-LD belongs on the tools hub only`);
+      ok(Array.isArray(data.itemListElement) && data.itemListElement.length > 0, `${name}: ItemList itemListElement`);
+      data.itemListElement.forEach((it, i) => {
+        ok(it['@type'] === 'ListItem' && it.position === i + 1 && it.name && it.url, `${name}: ItemList item ${i}`);
+        ok(it.url.startsWith(BASE + '/tools/') && fs.existsSync(resolveTarget(f, it.url)), `${name}: ItemList url missing ${it.url}`);
+      });
     }
     if (data['@type'] === 'WebApplication') {
       ok(data.name && data.url === canonical && data.applicationCategory && data.offers && data.offers.price === '0', `${name}: WebApplication fields`);
     }
     if (data['@type'] === 'Article') {
-      ok(data.headline && data.datePublished && data.author && data.publisher, `${name}: Article fields`);
+      ok(data.headline && data.description && data.datePublished && data.dateModified && data.author && data.publisher && data.mainEntityOfPage, `${name}: Article fields`);
       ok(data.author.name === 'Ali Hamza', `${name}: Article author`);
       ok(data.publisher.name === 'StudyKit Hub', `${name}: Article publisher`);
+      ok(data.publisher.logo && data.publisher.logo.startsWith(BASE + '/') && fs.existsSync(resolveTarget(f, data.publisher.logo)), `${name}: Article publisher logo`);
+      const canon = attr(html, /<link rel="canonical" href="([^"]+)"/);
+      const me = typeof data.mainEntityOfPage === 'string' ? data.mainEntityOfPage : (data.mainEntityOfPage && data.mainEntityOfPage['@id']);
+      ok(me === canon, `${name}: Article mainEntityOfPage should equal canonical`);
     }
     if (data['@type'] === 'FAQPage') {
       ok(Array.isArray(data.mainEntity) && data.mainEntity.length > 0, `${name}: FAQPage mainEntity`);

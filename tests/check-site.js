@@ -91,7 +91,7 @@ for (const f of htmlFiles) {
       ok(data.name === 'StudyKit Hub' && data.url === `${BASE}/`, `${name}: ${data['@type']} name/url`);
       if (data.logo) ok(data.logo.startsWith(BASE + '/') && fs.existsSync(resolveTarget(f, data.logo)), `${name}: Organization logo missing ${data.logo}`);
       if (data['@type'] === 'Organization') {
-        ok(Array.isArray(data.sameAs) && data.sameAs.includes('https://github.com/HamzaXali/studykit-tools'), `${name}: Organization sameAs GitHub`);
+        ok(Array.isArray(data.sameAs) && data.sameAs.includes('https://github.com/HamzaXali/studykit-tools') && data.sameAs.includes('https://dev.to/hamzaxali'), `${name}: Organization sameAs GitHub and DEV`);
         ok(data.contactPoint && data.contactPoint['@type'] === 'ContactPoint' && data.contactPoint.contactType === 'customer support' && data.contactPoint.url === `${BASE}/contact/`, `${name}: Organization contactPoint`);
         ok(fs.existsSync(resolveTarget(f, `${BASE}/contact/`)), `${name}: contact page missing`);
       }

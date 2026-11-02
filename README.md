@@ -1,44 +1,72 @@
 # StudyKit Hub
 
-**Learn smarter. Study better.** A free educational website for students, teachers and education
-creators, run by Ali Hamza. It currently offers thirteen browser-based study tools; study guides,
-revision notes and worksheets are planned and are not published yet.
+**Learn smarter. Study better.**
 
-Plain static HTML, CSS and vanilla JavaScript: no framework, no build step, no external fonts,
-scripts, analytics, ads or cookies. All text processing happens in the visitor's browser.
+Free browser-based study tools and short guides for university students, run by Ali Hamza.
+Live site: <https://studykithub.online/> (GitHub Pages custom domain; the older
+<https://hamzaxali.github.io/studykit-tools/> address redirects there).
 
-> **Status:** published with GitHub Pages at <https://studykithub.online/> (custom domain; the old <https://hamzaxali.github.io/studykit-tools/> address redirects there), built
-> from the `main` branch (folder `/`). The repository keeps its original name, `studykit-tools`, so
-> the live URL is unchanged by the StudyKit Hub rebrand. Changes reach the live site only when they
-> are merged into `main`.
+Fifteen tools run as plain HTML, CSS and vanilla JavaScript: no framework, no build step,
+no application backend. Tool maths and text processing happen in the visitor's browser.
+Unit tests and a static site checker live in this repository.
+
+> **Status:** published from the `main` branch (folder `/`). The repository keeps its original
+> name, `studykit-tools`, so the GitHub project URL stays the same after the StudyKit Hub rebrand.
+> Changes reach the live site only when they are merged into `main`.
 >
-> **Releases:** `v0.1.0` (first build, placeholder base URL) and `v0.1.1` (the live StudyKit Tools
-> version before the rebrand, commit `92610e2`). Do not roll back to bare `v0.1.0`; see section 7.
+> **Releases:** tagged on `main` (for example `v0.7.0`). Do not roll back to bare `v0.1.0`
+> (placeholder base URL); see section 7.
 
-Pages:
+## Live tools
 
-| Page | URL path |
+| Tool | Live URL |
 | --- | --- |
-| Home | `/` |
-| Study tools hub | `/tools/` |
-| Study notes organiser (browser storage only) | `/tools/study-notes-organizer/` |
-| Word and character counter | `/tools/word-counter/` |
-| Reading time calculator (reading + speaking time) | `/tools/reading-time-calculator/` |
-| Case converter (UPPER, lower, Title, Sentence) | `/tools/case-converter/` |
-| Whitespace cleaner | `/tools/whitespace-cleaner/` |
-| Duplicate line remover | `/tools/remove-duplicate-lines/` |
-| GPA and CGPA Calculator | `/tools/gpa-cgpa-calculator/` |
-| Percentage and Marks Calculator | `/tools/percentage-calculator/` |
-| Pomodoro Study Timer | `/tools/pomodoro-timer/` |
-| Flashcards Maker (browser storage only) | `/tools/flashcards/` |
-| Citation Generator (APA 7 and MLA 9) | `/tools/citation-generator/` |
-| Age and Date Difference Calculator | `/tools/age-date-calculator/` |
-| Text to Speech Reader | `/tools/text-to-speech/` |
-| About, Contact, Privacy policy, Terms of use, Disclaimer | `/about/`, `/contact/`, `/privacy-policy/`, `/terms/`, `/disclaimer/` |
+| Study Notes Organiser | <https://studykithub.online/tools/study-notes-organizer/> |
+| Flashcards Maker | <https://studykithub.online/tools/flashcards/> |
+| Pomodoro Study Timer | <https://studykithub.online/tools/pomodoro-timer/> |
+| Text to Speech Reader | <https://studykithub.online/tools/text-to-speech/> |
+| GPA and CGPA Calculator | <https://studykithub.online/tools/gpa-cgpa-calculator/> |
+| Percentage and Marks Calculator | <https://studykithub.online/tools/percentage-calculator/> |
+| Final Grade Calculator | <https://studykithub.online/tools/final-grade-calculator/> |
+| UK Degree Classification Calculator | <https://studykithub.online/tools/uk-degree-classification-calculator/> |
+| Age and Date Difference Calculator | <https://studykithub.online/tools/age-date-calculator/> |
+| Word and Character Counter | <https://studykithub.online/tools/word-counter/> |
+| Reading Time Calculator | <https://studykithub.online/tools/reading-time-calculator/> |
+| Citation Generator (APA 7 and MLA 9) | <https://studykithub.online/tools/citation-generator/> |
+| Case Converter | <https://studykithub.online/tools/case-converter/> |
+| Whitespace Cleaner | <https://studykithub.online/tools/whitespace-cleaner/> |
+| Duplicate Line Remover | <https://studykithub.online/tools/remove-duplicate-lines/> |
 
-**Planned sections (not built):** Study guides, Revision notes, Worksheets. The home page lists them
-as "Planned — coming soon" without links. Create their pages, nav links and sitemap entries only
-when each has several genuinely useful, original pieces.
+Tools hub: <https://studykithub.online/tools/>. Guides: <https://studykithub.online/guides/>.
+Also published: About, Contact, Privacy policy, Terms, Disclaimer, Resources.
+
+## Privacy (what the site actually does)
+
+- Study tools need **no sign-up**. Text you type into tools is processed in your browser and is not uploaded for counting or conversion.
+- Notes, flashcards and the word-counter draft save in **local storage on your device** only (not encrypted, not synced).
+- Most tool and guide pages use a **strict Content-Security-Policy** that blocks unexpected third-party scripts and connections.
+- The site is hosted on **GitHub Pages** (GitHub may log visitor IPs for security; the site owner cannot see those logs).
+- The **home page** includes an optional **Hostinger Reach** newsletter form (third-party script). Tool and guide pages do not. See the [privacy policy](https://studykithub.online/privacy-policy/).
+- There is currently **no advertising** and no general analytics product such as Google Analytics.
+
+Do not claim "zero third parties" for the whole site while the Hostinger Reach form is present.
+
+## Licence
+
+No open-source licence file is published in this repository. Site footer: © 2026 Ali Hamza. All rights reserved.
+
+## Quick tests
+
+Node 18+. No install needed for these two:
+
+```bash
+node --test tests/study-utils.test.js
+node tests/check-site.js
+```
+
+Full suite (text utils + study utils + optional browser checks): see section 10.
+
+---
 
 **Internal names that must not change:** the JavaScript globals `window.StudyKit` and
 `window.StudyKitText`, the notes storage key `studykit.notes.v1`, and the export schema
@@ -51,40 +79,30 @@ or break imports of their backups.
 
 ```
 studykit-tools/                      (repository name kept; public brand is StudyKit Hub)
-├── index.html                       Home page (hero, tools, planned sections, privacy summary)
-├── 404.html                         Self-contained "not found" page (inline CSS, absolute links)
-├── about/index.html
-├── contact/index.html               mailto: link to hamzaxali44@gmail.com (no form)
-├── privacy-policy/index.html        Effective 20 October 2026 (legal review recommended)
-├── terms/index.html                 Last updated 20 October 2026 (legal review recommended)
-├── disclaimer/index.html            Last updated 20 October 2026
-├── tools/
-│   ├── index.html                   Study tools hub
-│   ├── word-counter/index.html
-│   ├── reading-time-calculator/index.html
-│   ├── case-converter/index.html
-│   ├── remove-duplicate-lines/index.html
-│   ├── whitespace-cleaner/index.html
-│   └── study-notes-organizer/index.html
+├── index.html                       Home page (tools, guides, optional Hostinger Reach form)
+├── 404.html                         Self-contained "not found" page
+├── about/ contact/ privacy-policy/ terms/ disclaimer/ resources/
+├── tools/                           Hub + 15 tool folders (see Live tools above)
+├── guides/                          Short study guides linked from the tools
 ├── assets/
 │   ├── css/styles.css               One stylesheet; mobile first; light/dark via prefers-color-scheme
+│   ├── img/                         OG image and other static images
 │   └── js/
-│       ├── text-utils.js            Pure text functions (browser + Node), used by tools and tests
-│       ├── common.js                Copy, download, live status messages, debounce
+│       ├── text-utils.js            Pure text functions (browser + Node)
+│       ├── study-utils.js           Grade / citation / flashcard / date helpers
+│       ├── common.js                Copy, download, status messages, debounce
 │       └── tools/                   One small script per tool
 ├── favicon.svg
 ├── robots.txt
 ├── sitemap.xml
 ├── ads.txt.example                  INACTIVE. Never rename to ads.txt before you have a real publisher ID
-├── .nojekyll                        Tells GitHub Pages to publish files as-is
-├── .htmlvalidate.json               HTML validator settings (tests only)
-├── scripts/
-│   ├── set-base-url.js              Replaces the base URL everywhere
-│   └── base-url.txt                 The base URL currently in the files
+├── .nojekyll
+├── scripts/                         Base URL helper
 ├── tests/
-│   ├── text-utils.test.js           Node unit tests (node --test)
-│   ├── check-site.js                Static checks: links, titles, canonicals, JSON-LD, sitemap
-│   └── browser/                     Playwright + axe-core browser tests (test-only dependencies)
+│   ├── text-utils.test.js
+│   ├── study-utils.test.js
+│   ├── check-site.js
+│   └── browser/                     Playwright + axe-core (test-only dependencies)
 └── README.md
 ```
 
@@ -350,7 +368,10 @@ unless they are real and yours.
 ## 10. Tests
 
 ```bash
-# Unit tests for every text function (Node 18+; no install needed)
+# Unit tests (Node 18+; no install needed)
+node --test tests/study-utils.test.js
+node --test tests/text-utils.test.js
+# or everything under tests/ that Node's test runner picks up:
 node --test tests/
 
 # Static site checks: titles, descriptions, canonicals, JSON-LD, links, anchors, labels, sitemap, robots
@@ -363,7 +384,7 @@ CHROME_PATH=/usr/bin/google-chrome node run.mjs
 npx html-validate ../../index.html ../../404.html "../../*/index.html" "../../tools/*/index.html"
 ```
 
-The browser suite serves the site under a sub-folder (like a GitHub project site), loads all 14
+The browser suite serves the site under a sub-folder (like a GitHub project site), loads the published
 pages at 375 px and 1280 px in light and dark mode, fails on console errors, failed requests,
 external requests or horizontal scrolling, runs axe-core (WCAG 2.2 AA + best practice), checks the
 skip link and that tab stops have a visible focus outline and a name, and clicks through every tool.

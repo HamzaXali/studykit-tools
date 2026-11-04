@@ -44,12 +44,12 @@ Also published: About, Contact, Privacy policy, Terms, Disclaimer, Resources.
 
 - Study tools need **no sign-up**. Text you type into tools is processed in your browser and is not uploaded for counting or conversion.
 - Notes, flashcards and the word-counter draft save in **local storage on your device** only (not encrypted, not synced).
-- Most tool and guide pages use a **strict Content-Security-Policy** that blocks unexpected third-party scripts and connections.
+- Most pages use a **Content-Security-Policy** that allows only expected origins (including `https://analytics.ahrefs.com` for Ahrefs Web Analytics).
 - The site is hosted on **GitHub Pages** (GitHub may log visitor IPs for security; the site owner cannot see those logs).
 - The **home page** includes an optional **Hostinger Reach** newsletter form (third-party script). Tool and guide pages do not. See the [privacy policy](https://studykithub.online/privacy-policy/).
-- There is currently **no advertising** and no general analytics product such as Google Analytics.
+- There is currently **no advertising** and no Google Analytics. The site uses **Ahrefs Web Analytics** (cookieless; script from `analytics.ahrefs.com` on every public page). See the [privacy policy](https://studykithub.online/privacy-policy/).
 
-Do not claim "zero third parties" for the whole site while the Hostinger Reach form is present.
+Do not claim "zero third parties" for the whole site while Ahrefs Web Analytics and the Hostinger Reach form are present.
 
 ## Licence
 
@@ -425,4 +425,4 @@ Chrome needed 2–7 s just to lay out that much text in the text box.
 | Consent management platform | Google's own CMP in AdSense is free; third-party CMPs may charge | Only when ads go live in the EEA/UK/Switzerland |
 | Legal review of the policies | varies | Recommended once the site earns money |
 | Paid Cloudflare / GitHub plans | not needed | Only if you outgrow the free limits above |
-| Paid form or analytics services | not used | The contact page uses `mailto:`; add privacy-friendly analytics only if you also update the privacy policy |
+| Paid form or analytics services | Ahrefs Web Analytics is free under its current limits; contact stays `mailto:` | Privacy policy must stay accurate whenever analytics or forms change |

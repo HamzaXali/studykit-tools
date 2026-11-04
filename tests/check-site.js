@@ -65,11 +65,22 @@ for (const f of htmlFiles) {
   } else {
     ok(!canonical, `${name}: noindex page should not have canonical`);
   }
-  // No external scripts, styles, fonts or iframes
+  // External scripts/styles/fonts/iframes: only allowlisted third parties
+  const AHREFS_SCRIPT = 'https://analytics.ahrefs.com/analytics.js';
+  const AHREFS_KEY = 'XCr0oQV20TdnkX+vfv0zKw';
+  ok(html.includes(`<script src="${AHREFS_SCRIPT}" data-key="${AHREFS_KEY}" async></script>`), `${name}: missing Ahrefs Web Analytics script`);
+  const csp = attr(html, /<meta http-equiv="Content-Security-Policy" content="([^"]+)"/);
+  if (csp) {
+    ok(/\bscript-src\b[^;]*https:\/\/analytics\.ahrefs\.com/.test(csp), `${name}: CSP script-src must allow https://analytics.ahrefs.com`);
+    ok(/\bconnect-src\b[^;]*https:\/\/analytics\.ahrefs\.com/.test(csp), `${name}: CSP connect-src must allow https://analytics.ahrefs.com`);
+  } else {
+    ok(name === 'index.html', `${name}: expected CSP meta (home page is the intentional exception)`);
+  }
   for (const m of html.matchAll(/<(script|link|iframe|img)\b[^>]*\s(?:src|href)="(https?:[^"]+)"/g)) {
     if (m[1] === 'link' && /rel="canonical"/.test(m[0])) continue;
     const allowedHostinger = name === 'index.html' && /^https:\/\/(cdn-reach\.hostinger\.com|reach\.hostinger\.com|reach-forms\.hostingerusercontent\.com)\//.test(m[2]);
-    ok(m[2].startsWith(BASE) || allowedHostinger, `${name}: external resource ${m[2]}`);
+    const allowedAhrefs = m[2] === AHREFS_SCRIPT;
+    ok(m[2].startsWith(BASE) || allowedHostinger || allowedAhrefs, `${name}: external resource ${m[2]}`);
   }
   ok(!/adsbygoogle|googlesyndication|google-adsense-account|gtag\(|googletagmanager/.test(html), `${name}: contains ad/analytics code`);
   // JSON-LD
@@ -170,8 +181,10 @@ for (const p of ['contact/index.html', 'privacy-policy/index.html', 'terms/index
 }
 ok(/20 October 2026/.test(fs.readFileSync(path.join(root, 'terms/index.html'), 'utf8')), 'terms/index.html: effective / last-updated date missing');
 ok(/20 October 2026/.test(fs.readFileSync(path.join(root, 'disclaimer/index.html'), 'utf8')), 'disclaimer/index.html: effective / last-updated date missing');
-ok(/28 October 2026/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: last-updated date missing');
+ok(/4 November 2026/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: last-updated date missing');
 ok(/20 October 2026/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: effective date missing');
+ok(/Ahrefs Web Analytics/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: Ahrefs Web Analytics disclosure missing');
+ok(/ahrefs\.com\/legal\/privacy-policy/.test(fs.readFileSync(path.join(root, 'privacy-policy/index.html'), 'utf8')), 'privacy-policy/index.html: Ahrefs privacy policy link missing');
 
 
 // sitemap & robots

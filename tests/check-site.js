@@ -162,7 +162,15 @@ for (const f of htmlFiles) {
   const html = fs.readFileSync(f, 'utf8');
   const name = rel(f);
   const title = decode(attr(html, /<title>([^<]+)<\/title>/) || '');
-  ok(title.startsWith(BRAND + ':') || title.endsWith('| ' + BRAND), `${name}: title should carry the brand: ${title}`);
+  // These titles are the requested SEO strings. They intentionally omit the usual "| StudyKit Hub" ending.
+  const briefTitles = {
+    'tools/reading-time-calculator/index.html': 'Reading Time Calculator - How Long to Read & Speak Your Text? Free',
+    'tools/final-grade-calculator/index.html': 'Final Grade Calculator - What Do I Need On The Final? Free',
+    'tools/citation-generator/index.html': 'APA 7 Citation Generator - Free, No Sign-up',
+    'grade-tools/index.html': 'GPA, CGPA & Percentage Calculator | Free Grade Tools'
+  };
+  if (briefTitles[name]) ok(title === briefTitles[name], `${name}: title should match the requested SEO title, got ${title}`);
+  else ok(title.startsWith(BRAND + ':') || title.endsWith('| ' + BRAND), `${name}: title should carry the brand: ${title}`);
   ok(!/id="advertising-details"/.test(html), `${name}: hidden advertising placeholder section must not exist`);
   if (name === '404.html') continue;
   const ogImage = attr(html, /<meta property="og:image" content="([^"]+)">/);
@@ -221,6 +229,54 @@ if (process.argv.includes('--launch')) {
     }
   }
 }
+// Redesign pages: categories, guides, and the three requested tool titles.
+ok(!fs.existsSync(path.join(root, 'fix-tools')), 'no /fix-tools/ page (Fix is a home-page filter only)');
+const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
+ok(homeHtml.includes('<meta name="google-site-verification" content="zqLcBOM9el9CY6rnKVchae06D5l7fZJyEUPQmGQ2HgY">'), 'home: google-site-verification meta unchanged');
+ok(homeHtml.includes('data-reach-form="5f5083c1-a068-45ad-8572-30e1910901af"'), 'home: Hostinger Reach form kept');
+ok(homeHtml.includes('https://cdn-reach.hostinger.com/js/embed.js'), 'home: Hostinger Reach script kept');
+ok((homeHtml.match(/data-finder-item/g) || []).length === 15, 'home: 15 tool cards');
+ok(!/Urdu/.test(homeHtml), 'home: no Urdu claim');
+const toolsHub = fs.readFileSync(path.join(root, 'tools/index.html'), 'utf8');
+ok(toolsHub.includes('<title>Free Study Tools for Students and Teachers | StudyKit Hub</title>'), 'tools hub title unchanged');
+ok(toolsHub.includes('Fifteen free tools for everyday study, writing and teaching tasks.'), 'tools hub lead unchanged');
+for (const slug of ['study-tools', 'write-tools', 'grade-tools', 'plan-tools']) {
+  ok(toolsHub.includes(`href="../${slug}/"`), `tools hub links to /${slug}/`);
+  const html = fs.readFileSync(path.join(root, slug, 'index.html'), 'utf8');
+  ok(html.includes('"@type":"FAQPage"') || html.includes('"@type": "FAQPage"'), `${slug}: FAQPage JSON-LD`);
+  ok(html.includes('"@type":"BreadcrumbList"') || html.includes('"@type": "BreadcrumbList"'), `${slug}: BreadcrumbList JSON-LD`);
+  ok(html.includes('https://studykithub.online/tools/'), `${slug}: breadcrumb includes study tools hub`);
+  ok(!/Urdu/.test(html), `${slug}: no Urdu claim`);
+}
+const newGuides = ['essay-timer', 'what-do-i-need-on-the-final', 'how-long-to-read-1000-words'];
+const guidesIndex = fs.readFileSync(path.join(root, 'guides/index.html'), 'utf8');
+for (const slug of newGuides) {
+  const file = path.join(root, 'guides', slug, 'index.html');
+  ok(fs.existsSync(file), `guide exists: ${slug}`);
+  const html = fs.readFileSync(file, 'utf8');
+  ok(guidesIndex.includes(`href="./${slug}/"`), `guides index links to ${slug}`);
+  ok(html.includes('By Ali Hamza'), `${slug}: visible byline`);
+  ok(html.includes('Last updated 6 November 2026'), `${slug}: last updated date`);
+  ok(html.includes('"@type":"Article"'), `${slug}: Article JSON-LD`);
+  ok(html.includes('"@type":"FAQPage"'), `${slug}: FAQPage JSON-LD`);
+  ok(html.includes('"name":"Ali Hamza"'), `${slug}: Article author Ali Hamza`);
+  const article = html.match(/<article[\s\S]*<\/article>/);
+  ok(article, `${slug}: article element`);
+  const prose = article[0].replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
+  const count = prose.split(/\s+/).filter(Boolean).length;
+  ok(count >= 800 && count <= 1200, `${slug}: article word count ${count} outside 800-1200`);
+  ok(!/Urdu/.test(html), `${slug}: no Urdu claim`);
+}
+for (const [file, title] of [
+  ['tools/reading-time-calculator/index.html', 'Reading Time Calculator - How Long to Read & Speak Your Text? Free'],
+  ['tools/final-grade-calculator/index.html', 'Final Grade Calculator - What Do I Need On The Final? Free'],
+  ['tools/citation-generator/index.html', 'APA 7 Citation Generator - Free, No Sign-up']
+]) {
+  const html = fs.readFileSync(path.join(root, file), 'utf8');
+  ok(html.includes(`<meta property="og:title" content="${title.replace(/&/g, '&amp;')}">`), `${file}: og:title`);
+  ok(html.includes(`<meta name="twitter:title" content="${title.replace(/&/g, '&amp;')}">`), `${file}: twitter:title`);
+}
+
 if (BASE.includes('YOUR-DOMAIN')) warn.push(`Base URL is still the placeholder ${BASE}. Run scripts/set-base-url.js before publishing.`);
 console.log(`Checked ${htmlFiles.length} HTML files, ${locs.length} sitemap URLs, ${checks} assertions. Published files: ${files.length}, ${(total / 1024).toFixed(1)} KB.`);
 warn.forEach((w) => console.log('WARN: ' + w));

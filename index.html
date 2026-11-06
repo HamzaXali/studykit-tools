@@ -30,50 +30,95 @@
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="assets/css/styles.css">
 <!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
-
 <script src="https://analytics.ahrefs.com/analytics.js" data-key="XCr0oQV20TdnkX+vfv0zKw" async></script>
 </head>
 <body>
 <a class="skip-link" href="#main">Skip to main content</a>
 <header class="site-header">
 <div class="wrap">
-<a class="brand" href="./"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0f766e"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0f766e" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#fbbf24"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
+<a class="brand" href="./"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0F2340"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0F2340" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#FFC93C"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
 <nav class="site-nav" aria-label="Main"><ul><li><a href="./" aria-current="page">Home</a></li><li><a href="tools/">Study tools</a></li><li><a href="guides/">Guides</a></li><li><a href="about/">About</a></li><li><a href="contact/">Contact</a></li></ul></nav>
 </div>
 </header>
-<main id="main" tabindex="-1">
-<section class="hero" aria-labelledby="page-title">
+<main id="main" tabindex="-1" data-tool-finder>
+<section class="hero-navy" aria-labelledby="page-title">
+<div class="blob blob-blue" aria-hidden="true"></div>
+<div class="blob blob-yellow" aria-hidden="true"></div>
 <div class="wrap">
-<p class="eyebrow">StudyKit Hub</p>
-<h1 id="page-title">Learn smarter. Study better.</h1>
-<p class="lead">StudyKit Hub is a free educational site for students, teachers and education creators. Right now it offers fifteen practical study tools and a set of study guides that run in your browser, with no account and no uploads for the tools.</p>
-<p class="hero-actions"><a class="button" href="./tools/study-notes-organizer/">Open the notes organiser</a> <a class="button secondary" href="./tools/">See all study tools</a></p>
+<p class="hero-badge">FREE STUDY TOOLS • NO ACCOUNT</p>
+<h1 id="page-title">Learn <span class="mark">Smarter.</span><br>Study Better.</h1>
+<p class="hero-lead">Free study tools for students, teachers and creators. Right now, in your browser, no account and no uploads.</p>
+<p class="hero-actions"><a class="button" href="./tools/study-notes-organizer/">Open the notes organiser</a> <a class="button button-on-navy" href="./tools/">See all study tools</a></p>
+<form class="finder-form" data-finder-form role="search" action="./" method="get">
+<span class="finder-icon" aria-hidden="true">🔍</span>
+<label class="visually-hidden" for="tool-search">Search a tool</label>
+<input class="finder-input" id="tool-search" data-finder-input type="search" name="q" placeholder="Search a tool... e.g. Word Counter, GPA, Pomodoro" autocomplete="off">
+<button class="finder-submit" type="submit">Search</button>
+</form>
+<p class="stats-pill"><span>15 Free Tools</span><span class="stats-sep" aria-hidden="true">|</span><span>100% Private - In Your Browser</span><span class="stats-sep" aria-hidden="true">|</span><span>No Sign-up</span><span class="stats-sep" aria-hidden="true">|</span><span>Works on any device</span></p>
+<p class="finder-status" data-finder-status aria-live="polite"></p>
 </div>
 </section>
-<div class="wrap">
-<section aria-labelledby="tools"><h2 id="tools">Free study tools</h2>
-<p class="section-intro">Every tool works on phones and computers and processes your text inside your own browser.</p>
-<ul class="tool-grid"><li><a class="tool-card tool-card-featured" href="./tools/study-notes-organizer/"><span class="tool-tag">Revise</span><h3>Study Notes Organiser</h3><p>Write, tag and search study notes that are saved only in your own browser. Export them any time.</p></a></li><li><a class="tool-card" href="./tools/word-counter/"><span class="tool-tag">Write</span><h3>Word and Character Counter</h3><p>Count words, characters, sentences, paragraphs and lines as you type. Works with emoji, accents, Urdu, Arabic and Chinese.</p></a></li><li><a class="tool-card" href="./tools/reading-time-calculator/"><span class="tool-tag">Plan</span><h3>Reading Time Calculator</h3><p>Estimate how long a text takes to read silently or to say aloud, at a speed you choose.</p></a></li><li><a class="tool-card" href="./tools/case-converter/"><span class="tool-tag">Format</span><h3>Case Converter</h3><p>Switch text to UPPERCASE, lowercase, Title Case or Sentence case, with undo.</p></a></li><li><a class="tool-card" href="./tools/whitespace-cleaner/"><span class="tool-tag">Tidy</span><h3>Whitespace Cleaner</h3><p>Fix messy spacing from PDFs and web pages: extra spaces, blank lines, tabs and invisible characters.</p></a></li><li><a class="tool-card" href="./tools/remove-duplicate-lines/"><span class="tool-tag">Tidy</span><h3>Duplicate Line Remover</h3><p>Delete repeated lines from a list while keeping the original order, and see how many were removed.</p></a></li><li><a class="tool-card" href="./tools/gpa-cgpa-calculator/"><span class="tool-tag">Grades</span><h3>GPA and CGPA Calculator</h3><p>Work out semester GPA from credit hours and grade points, update your CGPA, and convert CGPA to a percentage.</p></a></li><li><a class="tool-card" href="./tools/percentage-calculator/"><span class="tool-tag">Grades</span><h3>Percentage and Marks Calculator</h3><p>Turn marks into a percentage, total several subjects, and work out the marks you need for a target.</p></a></li><li><a class="tool-card" href="./tools/flashcards/"><span class="tool-tag">Revise</span><h3>Flashcards Maker</h3><p>Make flashcard decks and practise them with flip, know and review. Saved only in your own browser.</p></a></li><li><a class="tool-card" href="./tools/pomodoro-timer/"><span class="tool-tag">Focus</span><h3>Pomodoro Study Timer</h3><p>Study in focused blocks with short and long breaks. Start, pause, reset, with an optional sound or notification.</p></a></li><li><a class="tool-card" href="./tools/citation-generator/"><span class="tool-tag">Write</span><h3>Citation Generator (APA 7 and MLA 9)</h3><p>Make APA 7 and MLA 9 references for books, websites and journal articles, then copy them.</p></a></li><li><a class="tool-card" href="./tools/age-date-calculator/"><span class="tool-tag">Plan</span><h3>Age and Date Difference Calculator</h3><p>Find an exact age in years, months and days, or count the days and weeks between two dates.</p></a></li><li><a class="tool-card" href="./tools/text-to-speech/"><span class="tool-tag">Listen</span><h3>Text to Speech Reader</h3><p>Listen to notes or an essay draft read aloud by your browser’s built-in voices, at the speed you choose.</p></a></li></ul></section>
+<div class="wrap finder-panel">
+<div class="filter-row" role="group" aria-label="Filter tools">
+<button type="button" class="pill" data-filter="all" aria-pressed="true">All Tools</button>
+<button type="button" class="pill" data-filter="study" aria-pressed="false">Study</button>
+<button type="button" class="pill" data-filter="write" aria-pressed="false">Write</button>
+<button type="button" class="pill" data-filter="grade" aria-pressed="false">Grade</button>
+<button type="button" class="pill" data-filter="plan" aria-pressed="false">Plan</button>
+<button type="button" class="pill" data-filter="fix" aria-pressed="false">Fix</button>
+</div>
+<nav class="category-links" aria-label="Tool categories"><a href="./study-tools/">Study tools</a><a href="./write-tools/">Write tools</a><a href="./grade-tools/">Grade tools</a><a href="./plan-tools/">Plan tools</a></nav>
+<section aria-labelledby="tools">
+<h2 id="tools">Free study tools</h2>
+<ul class="tile-grid" data-finder-grid>
+<li data-finder-item data-cats="study" data-search="study notes organiser organizer notes tags revision"><a class="tile tile-notes" href="./tools/study-notes-organizer/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">📝</span><span class="tile-tag">Study</span></span><h3>Study Notes Organiser</h3><p>Sort notes, links and ideas in one tidy place.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="write" data-search="word and character counter words characters essay"><a class="tile tile-word" href="./tools/word-counter/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">✍️</span><span class="tile-tag">Write</span></span><h3>Word and Character Counter</h3><p>Count words, characters and reading time instantly.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="study write plan" data-search="reading time calculator read speak words per minute"><a class="tile tile-read" href="./tools/reading-time-calculator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">⏱️</span><span class="tile-tag">Plan</span></span><h3>Reading Time Calculator</h3><p>See how long any text takes to read or speak.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="write fix" data-search="case converter uppercase lowercase title case"><a class="tile tile-case" href="./tools/case-converter/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">Aa</span><span class="tile-tag">Fix</span></span><h3>Case Converter</h3><p>Switch text between upper, lower and title case.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="write fix" data-search="whitespace cleaner spaces blank lines tidy paste"><a class="tile tile-space" href="./tools/whitespace-cleaner/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">✨</span><span class="tile-tag">Fix</span></span><h3>Whitespace Cleaner</h3><p>Tidy extra spaces, blank lines and messy pastes.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="write fix" data-search="duplicate line remover repeated lines list"><a class="tile tile-dupe" href="./tools/remove-duplicate-lines/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🧹</span><span class="tile-tag">Fix</span></span><h3>Duplicate Line Remover</h3><p>Remove repeated lines without losing your order.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="grade" data-search="gpa cgpa calculator grade point average percentage"><a class="tile tile-gpa" href="./tools/gpa-cgpa-calculator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🎓</span><span class="tile-tag">Grade</span></span><h3>GPA and CGPA Calculator</h3><p>Work out GPA, CGPA and what you need next.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="grade" data-search="percentage marks calculator exam results percent"><a class="tile tile-pct" href="./tools/percentage-calculator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">%</span><span class="tile-tag">Grade</span></span><h3>Percentage and Marks Calculator</h3><p>Turn marks into percentages in seconds.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="grade" data-search="final grade calculator what do i need on the final exam"><a class="tile tile-final" href="./tools/final-grade-calculator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🎯</span><span class="tile-tag">Grade</span></span><h3>Final Grade Calculator</h3><p>Find the score you need on a weighted final.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="grade" data-search="uk degree classification calculator first 2:1 honours"><a class="tile tile-uk" href="./tools/uk-degree-classification-calculator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🇬🇧</span><span class="tile-tag">Grade</span></span><h3>UK Degree Classification Calculator</h3><p>Estimate a First, 2:1, 2:2 or Third from module marks.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="study" data-search="flashcards maker revise quiz cards"><a class="tile tile-cards" href="./tools/flashcards/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🃏</span><span class="tile-tag">Study</span></span><h3>Flashcards Maker</h3><p>Turn notes into cards and quiz yourself.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="study plan" data-search="pomodoro study timer focus break tomato"><a class="tile tile-pomo" href="./tools/pomodoro-timer/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🍅</span><span class="tile-tag">Study</span></span><h3>Pomodoro Study Timer</h3><p>Focus for 25 minutes, then take a real break.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="write" data-search="citation generator apa 7 mla 9 references"><a class="tile tile-cite" href="./tools/citation-generator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">📚</span><span class="tile-tag">Write</span></span><h3>Citation Generator (APA 7 and MLA 9)</h3><p>Build clean APA 7 and MLA 9 citations fast.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="plan" data-search="age and date difference calculator days between dates"><a class="tile tile-age" href="./tools/age-date-calculator/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">📅</span><span class="tile-tag">Plan</span></span><h3>Age and Date Difference Calculator</h3><p>Find ages and gaps between any two dates.</p><span class="tile-open">Open tool →</span></a></li>
+<li data-finder-item data-cats="study" data-search="text to speech reader listen aloud notes"><a class="tile tile-tts" href="./tools/text-to-speech/"><span class="tile-top"><span class="tile-icon" aria-hidden="true">🔊</span><span class="tile-tag">Study</span></span><h3>Text to Speech Reader</h3><p>Hear your text read aloud while you follow along.</p><span class="tile-open">Open tool →</span></a></li>
+</ul>
+<div class="finder-empty" data-finder-empty hidden>
+<p><strong>No tools match that search.</strong></p>
+<p>Try “GPA”, “Pomodoro” or “Citation”.</p>
+<button type="button" class="button" data-finder-clear>Clear search &amp; filters</button>
+</div>
+</section>
 <div class="prose">
 <h2>What you can do here</h2>
 <ul>
 <li><strong>Keep revision notes together.</strong> The <a href="./tools/study-notes-organizer/">study notes organiser</a> lets you tag and search notes saved in your browser, and export a backup.</li>
 <li><strong>Stay within a word limit.</strong> Use the <a href="./tools/word-counter/">word counter</a> while you edit an essay, report or abstract.</li>
-<li><strong>Plan a talk or a reading task.</strong> The <a href="./tools/reading-time-calculator/">reading time calculator</a> estimates how long a text takes to read or present.</li>
+<li><strong>Plan a talk or a reading task.</strong> The <a href="./tools/reading-time-calculator/">reading time calculator</a> estimates how long a text takes to read or present. See <a href="./guides/how-long-to-read-1000-words/">how long 1,000 words take</a>.</li>
+<li><strong>Time a writing session.</strong> The <a href="./tools/pomodoro-timer/">Pomodoro timer</a> breaks an essay into focus blocks. The <a href="./guides/essay-timer/">essay timer guide</a> shows one way to use it.</li>
 <li><strong>Tidy copied text.</strong> The <a href="./tools/whitespace-cleaner/">whitespace cleaner</a> fixes spacing from PDFs and slides, and the <a href="./tools/case-converter/">case converter</a> fixes headings typed in capitals.</li>
-<li><strong>Check your grades.</strong> Work out your GPA and CGPA with the <a href="./tools/gpa-cgpa-calculator/">GPA calculator</a>, or turn exam marks into a percentage with the <a href="./tools/percentage-calculator/">percentage calculator</a>.</li>
-<li><strong>Revise actively.</strong> Test yourself with <a href="./tools/flashcards/">flashcards</a>, study in focused blocks with the <a href="./tools/pomodoro-timer/">Pomodoro timer</a>, and listen to your notes with the <a href="./tools/text-to-speech/">text to speech reader</a>.</li>
+<li><strong>Check your grades.</strong> Work out GPA and CGPA with the <a href="./tools/gpa-cgpa-calculator/">GPA calculator</a>, turn marks into a percentage with the <a href="./tools/percentage-calculator/">percentage calculator</a>, or see <a href="./guides/what-do-i-need-on-the-final/">what you need on the final</a>.</li>
+<li><strong>Revise actively.</strong> Test yourself with <a href="./tools/flashcards/">flashcards</a> and listen to your notes with the <a href="./tools/text-to-speech/">text to speech reader</a>.</li>
 <li><strong>Reference your sources.</strong> The <a href="./tools/citation-generator/">citation generator</a> formats books, web pages and journal articles in APA 7 or MLA 9.</li>
 <li><strong>Count the days.</strong> The <a href="./tools/age-date-calculator/">age and date calculator</a> finds an exact age or the days until an exam.</li>
 <li><strong>Clean up lists.</strong> The <a href="./tools/remove-duplicate-lines/">duplicate line remover</a> deletes repeats from vocabulary lists, class lists and reference lists.</li>
+<li><strong>Check a UK classification.</strong> The <a href="./tools/uk-degree-classification-calculator/">UK degree classification calculator</a> combines module marks, credits and year weights.</li>
 </ul>
 </div>
 <section aria-labelledby="guides-heading">
 <h2 id="guides-heading">Study guides</h2>
-<p class="section-intro">Practical guides for English-speaking university students in the United States, United Kingdom and Europe. Each guide links to a matching tool.</p>
+<p class="section-intro">Practical guides for university students. Each guide links to a matching tool that runs in your browser.</p>
 <ul class="guide-grid">
+<li><a class="guide-card" href="./guides/essay-timer/"><h3>Essay timer</h3><p>How to time a writing session without rushing the argument.</p></a></li>
+<li><a class="guide-card" href="./guides/what-do-i-need-on-the-final/"><h3>What do I need on the final?</h3><p>Turn a current grade, a final weight and a target into one score.</p></a></li>
+<li><a class="guide-card" href="./guides/how-long-to-read-1000-words/"><h3>How long to read 1,000 words</h3><p>Silent reading and speaking times, using this site’s calculator defaults.</p></a></li>
 <li><a class="guide-card" href="./guides/essay-word-counts/"><h3>Essay word counts and limits</h3><p>What typical limits mean and how to check length.</p></a></li>
-<li><a class="guide-card" href="./guides/how-to-calculate-gpa/"><h3>How to calculate GPA</h3><p>US-style GPA steps, with notes on UK and Dutch systems.</p></a></li>
+<li><a class="guide-card" href="./guides/how-to-calculate-gpa/"><h3>How to calculate GPA</h3><p>Credit hours and grade points, with notes on other systems.</p></a></li>
 <li><a class="guide-card" href="./guides/pomodoro-for-exams/"><h3>Pomodoro for exam revision</h3><p>Focus blocks that fit assessment week.</p></a></li>
 <li><a class="guide-card" href="./guides/active-recall-flashcards/"><h3>Active recall with flashcards</h3><p>Write cards that force retrieval, not re-reading.</p></a></li>
 </ul>
@@ -90,7 +135,7 @@
 <footer class="site-footer">
 <div class="wrap">
 <div class="footer-cols">
-<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="tools/word-counter/">Word and Character Counter</a></li><li><a href="tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="tools/case-converter/">Case Converter</a></li><li><a href="tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="tools/">All study tools</a></li></ul></section>
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="tools/word-counter/">Word and Character Counter</a></li><li><a href="tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="tools/case-converter/">Case Converter</a></li><li><a href="tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="study-tools/">Study tools</a></li><li><a href="write-tools/">Write tools</a></li><li><a href="grade-tools/">Grade tools</a></li><li><a href="plan-tools/">Plan tools</a></li><li><a href="tools/">All study tools</a></li></ul></section>
 <section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
 <li><a href="guides/">Guides</a></li>
 <li><a href="resources/">Resources</a></li>
@@ -101,7 +146,7 @@
 <li><a href="disclaimer/">Disclaimer</a></li>
 </ul></section>
 <section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
-<p>The tools on this site process text inside your browser. What you type is not uploaded to a server.</p></section>
+<p>Your text stays with you - tools process text inside your browser. What you type is not uploaded to a server.</p></section>
 </div>
 <div class="footer-bottom"><p class="footer-brand"><strong>StudyKit Hub</strong> &middot; Learn smarter. Study better.</p><p>&copy; 2026 Ali Hamza. All rights reserved.</p></div>
 </div>
@@ -111,5 +156,7 @@
     <div data-reach-form="5f5083c1-a068-45ad-8572-30e1910901af"></div>
   </div>
   <script src="https://cdn-reach.hostinger.com/js/embed.js"></script>
+<script src="assets/js/site-chrome.js"></script>
+<script src="assets/js/tool-finder.js"></script>
 </body>
 </html>

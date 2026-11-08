@@ -402,7 +402,7 @@ button.pill[aria-pressed="true"] { background: #0F2340; color: #fff; }
 .faq-list details + details { border-top: 1px solid #e2e8f0; }
 .faq-list summary { cursor: pointer; font-weight: 800; color: #0F2340; padding: 0.85rem 1rem; }
 .faq-list details p { margin: 0; padding: 0 1rem 0.95rem; color: #334155; }
-.byline { font-weight: 800; }
+.byline { font-weight: 800; margin: 0.25rem 0 1rem; }
 
 /* Desktop and tablet match 75% browser zoom: 1rem becomes 12px.
    Widths of 640px and below keep the 16px root (see the html rule above).
@@ -427,6 +427,7 @@ button.pill[aria-pressed="true"] { background: #0F2340; color: #fff; }
   .stats-pill,
   button.pill,
   .guide-meta,
+  .byline,
   .wc-kw-meta,
   .tile-open,
   .field-error,

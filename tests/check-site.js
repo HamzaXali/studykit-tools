@@ -248,6 +248,32 @@ for (const slug of ['study-tools', 'write-tools', 'grade-tools', 'plan-tools']) 
   ok(html.includes('https://studykithub.online/tools/'), `${slug}: breadcrumb includes study tools hub`);
   ok(!/Urdu/.test(html), `${slug}: no Urdu claim`);
 }
+const guidePages = fs.readdirSync(path.join(root, 'guides'), { withFileTypes: true })
+  .filter((e) => e.isDirectory())
+  .map((e) => path.join(root, 'guides', e.name, 'index.html'));
+const GUIDE_BYLINE = '<p class="byline">By Ali Hamza · Updated November 2026</p>';
+ok(!fs.readFileSync(path.join(root, 'guides/index.html'), 'utf8').includes('class="byline"'), 'guides hub index has no byline');
+for (const file of guidePages) {
+  const html = fs.readFileSync(file, 'utf8');
+  const name = rel(file);
+  ok(fs.existsSync(file), `guide page exists: ${name}`);
+  const bylines = html.match(/<p class="byline">[\s\S]*?<\/p>/g) || [];
+  ok(bylines.length === 1 && bylines[0] === GUIDE_BYLINE, `${name}: expected exactly one byline`);
+  const h1At = html.indexOf('<h1');
+  const bylineAt = html.indexOf(GUIDE_BYLINE);
+  ok(h1At !== -1 && bylineAt > h1At, `${name}: byline should follow the h1`);
+  let article;
+  const articleMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g) || [];
+  for (const block of articleMatch) {
+    const data = JSON.parse(block.replace(/^<script type="application\/ld\+json">/, '').replace(/<\/script>$/, ''));
+    if (data['@type'] !== 'Article') continue;
+    article = data;
+  }
+  ok(article, `${name}: Article JSON-LD`);
+  ok(article && article.author && article.author['@type'] === 'Person' && article.author.name === 'Ali Hamza' && article.author.url === `${BASE}/about/`, `${name}: Article author with About url`);
+  ok(article && article.dateModified === '2026-11-09', `${name}: dateModified is 2026-11-09`);
+  ok(article && /^\d{4}-\d{2}-\d{2}$/.test(article.datePublished), `${name}: datePublished still set`);
+}
 const newGuides = ['essay-timer', 'what-do-i-need-on-the-final', 'how-long-to-read-1000-words'];
 const guidesIndex = fs.readFileSync(path.join(root, 'guides/index.html'), 'utf8');
 for (const slug of newGuides) {
@@ -255,8 +281,7 @@ for (const slug of newGuides) {
   ok(fs.existsSync(file), `guide exists: ${slug}`);
   const html = fs.readFileSync(file, 'utf8');
   ok(guidesIndex.includes(`href="./${slug}/"`), `guides index links to ${slug}`);
-  ok(html.includes('By Ali Hamza'), `${slug}: visible byline`);
-  ok(html.includes('Last updated 6 November 2026'), `${slug}: last updated date`);
+  ok(html.includes('<p class="byline">By Ali Hamza · Updated November 2026</p>'), `${slug}: visible byline`);
   ok(html.includes('"@type":"Article"'), `${slug}: Article JSON-LD`);
   ok(html.includes('"@type":"FAQPage"'), `${slug}: FAQPage JSON-LD`);
   ok(html.includes('"name":"Ali Hamza"'), `${slug}: Article author Ali Hamza`);

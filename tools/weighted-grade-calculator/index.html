@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Weighted Grade Calculator: Course Grade by Category</title>
+<meta name="description" content="Add each syllabus category, its weight and your score. See your weighted course grade live. Free, private, runs in your browser — nothing is uploaded.">
+<link rel="canonical" href="https://studykithub.online/tools/weighted-grade-calculator/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://analytics.ahrefs.com; style-src 'self'; img-src 'self' data:; connect-src https://analytics.ahrefs.com; object-src 'none'; base-uri 'self'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#111a2e" media="(prefers-color-scheme: dark)">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="StudyKit Hub">
+<meta property="og:title" content="Weighted Grade Calculator: Course Grade by Category">
+<meta property="og:description" content="Add each syllabus category, its weight and your score. See your weighted course grade live. Free, private, runs in your browser — nothing is uploaded.">
+<meta property="og:url" content="https://studykithub.online/tools/weighted-grade-calculator/">
+<meta property="og:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Weighted Grade Calculator: Course Grade by Category">
+<meta name="twitter:description" content="Add each syllabus category, its weight and your score. See your weighted course grade live. Free, private, runs in your browser — nothing is uploaded.">
+<meta name="twitter:image" content="https://studykithub.online/assets/img/og-image.png">
+<meta name="twitter:image:alt" content="StudyKit Hub: Free Study Tools for Students and Teachers. Learn smarter. Study better.">
+<link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="../../assets/css/styles.css">
+<!-- Site ownership verification / ad code: intentionally absent. See README.md, section "Ad readiness". -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Weighted Grade Calculator",
+  "url": "https://studykithub.online/tools/weighted-grade-calculator/",
+  "description": "Add each syllabus category, its weight and your score. See your weighted course grade live. Runs in your browser — nothing is uploaded.",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Any",
+  "browserRequirements": "Requires JavaScript and a modern web browser",
+  "isAccessibleForFree": true,
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://studykithub.online/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Study tools",
+      "item": "https://studykithub.online/tools/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Weighted grade calculator",
+      "item": "https://studykithub.online/tools/weighted-grade-calculator/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I calculate a weighted grade?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Multiply each category percent by its weight, add the products, then divide by the total weight. Homework 92% at weight 20, quizzes 84% at 20, a midterm 79% at 30 and a final 88% at 30 gives (92 × 20 + 84 × 20 + 79 × 30 + 88 × 30) ÷ 100 = 85.3%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What if my category weights do not add up to 100%?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "That is normal mid-semester, when a final or another category is still blank. The calculator averages over the weights you entered. A locked final course grade usually needs every syllabus category, so the weights reach 100%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use credits instead of percentages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Enter the module mark as the score and the credit value as the weight. The same formula applies to UK modules and to US credit hours."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How is this different from the final grade calculator?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "This tool builds the course average from many weighted rows. The final grade calculator answers what you need on one remaining assessment when you already have a current grade and a target."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Should I enter every assignment or just category averages?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Prefer the category averages from your gradebook (homework average, quiz average) so they match the syllabus weights. Use one row per assignment only when each assignment is its own weighted item."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Why is my weighted grade different from a simple average?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stronger scores in heavier categories pull the result up, and weaker scores in heavy categories pull it down. The contribution column shows which rows move the average most. In the worked example the weighted grade is 85.3% and the simple average of the same four scores is 85.75%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is anything saved or uploaded?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. Calculations run in your browser only. Nothing is stored or uploaded."
+      }
+    }
+  ]
+}
+</script>
+<script src="https://analytics.ahrefs.com/analytics.js" data-key="XCr0oQV20TdnkX+vfv0zKw" async></script>
+</head>
+<body>
+<a class="skip-link" href="#main">Skip to main content</a>
+<header class="site-header">
+<div class="wrap">
+<a class="brand" href="../../"><svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="9" fill="#0F2340"/><path d="M5.5 10.5c3.4-1.7 7-1.6 10.5.9 3.5-2.5 7.1-2.6 10.5-.9v12.2c-3.4-1.7-7-1.6-10.5.9-3.5-2.5-7.1-2.6-10.5-.9z" fill="#fff"/><path d="M16 11.4v12.2" stroke="#0F2340" stroke-width="1.5"/><circle cx="25" cy="7" r="3.2" fill="#FFC93C"/></svg><span class="brand-name">StudyKit <span class="brand-hub">Hub</span></span></a>
+<nav class="site-nav" aria-label="Main"><ul><li><a href="../../">Home</a></li><li><a href="../../tools/">Study tools</a></li><li><a href="../../guides/">Guides</a></li><li><a href="../../about/">About</a></li><li><a href="../../contact/">Contact</a></li></ul></nav>
+</div>
+</header>
+<main id="main" tabindex="-1">
+<div class="wrap">
+<nav class="breadcrumbs" aria-label="Breadcrumb"><ol><li><a href="../../">Home</a></li><li><a href="../">Study tools</a></li><li><span aria-current="page">Weighted grade calculator</span></li></ol></nav>
+<h1>Weighted grade calculator</h1>
+<p class="lead">Work out your course grade from syllabus category weights or module credits.</p>
+<p class="callout">To find a weighted course grade, multiply each category’s percentage by its weight, add those products, then divide by the sum of the weights. For example, homework 92% at 20%, quizzes 84% at 20%, midterm 79% at 30% and final 88% at 30% gives (92×20 + 84×20 + 79×30 + 88×30) ÷ 100 = 85.3%.</p>
+<noscript><p class="notice"><strong>This tool needs JavaScript.</strong>Turn JavaScript on for this site to use it. Everything you enter is still processed only in your browser.</p></noscript>
+<section class="tool" aria-labelledby="wg-heading">
+<h2 id="wg-heading">Your course categories</h2>
+<p class="hint" id="wg-weight-hint">Enter a score and a weight for each row you want counted. Weight is a syllabus percent or a credit value. Blank weights are not treated as equal.</p>
+<div id="wg-rows" class="course-rows"></div>
+<div class="actions">
+<button type="button" id="wg-add">Add category</button>
+<button type="button" id="wg-example" class="secondary">Try an example</button>
+<button type="button" id="wg-clear" class="secondary">Clear</button>
+<button type="button" id="wg-copy" class="secondary">Copy results</button>
+</div>
+<p class="hint" id="wg-cap" hidden>12 categories is the limit on this page.</p>
+<p class="status" id="wg-status" role="status" aria-live="polite"></p>
+<h3 id="wg-results">Result</h3>
+<dl class="stats" aria-labelledby="wg-results">
+<div><dt>Your weighted grade</dt><dd id="wg-grade">—</dd></div>
+<div><dt>Letter (common cutoffs)</dt><dd id="wg-letter" aria-describedby="wg-letter-hint">—</dd></div>
+<div><dt>Weight total</dt><dd id="wg-weight">—</dd></div>
+</dl>
+<p class="hint" id="wg-letter-hint">The letter uses common US cutoffs (A 90, B 80, C 70, D 60). Your syllabus wins if it publishes different boundaries.</p>
+<p id="wg-weight-note" class="notice" hidden></p>
+<p id="wg-extra" class="notice" hidden></p>
+<p>Contribution is how many points that row adds to the weighted grade.</p>
+<p>Everything is calculated in your browser. Nothing is stored or uploaded.</p>
+<p class="callout">Already know your current grade and only need the score on a remaining final? Use the <a href="../../tools/final-grade-calculator/">final grade calculator</a>. This page is for building the course grade from weighted categories or credits.</p>
+</section>
+<div class="prose">
+<h2>How to use the weighted grade calculator</h2>
+<ol>
+<li>List each category (or module) from your syllabus.</li>
+<li>Enter your average score for that category as a percent.</li>
+<li>Enter the category’s weight (percent of the course, or credit value).</li>
+<li>Read the weighted grade. Check the contribution column to see which rows move the average most.</li>
+<li>If some weight is still blank, treat the result as your grade so far, then use the <a href="../../tools/final-grade-calculator/">final grade calculator</a> for the remaining share.</li>
+</ol>
+<h2>The formula</h2>
+<p><strong>Weighted grade</strong> = Σ (category % × weight) ÷ Σ (weights).</p>
+<p>Weights can be syllabus percentages (20, 30, and so on) or university credits (10, 20, and so on). Only the ratios matter. The calculator divides by the total of the weights you entered.</p>
+<p><strong>Contribution of one category</strong> = category % × weight ÷ Σ (weights). When every weight adds to 100, that is the same as category % × (weight ÷ 100).</p>
+<h3>Full-syllabus worked example</h3>
+<div class="example">
+<table>
+<thead><tr><th>Category</th><th>Score</th><th>Weight</th></tr></thead>
+<tbody>
+<tr><td>Homework</td><td>92%</td><td>20</td></tr>
+<tr><td>Quizzes</td><td>84%</td><td>20</td></tr>
+<tr><td>Midterm</td><td>79%</td><td>30</td></tr>
+<tr><td>Final</td><td>88%</td><td>30</td></tr>
+</tbody>
+</table>
+<ol>
+<li>Products: 92×20 = 1840, 84×20 = 1680, 79×30 = 2370, 88×30 = 2640.</li>
+<li>Sum of products: 1840 + 1680 + 2370 + 2640 = 8530.</li>
+<li>Sum of weights: 100.</li>
+<li>Weighted grade: 8530 ÷ 100 = 85.3%.</li>
+</ol>
+<p><strong>Your weighted grade is 85.3%.</strong></p>
+</div>
+<h3>Mid-semester when weights do not total 100</h3>
+<div class="example">
+<p>Homework 92% at weight 15, quizzes 84% at 20, labs 88% at 15 and a midterm 79% at 20. The final, worth 30, is still blank.</p>
+<ul>
+<li>Graded weight so far: 15 + 20 + 15 + 20 = 70.</li>
+<li>Products sum: 92×15 + 84×20 + 88×15 + 79×20 = 5960.</li>
+<li>Grade so far: 5960 ÷ 70 ≈ 85.14%.</li>
+</ul>
+<p>This is the average over the work entered so far, not a locked final course grade. For the score you need on the remaining weight, use the <a href="../../tools/final-grade-calculator/">final grade calculator</a>.</p>
+</div>
+<h3>Using credits instead of percentages</h3>
+<div class="example">
+<table>
+<thead><tr><th>Module</th><th>Mark</th><th>Credits</th></tr></thead>
+<tbody>
+<tr><td>Core</td><td>68%</td><td>20</td></tr>
+<tr><td>Elective A</td><td>74%</td><td>10</td></tr>
+<tr><td>Elective B</td><td>62%</td><td>10</td></tr>
+</tbody>
+</table>
+<p>Weighted average = (68×20 + 74×10 + 62×10) ÷ 40 = 68.0%. The formula is the same. Credits are the weights.</p>
+</div>
+<h2>Weighted vs simple average</h2>
+<p>A simple average treats every category the same. For the four scores in the full-syllabus example, (92 + 84 + 79 + 88) ÷ 4 = 85.75%. The weighted grade is 85.3%, because the lower midterm carries as much weight as the higher final. The weighted result can move either way: a strong score in a heavy category pulls it up, and a weak score in a heavy category pulls it down.</p>
+</div>
+<section aria-labelledby="faq-heading"><h2 id="faq-heading">Questions and answers</h2><dl class="faq">
+<dt>How do I calculate a weighted grade?</dt>
+<dd>Multiply each category percent by its weight, add the products, then divide by the total weight. Homework 92% at weight 20, quizzes 84% at 20, a midterm 79% at 30 and a final 88% at 30 gives (92×20 + 84×20 + 79×30 + 88×30) ÷ 100 = 85.3%.</dd>
+<dt>What if my category weights do not add up to 100%?</dt>
+<dd>That is normal mid-semester, when a final or another category is still blank. The calculator averages over the weights you entered. A locked final course grade usually needs every syllabus category, so the weights reach 100%.</dd>
+<dt>Can I use credits instead of percentages?</dt>
+<dd>Yes. Enter the module mark as the score and the credit value as the weight. The same formula applies to UK modules and to US credit hours.</dd>
+<dt>How is this different from the final grade calculator?</dt>
+<dd>This tool builds the course average from many weighted rows. The <a href="../../tools/final-grade-calculator/">final grade calculator</a> answers what you need on one remaining assessment when you already have a current grade and a target.</dd>
+<dt>Should I enter every assignment or just category averages?</dt>
+<dd>Prefer the category averages from your gradebook (homework average, quiz average) so they match the syllabus weights. Use one row per assignment only when each assignment is its own weighted item.</dd>
+<dt>Why is my weighted grade different from a simple average?</dt>
+<dd>Stronger scores in heavier categories pull the result up, and weaker scores in heavy categories pull it down. The contribution column shows which rows move the average most. In the worked example the weighted grade is 85.3% and the simple average of the same four scores is 85.75%.</dd>
+<dt>Is anything saved or uploaded?</dt>
+<dd>No. Calculations run in your browser only. Nothing is stored or uploaded.</dd>
+</dl></section>
+<section class="related" aria-labelledby="related-heading"><h2 id="related-heading">Related tools</h2><ul>
+<li><a href="../../tools/final-grade-calculator/">Final Grade Calculator</a>: Find the score you need on your final from your current grade, the final’s weight and your target.</li>
+<li><a href="../../tools/gpa-cgpa-calculator/">GPA and CGPA Calculator</a>: Work out semester GPA from credit hours and grade points, update your CGPA, and convert CGPA to a percentage.</li>
+<li><a href="../../tools/percentage-calculator/">Percentage and Marks Calculator</a>: Turn marks into a percentage, total several subjects, and work out the marks you need for a target.</li>
+<li><a href="../../tools/">All study tools</a>: Browse every StudyKit Hub calculator and study helper.</li>
+</ul></section>
+<section class="related" aria-labelledby="related-guides-heading"><h2 id="related-guides-heading">Related guides</h2><ul>
+<li><a href="../../guides/marks-percentages-grades/">Marks, percentages and grades</a></li>
+<li><a href="../../guides/how-to-calculate-gpa/">How to calculate GPA</a></li>
+<li><a href="../../guides/uk-degree-classifications/">UK degree classifications</a></li>
+</ul></section>
+</div>
+</main>
+<footer class="site-footer">
+<div class="wrap">
+<div class="footer-cols">
+<section aria-labelledby="ft-tools"><h2 id="ft-tools">Study tools</h2><ul><li><a href="../../tools/word-counter/">Word and Character Counter</a></li><li><a href="../../tools/reading-time-calculator/">Reading Time Calculator</a></li><li><a href="../../tools/case-converter/">Case Converter</a></li><li><a href="../../tools/remove-duplicate-lines/">Duplicate Line Remover</a></li><li><a href="../../tools/whitespace-cleaner/">Whitespace Cleaner</a></li><li><a href="../../tools/study-notes-organizer/">Study Notes Organiser</a></li><li><a href="../../tools/">All study tools</a></li></ul></section>
+<section aria-labelledby="ft-site"><h2 id="ft-site">Site</h2><ul>
+<li><a href="../../guides/">Guides</a></li>
+<li><a href="../../resources/">Resources</a></li>
+<li><a href="../../about/">About</a></li>
+<li><a href="../../contact/">Contact</a></li>
+<li><a href="../../privacy-policy/">Privacy policy</a></li>
+<li><a href="../../terms/">Terms of use</a></li>
+<li><a href="../../disclaimer/">Disclaimer</a></li>
+</ul></section>
+<section aria-labelledby="ft-privacy"><h2 id="ft-privacy">Your text stays with you</h2>
+<p>Your text stays with you - tools process text inside your browser. What you type is not uploaded to a server.</p></section>
+</div>
+<div class="footer-bottom"><p class="footer-brand"><strong>StudyKit Hub</strong> &middot; Learn smarter. Study better.</p><p>&copy; 2026 Ali Hamza. All rights reserved.</p></div>
+</div>
+</footer>
+<script src="../../assets/js/common.js" defer></script>
+<script src="../../assets/js/study-utils.js" defer></script>
+<script src="../../assets/js/tools/weighted-grade-calculator.js" defer></script>
+<script src="../../assets/js/site-chrome.js"></script>
+</body>
+</html>

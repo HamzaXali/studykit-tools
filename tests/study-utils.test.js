@@ -99,6 +99,101 @@ test('courseGradeAfterFinal: reverse of worked example', () => {
   assert.equal(S.courseGradeAfterFinal(80, 0, 90), null);
 });
 
+// ---------------- Weighted course grade ----------------
+test('weighted grade: full syllabus example is 85.3%', () => {
+  const r = S.calcWeightedGrade([
+    { name: 'Homework', score: 92, weight: 20 },
+    { name: 'Quizzes', score: 84, weight: 20 },
+    { name: 'Midterm', score: 79, weight: 30 },
+    { name: 'Final', score: 88, weight: 30 }
+  ]);
+  assert.equal(r.ok, true);
+  assert.equal(r.counted, 4);
+  assert.equal(r.productSum, 8530);
+  assert.equal(r.weightTotal, 100);
+  assert.equal(r.weightsEqual100, true);
+  assert.equal(S.round(r.grade, 2), 85.3);
+  assert.equal(S.round(r.simpleAverage, 2), 85.75);
+  assert.deepEqual(r.rows.map((row) => S.round(row.contribution, 2)), [18.4, 16.8, 23.7, 26.4]);
+  assert.equal(r.scoreAbove100, false);
+});
+test('weighted grade: mid-semester weights of 70 give 85.14%', () => {
+  const r = S.calcWeightedGrade([
+    { score: 92, weight: 15 },
+    { score: 84, weight: 20 },
+    { score: 88, weight: 15 },
+    { score: 79, weight: 20 }
+  ]);
+  assert.equal(r.ok, true);
+  assert.equal(r.productSum, 5960);
+  assert.equal(r.weightTotal, 70);
+  assert.equal(r.weightsEqual100, false);
+  assert.equal(S.round(r.grade, 2), 85.14);
+  assert.equal(S.round(r.rows[0].contribution, 2), 19.71);
+});
+test('weighted grade: credit weights give 68.0%', () => {
+  const r = S.calcWeightedGrade([
+    { score: '68', weight: '20' },
+    { score: '74', weight: '10' },
+    { score: '62', weight: '10' }
+  ]);
+  assert.equal(r.ok, true);
+  assert.equal(r.weightTotal, 40);
+  assert.equal(S.round(r.grade, 2), 68);
+  assert.deepEqual(r.rows.map((row) => S.round(row.contribution, 2)), [34, 18.5, 15.5]);
+});
+test('weighted grade: one row equals that score', () => {
+  const r = S.calcWeightedGrade([{ score: 88, weight: 30 }]);
+  assert.equal(r.ok, true);
+  assert.equal(r.grade, 88);
+  assert.equal(r.rows[0].contribution, 88);
+  assert.equal(r.weightsEqual100, false);
+});
+test('weighted grade: no complete rows stay blank', () => {
+  const blank = S.calcWeightedGrade([{ score: '', weight: '' }, { score: null, weight: null }]);
+  assert.equal(blank.empty, true);
+  assert.equal(blank.ok, false);
+  assert.equal(blank.grade, null);
+  assert.equal(S.calcWeightedGrade([]).empty, true);
+});
+test('weighted grade: blank weight is incomplete and not treated as equal', () => {
+  const missing = S.calcWeightedGrade([{ score: 90, weight: '' }, { score: 70, weight: '' }]);
+  assert.equal(missing.ok, false);
+  assert.equal(missing.grade, null);
+  assert.equal(missing.rows[0].status, 'incomplete');
+  assert.equal(missing.rows[0].issues[0].field, 'weight');
+  assert.match(missing.rows[0].issues[0].message, /Blank weights are not treated as equal/);
+  const partial = S.calcWeightedGrade([{ score: 90, weight: 20 }, { score: 50, weight: '' }]);
+  assert.equal(partial.ok, true);
+  assert.equal(partial.counted, 1);
+  assert.equal(partial.grade, 90);
+  assert.equal(partial.rows[1].status, 'incomplete');
+});
+test('weighted grade: negative score and non-positive weight are rejected', () => {
+  const negative = S.calcWeightedGrade([{ score: -1, weight: 10 }]);
+  assert.equal(negative.ok, false);
+  assert.equal(negative.rows[0].issues[0].field, 'score');
+  assert.match(negative.rows[0].issues[0].message, /cannot be negative/);
+  const zero = S.calcWeightedGrade([{ score: 80, weight: 0 }]);
+  assert.equal(zero.ok, false);
+  assert.equal(zero.rows[0].issues[0].field, 'weight');
+  const text = S.calcWeightedGrade([{ score: 'high', weight: 10 }]);
+  assert.equal(text.rows[0].issues[0].message, 'Enter a number.');
+});
+test('weighted grade: scores above 100 are allowed', () => {
+  const r = S.calcWeightedGrade([{ score: 110, weight: 40 }, { score: 80, weight: 60 }]);
+  assert.equal(r.ok, true);
+  assert.equal(r.scoreAbove100, true);
+  assert.equal(S.round(r.grade, 2), 92);
+});
+test('weighted grade: a score with no weight does not invent a share', () => {
+  const r = S.calcWeightedGrade([{ score: 80, weight: 50 }, { name: 'Final', score: '', weight: '' }]);
+  assert.equal(r.counted, 1);
+  assert.equal(r.grade, 80);
+  assert.equal(r.rows[1].status, 'blank');
+  assert.equal(r.weightsEqual100, false);
+});
+
 // ---------------- UK degree classification ----------------
 test('yearFromModules: credit-weighted year average (brief year 2)', () => {
   const y = S.yearFromModules([

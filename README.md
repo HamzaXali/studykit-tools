@@ -6,7 +6,7 @@ Free browser-based study tools and short guides for university students, run by 
 Live site: <https://studykithub.online/> (GitHub Pages custom domain; the older
 <https://hamzaxali.github.io/studykit-tools/> address redirects there).
 
-Fifteen tools run as plain HTML, CSS and vanilla JavaScript: no framework, no build step,
+Sixteen tools run as plain HTML, CSS and vanilla JavaScript: no framework, no build step,
 no application backend. Tool maths and text processing happen in the visitor's browser.
 Unit tests and a static site checker live in this repository.
 
@@ -28,6 +28,7 @@ Unit tests and a static site checker live in this repository.
 | GPA and CGPA Calculator | <https://studykithub.online/tools/gpa-cgpa-calculator/> |
 | Percentage and Marks Calculator | <https://studykithub.online/tools/percentage-calculator/> |
 | Final Grade Calculator | <https://studykithub.online/tools/final-grade-calculator/> |
+| Weighted Grade Calculator | <https://studykithub.online/tools/weighted-grade-calculator/> |
 | UK Degree Classification Calculator | <https://studykithub.online/tools/uk-degree-classification-calculator/> |
 | Age and Date Difference Calculator | <https://studykithub.online/tools/age-date-calculator/> |
 | Word and Character Counter | <https://studykithub.online/tools/word-counter/> |
@@ -82,7 +83,7 @@ studykit-tools/                      (repository name kept; public brand is Stud
 ├── index.html                       Home page (tools, guides, optional Hostinger Reach form)
 ├── 404.html                         Self-contained "not found" page
 ├── about/ contact/ privacy-policy/ terms/ disclaimer/ resources/
-├── tools/                           Hub + 15 tool folders (see Live tools above)
+├── tools/                           Hub + 16 tool folders (see Live tools above)
 ├── guides/                          Short study guides linked from the tools
 ├── assets/
 │   ├── css/styles.css               One stylesheet; mobile first; light/dark via prefers-color-scheme

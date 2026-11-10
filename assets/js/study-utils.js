@@ -392,6 +392,81 @@
     return current * (1 - w) + finalScore * w;
   }
 
+  // ---------------- Weighted course grade ----------------
+  /**
+   * weighted grade = Σ (category % × weight) ÷ Σ (weights).
+   * rows: [{ score, weight }]. A name, if present, is ignored.
+   * Rows with both values empty are ignored. A row counts only when the score
+   * is a number >= 0 and the weight is > 0. Blank weights are never filled in
+   * as equal shares. Scores above 100 are kept (extra-credit averages).
+   * Negative scores and weights that are not greater than 0 are rejected.
+   * Returns { ok, empty, grade, weightTotal, productSum, simpleAverage, counted,
+   *           weightsEqual100, scoreAbove100, rows }.
+   * Each row: { index, score, weight, contribution, status, issues }.
+   * status: 'blank' | 'counted' | 'incomplete'
+   */
+  function calcWeightedGrade(rows) {
+    var details = [];
+    var counted = [];
+    (rows || []).forEach(function (row, index) {
+      var rawScore = parseNum(row && row.score);
+      var rawWeight = parseNum(row && row.weight);
+      var scoreEmpty = rawScore === null;
+      var weightEmpty = rawWeight === null;
+      if (scoreEmpty && weightEmpty) {
+        details.push({ index: index, score: null, weight: null, contribution: null, status: 'blank', issues: [] });
+        return;
+      }
+      var issues = [];
+      var scoreOk = !scoreEmpty && !isNaN(rawScore) && rawScore >= 0;
+      var weightOk = !weightEmpty && !isNaN(rawWeight) && rawWeight > 0;
+      if (!scoreEmpty && isNaN(rawScore)) issues.push({ field: 'score', message: 'Enter a number.' });
+      else if (!scoreEmpty && rawScore < 0) issues.push({ field: 'score', message: 'Score cannot be negative.' });
+      else if (scoreEmpty) issues.push({ field: 'score', message: 'Enter a score, or clear this row.' });
+      if (!weightEmpty && isNaN(rawWeight)) issues.push({ field: 'weight', message: 'Enter a number.' });
+      else if (!weightEmpty && !(rawWeight > 0)) issues.push({ field: 'weight', message: 'Enter a weight greater than 0.' });
+      else if (weightEmpty) issues.push({ field: 'weight', message: 'Enter a weight greater than 0. Blank weights are not treated as equal.' });
+      var entry = {
+        index: index,
+        score: (!scoreEmpty && !isNaN(rawScore)) ? rawScore : null,
+        weight: (!weightEmpty && !isNaN(rawWeight)) ? rawWeight : null,
+        contribution: null,
+        status: (scoreOk && weightOk) ? 'counted' : 'incomplete',
+        issues: (scoreOk && weightOk) ? [] : issues
+      };
+      details.push(entry);
+      if (entry.status === 'counted') counted.push(entry);
+    });
+
+    var weightTotal = 0;
+    var productSum = 0;
+    var scoreSum = 0;
+    counted.forEach(function (entry) {
+      weightTotal += entry.weight;
+      productSum += entry.score * entry.weight;
+      scoreSum += entry.score;
+    });
+    var grade = counted.length && weightTotal > 0 ? productSum / weightTotal : null;
+    if (grade !== null) {
+      counted.forEach(function (entry) {
+        entry.contribution = (entry.score * entry.weight) / weightTotal;
+      });
+    }
+    var allBlank = details.every(function (entry) { return entry.status === 'blank'; });
+    return {
+      ok: grade !== null,
+      empty: counted.length === 0 && allBlank,
+      grade: grade,
+      weightTotal: weightTotal,
+      productSum: productSum,
+      simpleAverage: counted.length ? scoreSum / counted.length : null,
+      counted: counted.length,
+      weightsEqual100: grade !== null && Math.abs(weightTotal - 100) < 1e-9,
+      scoreAbove100: details.some(function (entry) { return entry.score !== null && entry.score > 100; }),
+      rows: details
+    };
+  }
+
 
   // ---------------- UK degree classification ----------------
   var UK_CLASS_BANDS = [
@@ -727,6 +802,7 @@
     nextPhase: nextPhase,
     requiredFinalScore: requiredFinalScore,
     courseGradeAfterFinal: courseGradeAfterFinal,
+    calcWeightedGrade: calcWeightedGrade,
     classifyUkHonours: classifyUkHonours,
     ukBorderlineZone: ukBorderlineZone,
     yearFromModules: yearFromModules,

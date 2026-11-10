@@ -166,6 +166,7 @@ for (const f of htmlFiles) {
   const briefTitles = {
     'tools/reading-time-calculator/index.html': 'Reading Time Calculator - How Long to Read & Speak Your Text? Free',
     'tools/final-grade-calculator/index.html': 'Final Grade Calculator - What Do I Need On The Final? Free',
+    'tools/weighted-grade-calculator/index.html': 'Weighted Grade Calculator: Course Grade by Category',
     'tools/citation-generator/index.html': 'APA 7 Citation Generator - Free, No Sign-up',
     'grade-tools/index.html': 'GPA, CGPA & Percentage Calculator | Free Grade Tools'
   };
@@ -235,11 +236,11 @@ const homeHtml = fs.readFileSync(path.join(root, 'index.html'), 'utf8');
 ok(homeHtml.includes('<meta name="google-site-verification" content="zqLcBOM9el9CY6rnKVchae06D5l7fZJyEUPQmGQ2HgY">'), 'home: google-site-verification meta unchanged');
 ok(homeHtml.includes('data-reach-form="5f5083c1-a068-45ad-8572-30e1910901af"'), 'home: Hostinger Reach form kept');
 ok(homeHtml.includes('https://cdn-reach.hostinger.com/js/embed.js'), 'home: Hostinger Reach script kept');
-ok((homeHtml.match(/data-finder-item/g) || []).length === 15, 'home: 15 tool cards');
+ok((homeHtml.match(/data-finder-item/g) || []).length === 16, 'home: 16 tool cards');
 ok(!/Urdu/.test(homeHtml), 'home: no Urdu claim');
 const toolsHub = fs.readFileSync(path.join(root, 'tools/index.html'), 'utf8');
 ok(toolsHub.includes('<title>Free Study Tools for Students and Teachers | StudyKit Hub</title>'), 'tools hub title unchanged');
-ok(toolsHub.includes('Fifteen free tools for everyday study, writing and teaching tasks.'), 'tools hub lead unchanged');
+ok(toolsHub.includes('Sixteen free tools for everyday study, writing and teaching tasks.'), 'tools hub lead states 16 tools');
 for (const slug of ['study-tools', 'write-tools', 'grade-tools', 'plan-tools']) {
   ok(toolsHub.includes(`href="../${slug}/"`), `tools hub links to /${slug}/`);
   const html = fs.readFileSync(path.join(root, slug, 'index.html'), 'utf8');

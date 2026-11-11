@@ -164,14 +164,17 @@ for (const f of htmlFiles) {
   const title = decode(attr(html, /<title>([^<]+)<\/title>/) || '');
   // These titles are the requested SEO strings. They intentionally omit the usual "| StudyKit Hub" ending.
   const briefTitles = {
-    'tools/reading-time-calculator/index.html': 'Reading Time Calculator - How Long to Read & Speak Your Text? Free',
-    'tools/final-grade-calculator/index.html': 'Final Grade Calculator - What Do I Need On The Final? Free',
-    'tools/weighted-grade-calculator/index.html': 'Weighted Grade Calculator: Course Grade by Category',
+    'tools/reading-time-calculator/index.html': 'Reading Time Calculator - Free',
+    'tools/final-grade-calculator/index.html': 'Final Grade Calculator - Free, No Sign-up',
+    'tools/weighted-grade-calculator/index.html': 'Weighted Grade Calculator: Course Grade by Category - Free',
     'tools/citation-generator/index.html': 'APA 7 Citation Generator - Free, No Sign-up',
+    'tools/percentage-calculator/index.html': 'Percentage Calculator - Free',
+    'tools/gpa-cgpa-calculator/index.html': 'GPA Calculator - Free',
+    'guides/harvard-referencing/index.html': 'Harvard Referencing Guide - Examples & Format',
     'grade-tools/index.html': 'GPA, CGPA & Percentage Calculator | Free Grade Tools'
   };
   if (briefTitles[name]) ok(title === briefTitles[name], `${name}: title should match the requested SEO title, got ${title}`);
-  else ok(title.startsWith(BRAND + ':') || title.endsWith('| ' + BRAND), `${name}: title should carry the brand: ${title}`);
+  else ok(title.startsWith(BRAND + ':') || title.endsWith('| ' + BRAND) || title.endsWith('| ' + BRAND + ' - Free'), `${name}: title should carry the brand: ${title}`);
   ok(!/id="advertising-details"/.test(html), `${name}: hidden advertising placeholder section must not exist`);
   if (name === '404.html') continue;
   const ogImage = attr(html, /<meta property="og:image" content="([^"]+)">/);
@@ -272,7 +275,8 @@ for (const file of guidePages) {
   }
   ok(article, `${name}: Article JSON-LD`);
   ok(article && article.author && article.author['@type'] === 'Person' && article.author.name === 'Ali Hamza' && article.author.url === `${BASE}/about/`, `${name}: Article author with About url`);
-  ok(article && article.dateModified === '2026-11-09', `${name}: dateModified is 2026-11-09`);
+  const expectedModified = name === 'guides/harvard-referencing/index.html' ? '2026-11-11' : '2026-11-09';
+  ok(article && article.dateModified === expectedModified, `${name}: dateModified is ${expectedModified}`);
   ok(article && /^\d{4}-\d{2}-\d{2}$/.test(article.datePublished), `${name}: datePublished still set`);
 }
 const newGuides = ['essay-timer', 'what-do-i-need-on-the-final', 'how-long-to-read-1000-words'];
@@ -294,8 +298,8 @@ for (const slug of newGuides) {
   ok(!/Urdu/.test(html), `${slug}: no Urdu claim`);
 }
 for (const [file, title] of [
-  ['tools/reading-time-calculator/index.html', 'Reading Time Calculator - How Long to Read & Speak Your Text? Free'],
-  ['tools/final-grade-calculator/index.html', 'Final Grade Calculator - What Do I Need On The Final? Free'],
+  ['tools/reading-time-calculator/index.html', 'Reading Time Calculator - Free'],
+  ['tools/final-grade-calculator/index.html', 'Final Grade Calculator - Free, No Sign-up'],
   ['tools/citation-generator/index.html', 'APA 7 Citation Generator - Free, No Sign-up']
 ]) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');

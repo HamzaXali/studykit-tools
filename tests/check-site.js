@@ -170,6 +170,8 @@ for (const f of htmlFiles) {
     'tools/citation-generator/index.html': 'APA 7 Citation Generator - Free, No Sign-up',
     'tools/percentage-calculator/index.html': 'Percentage Calculator - Free',
     'tools/gpa-cgpa-calculator/index.html': 'GPA Calculator - Free',
+    'tools/flashcards/index.html': 'Flashcards Maker - Free',
+    'tools/case-converter/index.html': 'Case Converter - Free',
     'guides/harvard-referencing/index.html': 'Harvard Referencing Guide - Examples & Format',
     'grade-tools/index.html': 'GPA, CGPA & Percentage Calculator | Free Grade Tools'
   };

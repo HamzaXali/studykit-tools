@@ -556,8 +556,13 @@ for (const width of [375, 1280]) {
     check((await status(page, '#ct-status')).includes('Nothing to copy'), `citation ${W}: empty copy`);
     await page.fill('#ct-authors', 'Smith, John Adam\nLee, Mary'); await page.fill('#ct-title', 'Learning how to learn'); await page.fill('#ct-year', '2020');
     await page.fill('#ct-edition', '2'); await page.fill('#ct-publisher', 'Oxford University Press');
-    check((await page.textContent('#ct-output')) === 'Smith, J. A., & Lee, M. (2020). Learning how to learn (2nd ed.). Oxford University Press.', `citation ${W}: APA book "${await page.textContent('#ct-output')}"`);
+    const harvardBook = await page.textContent('#ct-output');
+    check(harvardBook.includes('Smith, J.A. and Lee, M. (2020) Learning how to learn. 2nd edn. Oxford University Press.') && harvardBook.includes('(Smith and Lee, 2020)'), `citation ${W}: Harvard book "${harvardBook}"`);
     check((await page.innerHTML('#ct-output')).includes('<i>Learning how to learn</i>'), `citation ${W}: italic title`);
+    await page.fill('#ct-locator', '12');
+    check((await page.textContent('#ct-output')).includes('(Smith and Lee, 2020, p. 12)'), `citation ${W}: Harvard in-text page`);
+    await page.selectOption('#ct-style', 'apa');
+    check((await page.textContent('#ct-output')) === 'Smith, J. A., & Lee, M. (2020). Learning how to learn (2nd ed.). Oxford University Press.', `citation ${W}: APA book "${await page.textContent('#ct-output')}"`);
     await page.selectOption('#ct-style', 'mla');
     check((await page.textContent('#ct-output')) === 'Smith, John Adam, and Mary Lee. Learning how to learn. 2nd ed., Oxford University Press, 2020.', `citation ${W}: MLA book`);
     await page.selectOption('#ct-type', 'journal');

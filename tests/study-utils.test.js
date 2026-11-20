@@ -380,6 +380,89 @@ test('citation: missing fields and HTML escaping', () => {
   assert.ok(!r.html.includes('<script>'));
   assert.ok(r.html.includes('&lt;script&gt;') && r.html.includes('A &amp; B'));
 });
+test('citation: Harvard book with place, edition and in-text page', () => {
+  const r = S.formatCitation('harvard', 'book', {
+    authors: 'Khan, Ayesha',
+    year: '2024',
+    title: 'Study skills for university',
+    edition: '2',
+    place: 'London',
+    publisher: 'Pearson',
+    locator: '12'
+  });
+  assert.equal(r.ok, true);
+  assert.equal(r.text, 'Reference list\nKhan, A. (2024) Study skills for university. 2nd edn. London: Pearson.\n\nIn-text\n(Khan, 2024, p. 12)');
+  assert.ok(r.html.includes('<i>Study skills for university</i>'));
+  assert.ok(!r.html.includes('<script>'));
+  const noPlace = S.formatCitation('harvard', 'book', {
+    authors: 'Khan, Ayesha',
+    year: '2024',
+    title: 'Study skills for university',
+    edition: '1',
+    publisher: 'Pearson'
+  });
+  assert.equal(noPlace.text, 'Reference list\nKhan, A. (2024) Study skills for university. Pearson.\n\nIn-text\n(Khan, 2024)');
+});
+test('citation: Harvard web page with no date', () => {
+  const r = S.formatCitation('harvard', 'website', {
+    authors: 'Khan, Ayesha',
+    title: 'How to plan a revision week',
+    url: 'https://example.org/revision-week',
+    accessed: '2026-11-20',
+    site: 'Study hours'
+  });
+  assert.equal(r.text, 'Reference list\nKhan, A. (no date) How to plan a revision week. Available at: https://example.org/revision-week (Accessed: 20 November 2026).\n\nIn-text\n(Khan, no date)');
+  assert.ok(!r.text.includes('Study hours'));
+});
+test('citation: Harvard journal with DOI omits the accessed date', () => {
+  const r = S.formatCitation('harvard', 'journal', {
+    authors: 'Adeyemi, Lola\nCosta, Marco',
+    year: '2021',
+    title: 'Note-taking and recall in first-year seminars',
+    journal: 'Journal of Learning Support',
+    volume: '14',
+    issue: '2',
+    pages: '45-61',
+    doi: '10.1000/182',
+    accessed: '2026-11-20',
+    url: 'https://example.org/article'
+  });
+  assert.equal(r.text, 'Reference list\nAdeyemi, L. and Costa, M. (2021) \u2018Note-taking and recall in first-year seminars\u2019, Journal of Learning Support, 14(2), pp. 45\u201361. Available at: https://doi.org/10.1000/182.\n\nIn-text\n(Adeyemi and Costa, 2021)');
+  assert.ok(r.html.includes('<i>Journal of Learning Support</i>'));
+  assert.ok(!r.text.includes('Accessed'));
+  assert.ok(!r.text.includes('example.org'));
+  const urlOnly = S.formatCitation('harvard', 'journal', {
+    authors: 'Adeyemi, Lola',
+    year: '2021',
+    title: 'Note-taking and recall',
+    journal: 'Journal of Learning Support',
+    volume: '14',
+    pages: '45-61',
+    url: 'https://example.org/article',
+    accessed: '2026-11-15'
+  });
+  assert.ok(urlOnly.text.includes('Available at: https://example.org/article (Accessed: 15 November 2026).'));
+});
+test('citation: Harvard in-text citations for 1, 2 and 4+ authors', () => {
+  const base = { year: '2024', title: 'Study skills for university', publisher: 'Pearson' };
+  const one = S.formatCitation('harvard', 'book', Object.assign({ authors: 'Khan, Ayesha' }, base));
+  const two = S.formatCitation('harvard', 'book', Object.assign({ authors: 'Khan, Ayesha\nSmith, Ben' }, base));
+  const three = S.formatCitation('harvard', 'book', Object.assign({ authors: 'Khan, Ayesha\nSmith, Ben\nLee, Chen' }, base));
+  const four = S.formatCitation('harvard', 'book', Object.assign({ authors: 'Khan, Ayesha\nSmith, Ben\nLee, Chen\nPatel, Diya' }, base));
+  assert.ok(one.text.endsWith('In-text\n(Khan, 2024)'));
+  assert.ok(two.text.endsWith('In-text\n(Khan and Smith, 2024)'));
+  assert.ok(two.text.includes('Khan, A. and Smith, B. (2024)'));
+  assert.ok(three.text.endsWith('In-text\n(Khan, Smith and Lee, 2024)'));
+  assert.ok(three.text.includes('Khan, A., Smith, B. and Lee, C. (2024)'));
+  assert.ok(four.text.endsWith('In-text\n(Khan et al., 2024)'));
+  assert.ok(four.text.includes('Khan, A., Smith, B., Lee, C. and Patel, D. (2024)'));
+  assert.ok(!four.text.includes('et al. (2024)'));
+});
+test('citation: APA and MLA ignore Harvard-only fields', () => {
+  const extra = Object.assign({}, book, { place: 'London', locator: '12' });
+  assert.equal(S.formatCitation('apa', 'book', extra).text, 'Smith, J. A., & Lee, M. (2020). Learning how to learn (2nd ed.). Oxford University Press.');
+  assert.equal(S.formatCitation('mla', 'book', extra).text, 'Smith, John Adam, and Mary Lee. Learning how to learn. 2nd ed., Oxford University Press, 2020.');
+});
 test('citation: APA lists 20 authors, truncates 21+', () => {
   const many = Array.from({ length: 22 }, (_, i) => 'Author' + i + ', A').join('\n');
   const t = S.formatCitation('apa', 'book', { authors: many, title: 'T', publisher: 'P', year: '2020' }).text;

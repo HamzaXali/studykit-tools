@@ -141,7 +141,7 @@
     return { date: next, daysUntil: Math.round((next - on) / 86400000), turning: next.getUTCFullYear() - dob.getUTCFullYear() };
   }
 
-  // ---------------- Citations (APA 7 and MLA 9) ----------------
+  // ---------------- Citations (Harvard Cite Them Right, APA 7 and MLA 9) ----------------
   var MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   var MLA_MONTHS = ['Jan.', 'Feb.', 'Mar.', 'Apr.', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.'];
 
@@ -227,10 +227,127 @@
     return { html: html.trim(), text: text.trim() };
   }
 
+  /** Cite Them Right initials have no space: John Adam -> J.A. Hyphenated given names keep the hyphen: Mary-Jane -> M.-J. */
+  function harvardInitials(given) {
+    return given.map(function (g) {
+      return g.split('-').map(function (p) {
+        return p.replace(/\.$/, '').charAt(0).toUpperCase() + '.';
+      }).join('-');
+    }).join('');
+  }
+  function harvardRefName(a) {
+    return a.org ? a.org : a.last + (a.given.length ? ', ' + harvardInitials(a.given) : '');
+  }
+  function joinHarvardNames(names) {
+    if (names.length <= 1) return names[0] || '';
+    if (names.length === 2) return names[0] + ' and ' + names[1];
+    return names.slice(0, -1).join(', ') + ' and ' + names[names.length - 1];
+  }
+  /** Reference list names every author. et al. is an in-text rule from four authors, not a reference-list rule here. */
+  function harvardRefAuthors(list) {
+    return joinHarvardNames(list.map(harvardRefName));
+  }
+  function harvardInTextNames(list) {
+    var names = list.map(function (a) { return a.org || a.last; });
+    if (names.length >= 4) return names[0] + ' et al.';
+    return joinHarvardNames(names);
+  }
+  /** Edition only when it is not the first. "2" and "2nd ed." both become "2nd edn." */
+  function harvardEdition(ed) {
+    var raw = clean(ed).replace(/\s*(edn\.?|ed\.?|edition)$/i, '');
+    if (!raw || /^(1|1st|first)$/i.test(raw)) return '';
+    var o = ordinalEdition(raw);
+    if (!o || /^(1|1st|first)$/i.test(o)) return '';
+    return /^\d/.test(o) ? o + ' edn.' : o;
+  }
+  function harvardPageLabel(p) {
+    var s = clean(p);
+    if (!s) return '';
+    if (/^(article|para\.?|paragraph)\b/i.test(s)) return s;
+    s = s.replace(/^(pp?\.?\s*)/i, '');
+    if (!s) return '';
+    return (/[-–—,;]/.test(s) ? 'pp. ' : 'p. ') + pagesApa(s);
+  }
+  function harvardAccessed(s) {
+    var ac = parseDate(s);
+    if (!ac) return '';
+    return ac.getUTCDate() + ' ' + MONTHS[ac.getUTCMonth()] + ' ' + ac.getUTCFullYear();
+  }
+  /** A DOI is the permanent link, so it is not given an accessed date. A plain URL is. */
+  function harvardOnline(d) {
+    var doi = doiUrl(d.doi);
+    var url = clean(d.url);
+    if (!doi && url && (/^https?:\/\/(?:dx\.)?doi\.org\//i.test(url) || /^10\.\d{4,}\//.test(url))) {
+      doi = doiUrl(url);
+      url = '';
+    }
+    if (doi) return 'Available at: ' + doi + '.';
+    if (!url) return '';
+    var acc = harvardAccessed(d.accessed);
+    return 'Available at: ' + url + (acc ? ' (Accessed: ' + acc + ').' : '.');
+  }
+  function afterTitle(title) {
+    return /[.?!]$/.test(title) ? ' ' : '. ';
+  }
   /**
-   * style: 'apa' | 'mla'; type: 'book' | 'website' | 'journal'.
-   * data: { authors, year, month (1-12), day, title, edition, publisher, site, url, accessed (YYYY-MM-DD),
-   *         journal, volume, issue, pages, doi }
+   * Harvard (Cite Them Right) reference plus parenthetical in-text citation.
+   * Place of publication is included only when `place` is set. Locator is the optional in-text page.
+   */
+  function formatHarvard(type, d, authors, title) {
+    var yearLabel = d.year ? String(d.year) : 'no date';
+    var auth = harvardRefAuthors(authors);
+    var online = harvardOnline(d);
+    var parts = [];
+    if (type === 'journal') {
+      var article = '\u2018' + title + '\u2019';
+      if (auth) parts.push([auth + ' (' + yearLabel + ') ', false], [article + ', ', false]);
+      else parts.push([article + ' (' + yearLabel + ') ', false]);
+      var tail = '';
+      if (d.volume || d.issue) tail += ', ' + (d.volume || '') + (d.issue ? '(' + clean(d.issue) + ')' : '');
+      var journalPages = harvardPageLabel(d.pages);
+      if (journalPages) tail += ', ' + journalPages;
+      tail += '.';
+      parts.push([d.journal, true], [tail, false]);
+      if (online) parts.push([' ' + online, false]);
+    } else if (auth) {
+      parts.push([auth + ' (' + yearLabel + ') ', false], [title, true], [afterTitle(title), false]);
+      if (type === 'book') {
+        var ed = harvardEdition(d.edition || '');
+        if (ed) parts.push([ed + ' ', false]);
+        var place = stripEndPunct(d.place || '');
+        parts.push([(place ? place + ': ' : '') + endDot(d.publisher), false]);
+      }
+      if (online) parts.push([(type === 'book' ? ' ' : '') + online, false]);
+    } else {
+      parts.push([title, true], [' (' + yearLabel + '). ', false]);
+      if (type === 'book') {
+        var edBare = harvardEdition(d.edition || '');
+        if (edBare) parts.push([edBare + ' ', false]);
+        var placeBare = stripEndPunct(d.place || '');
+        parts.push([(placeBare ? placeBare + ': ' : '') + endDot(d.publisher), false]);
+        if (online) parts.push([' ' + online, false]);
+      } else if (online) parts.push([online, false]);
+    }
+    var ref = build(parts);
+    var inNames = harvardInTextNames(authors);
+    var page = harvardPageLabel(d.locator || '');
+    var inParts = [['(', false]];
+    if (inNames) inParts.push([inNames + ', ' + yearLabel, false]);
+    else inParts.push([title, true], [', ' + yearLabel, false]);
+    if (page) inParts.push([', ' + page, false]);
+    inParts.push([')', false]);
+    var cite = build(inParts);
+    return {
+      html: '<span class="citation-kicker">Reference list</span><span class="cite-block">' + ref.html + '</span><span class="citation-kicker">In-text</span><span class="cite-block">' + cite.html + '</span>',
+      text: 'Reference list\n' + ref.text + '\n\nIn-text\n' + cite.text
+    };
+  }
+
+  /**
+   * style: 'harvard' | 'apa' | 'mla'; type: 'book' | 'website' | 'journal'.
+   * data: { authors, year, month (1-12), day, title, edition, publisher, place, site, url, accessed (YYYY-MM-DD),
+   *         journal, volume, issue, pages, doi, locator }
+   * `place` and `locator` are used by Harvard only. APA 7 and MLA 9 ignore them.
    * Returns { ok, html, text, missing: [field names] }.
    */
   function formatCitation(style, type, data) {
@@ -244,6 +361,12 @@
     if (type === 'website' && !d.url) missing.push('url');
     if (type === 'journal' && !d.journal) missing.push('journal');
     if (missing.length) return { ok: false, missing: missing, html: '', text: '' };
+    if (style === 'harvard') {
+      var harvard = formatHarvard(type, d, authors, title);
+      harvard.ok = true;
+      harvard.missing = [];
+      return harvard;
+    }
     var month = d.month ? +d.month : 0;
     var day = d.day ? +d.day : 0;
     var parts = [];

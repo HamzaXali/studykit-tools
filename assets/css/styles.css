@@ -156,6 +156,10 @@ input[type="range"] { width: 100%; min-height: 2.75rem; accent-color: var(--acce
 .flashcard-text { margin: 0.3rem 0 0; font-size: 1.35rem; font-weight: 650; white-space: pre-wrap; overflow-wrap: anywhere; }
 .citation-output { background: var(--bg); border: 1px solid var(--border); border-left: 4px solid var(--accent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.8rem 1rem; padding-left: 2.6rem; text-indent: -1.6rem; overflow-wrap: anywhere; }
 .citation-output.is-empty { color: var(--muted); text-indent: 0; padding-left: 1rem; }
+.citation-output.has-lines { text-indent: 0; padding-left: 1rem; }
+.citation-kicker { display: block; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: var(--muted); margin: 0.1rem 0 0.2rem; }
+.cite-block { display: block; text-indent: -1.6rem; padding-left: 1.6rem; margin: 0 0 0.75rem; }
+.cite-block:last-child { margin-bottom: 0; }
 
 @media (prefers-reduced-motion: no-preference) { .tool-card:hover, .tile:hover { transform: translateY(-4px); } }
 .tool-card h3 { margin: 0; color: var(--accent); font-size: 1.12rem; }

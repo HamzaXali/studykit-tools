@@ -1,0 +1,53 @@
+# StudyKit Hub
+
+> Free browser study tools and guides for students and teachers. No sign-up. What you type is processed in your browser and is not uploaded.
+
+StudyKit Hub is an independent site: https://studykithub.online/
+All tools: https://studykithub.online/tools/
+All guides: https://studykithub.online/guides/
+Grade calculators: https://studykithub.online/grade-tools/
+
+## Tools
+
+- [Study Notes Organiser](https://studykithub.online/tools/study-notes-organizer/): Write, tag and search notes saved only in your browser.
+- [Flashcards Maker](https://studykithub.online/tools/flashcards/): Make decks and practise them in the browser.
+- [Pomodoro Study Timer](https://studykithub.online/tools/pomodoro-timer/): Focus blocks with short and long breaks. Opens at 25, 5 and 15 minutes.
+- [Text to Speech Reader](https://studykithub.online/tools/text-to-speech/): Hear notes read by your browser's voices.
+- [GPA and CGPA Calculator](https://studykithub.online/tools/gpa-cgpa-calculator/): Semester GPA from credit hours and grade points, then a cumulative CGPA.
+- [Percentage and Marks Calculator](https://studykithub.online/tools/percentage-calculator/): Marks into a percentage, subject totals, and the marks needed for a target.
+- [Final Grade Calculator](https://studykithub.online/tools/final-grade-calculator/): The score a weighted final needs for a target course grade.
+- [Weighted Grade Calculator](https://studykithub.online/tools/weighted-grade-calculator/): A course grade from category weights or module credits.
+- [UK Degree Classification Calculator](https://studykithub.online/tools/uk-degree-classification-calculator/): A First, 2:1, 2:2 or Third from module marks, credits and year weights.
+- [Age and Date Difference Calculator](https://studykithub.online/tools/age-date-calculator/): An exact age, or the days and weeks between two dates.
+- [Word and Character Counter](https://studykithub.online/tools/word-counter/): Words, characters, sentences and paragraphs as you type.
+- [Reading Time Calculator](https://studykithub.online/tools/reading-time-calculator/): Silent reading time and speaking time at a speed you set.
+- [Citation Generator](https://studykithub.online/tools/citation-generator/): APA 7 and MLA 9 references for a book, a website or a journal article.
+- [Case Converter](https://studykithub.online/tools/case-converter/): UPPERCASE, lowercase, Title Case or Sentence case.
+- [Whitespace Cleaner](https://studykithub.online/tools/whitespace-cleaner/): Extra spaces, blank lines and invisible characters from copied text.
+- [Duplicate Line Remover](https://studykithub.online/tools/remove-duplicate-lines/): Repeated lines removed, with the original order kept.
+
+## Guides
+
+- [How to calculate GPA](https://studykithub.online/guides/how-to-calculate-gpa/): Credit hours, quality points, and why grade-point scales differ.
+- [UK degree classifications](https://studykithub.online/guides/uk-degree-classifications/): Usual honours bands, year weights, borderline rules and a worked example.
+- [Dutch grading scale](https://studykithub.online/guides/dutch-grading-scale/): The 1 to 10 scale, pass marks, and why a conversion is not automatic.
+- [Marks, percentages and grades](https://studykithub.online/guides/marks-percentages-grades/): Raw marks, weighted components, and why a percentage is not a GPA.
+- [What do I need on the final?](https://studykithub.online/guides/what-do-i-need-on-the-final/): The score a weighted final needs, and when that formula does not apply.
+- [Harvard referencing](https://studykithub.online/guides/harvard-referencing/): Author-date citations, and why Harvard is not one manual.
+- [Citation basics for APA and MLA](https://studykithub.online/guides/citation-basics-apa-mla/): Author-date in APA 7 and author-page in MLA 9.
+- [Title case rules](https://studykithub.online/guides/title-case-rules/): How APA, MLA and Chicago treat small words in titles.
+- [Cornell note-taking](https://studykithub.online/guides/cornell-note-taking/): Cue column, notes and a summary, from Walter Pauk's system.
+- [Active recall with flashcards](https://studykithub.online/guides/active-recall-flashcards/): Answer from memory before you flip the card.
+- [Spaced repetition](https://studykithub.online/guides/spaced-repetition/): Review after a gap instead of cramming the night before.
+- [Pomodoro technique for exams](https://studykithub.online/guides/pomodoro-for-exams/): 25-minute focus blocks and real breaks in revision week.
+- [Essay timer](https://studykithub.online/guides/essay-timer/): Use a timer to limit a writing session, not to predict a word count.
+- [How long to read 1,000 words](https://studykithub.online/guides/how-long-to-read-1000-words/): 4 minutes 13 seconds at 238 words per minute, and the speaking default.
+- [Reading time for speeches](https://studykithub.online/guides/reading-time-for-speeches/): Why a script overruns once you say it aloud.
+- [Readability scores explained](https://studykithub.online/guides/readability-scores-explained/): What Flesch Reading Ease and Flesch-Kincaid grade do and do not measure.
+- [Essay word counts](https://studykithub.online/guides/essay-word-counts/): What a word limit includes, and which counter the portal uses.
+- [How to cut your essay word count](https://studykithub.online/guides/how-to-cut-word-count/): Remove fluff without deleting the paragraph that carries the claim.
+- [Cleaning duplicate study lists](https://studykithub.online/guides/cleaning-duplicate-study-lists/): Remove repeated lines before you split a reading list.
+- [Cleaning text from PDFs](https://studykithub.online/guides/cleaning-text-from-pdfs/): Broken line breaks, hidden spaces and running headers from pasted text.
+- [Organising study notes](https://studykithub.online/guides/organising-study-notes/): Tag notes by week, topic and module so you can find them.
+- [Planning deadlines with dates](https://studykithub.online/guides/planning-deadlines-with-dates/): Count the days to a deadline, then turn the gap into sessions.
+- [Revising with text to speech](https://studykithub.online/guides/revising-with-text-to-speech/): Hear a draft to catch missing words and sentences that never end.

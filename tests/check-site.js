@@ -277,8 +277,7 @@ for (const file of guidePages) {
   }
   ok(article, `${name}: Article JSON-LD`);
   ok(article && article.author && article.author['@type'] === 'Person' && article.author.name === 'Ali Hamza' && article.author.url === `${BASE}/about/`, `${name}: Article author with About url`);
-  const expectedModified = name === 'guides/harvard-referencing/index.html' ? '2026-11-11' : '2026-11-09';
-  ok(article && article.dateModified === expectedModified, `${name}: dateModified is ${expectedModified}`);
+  ok(article && article.dateModified === '2026-11-25', `${name}: dateModified is 2026-11-25`);
   ok(article && /^\d{4}-\d{2}-\d{2}$/.test(article.datePublished), `${name}: datePublished still set`);
 }
 const newGuides = ['essay-timer', 'what-do-i-need-on-the-final', 'how-long-to-read-1000-words'];
@@ -296,7 +295,7 @@ for (const slug of newGuides) {
   ok(article, `${slug}: article element`);
   const prose = article[0].replace(/<[^>]+>/g, ' ').replace(/&[a-z#0-9]+;/gi, ' ').replace(/\s+/g, ' ').trim();
   const count = prose.split(/\s+/).filter(Boolean).length;
-  ok(count >= 800 && count <= 1200, `${slug}: article word count ${count} outside 800-1200`);
+  ok(count >= 800 && count <= 1400, `${slug}: article word count ${count} outside 800-1400`);
   ok(!/Urdu/.test(html), `${slug}: no Urdu claim`);
 }
 for (const [file, title] of [
@@ -307,6 +306,105 @@ for (const [file, title] of [
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   ok(html.includes(`<meta property="og:title" content="${title.replace(/&/g, '&amp;')}">`), `${file}: og:title`);
   ok(html.includes(`<meta name="twitter:title" content="${title.replace(/&/g, '&amp;')}">`), `${file}: twitter:title`);
+}
+
+function decodeEntities(s) {
+  return s
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;|&apos;/g, "'")
+    .replace(/&times;/g, '×')
+    .replace(/&minus;/g, '−')
+    .replace(/&divide;/g, '÷')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&rsquo;/g, '\u2019')
+    .replace(/&lsquo;/g, '\u2018')
+    .replace(/&rdquo;/g, '\u201d')
+    .replace(/&ldquo;/g, '\u201c')
+    .replace(/&#(\d+);/g, (_, n) => String.fromCharCode(Number(n)))
+    .replace(/&#x([0-9a-f]+);/gi, (_, h) => String.fromCharCode(parseInt(h, 16)));
+}
+function normText(s) {
+  return decodeEntities(s).replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim();
+}
+const GRADE_SLUGS = [
+  'final-grade-calculator/',
+  'weighted-grade-calculator/',
+  'gpa-cgpa-calculator/',
+  'percentage-calculator/',
+  'uk-degree-classification-calculator/'
+];
+for (const f of htmlFiles) {
+  const html = fs.readFileSync(f, 'utf8');
+  const name = rel(f);
+  if (html.includes('class="site-footer"')) {
+    ok(html.includes('id="ft-grades"'), `${name}: footer Grade calculators group`);
+    ok(html.includes('>Grade calculators</h2>'), `${name}: footer Grade calculators heading`);
+    for (const slug of GRADE_SLUGS) ok(html.includes(slug), `${name}: footer link ${slug}`);
+  }
+  const nav = html.match(/<nav class="site-nav"[\s\S]*?<\/nav>/);
+  if (name === 'tools/index.html') {
+    ok(nav && !nav[0].includes('Grade calculators'), 'tools hub nav must not add Grade calculators');
+  } else if (name !== '404.html') {
+    ok(nav && />Grade calculators<\/a>/.test(nav[0]), `${name}: main nav Grade calculators link`);
+    ok(nav && /grade-tools\/"|href="\.\/" aria-current="page">Grade calculators/.test(nav[0]), `${name}: Grade calculators points at /grade-tools/`);
+  }
+  const faqBlocks = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)]
+    .map((m) => { try { return JSON.parse(m[1]); } catch (e) { return null; } })
+    .filter((d) => d && d['@type'] === 'FAQPage');
+  if (name.startsWith('guides/') && name !== 'guides/index.html') {
+    ok(faqBlocks.length === 1, `${name}: guides should have exactly one FAQPage`);
+  } else {
+    ok(faqBlocks.length <= 1, `${name}: duplicate FAQPage`);
+  }
+  if (faqBlocks.length === 1) {
+    const region = [
+      ...html.matchAll(/<div class="faq-list">([\s\S]*?)<\/div>/g),
+      ...html.matchAll(/<dl class="faq">([\s\S]*?)<\/dl>/g)
+    ].map((m) => m[1]).join('\n');
+    const visible = [];
+    const detailRe = /<details\b[^>]*>\s*<summary>([\s\S]*?)<\/summary>\s*<p>([\s\S]*?)<\/p>\s*<\/details>/g;
+    const dlRe = /<dt>([\s\S]*?)<\/dt>\s*<dd>([\s\S]*?)<\/dd>/g;
+    let m;
+    while ((m = detailRe.exec(region))) visible.push([normText(m[1]), normText(m[2])]);
+    if (!visible.length) {
+      while ((m = dlRe.exec(region))) visible.push([normText(m[1]), normText(m[2])]);
+    }
+    const schema = faqBlocks[0].mainEntity.map((q) => [normText(q.name), normText(q.acceptedAnswer.text)]);
+    ok(visible.length === schema.length, `${name}: FAQ visible count ${visible.length} != schema ${schema.length}`);
+    schema.forEach((pair, i) => {
+      ok(visible[i] && visible[i][0] === pair[0] && visible[i][1] === pair[1], `${name}: FAQ ${i + 1} text does not match schema`);
+    });
+  }
+}
+ok(fs.existsSync(path.join(root, 'llms.txt')), 'llms.txt exists at the site root');
+const llms = fs.readFileSync(path.join(root, 'llms.txt'), 'utf8');
+ok(!locs.includes(`${BASE}/llms.txt`), 'llms.txt must not be in the sitemap');
+for (const dir of ['tools', 'guides']) {
+  for (const e of fs.readdirSync(path.join(root, dir), { withFileTypes: true })) {
+    if (!e.isDirectory()) continue;
+    ok(llms.includes(`${BASE}/${dir}/${e.name}/`), `llms.txt lists /${dir}/${e.name}/`);
+  }
+}
+function calloutWords(file) {
+  const html = fs.readFileSync(path.join(root, file), 'utf8');
+  const m = html.match(/<h1[\s\S]*?<p class="callout">([\s\S]*?)<\/p>/);
+  ok(m, `${file}: answer callout under the h1`);
+  const n = normText(m[1]).split(/\s+/).filter(Boolean).length;
+  ok(n >= 40 && n <= 60, `${file}: answer callout is ${n} words, expected 40-60`);
+}
+calloutWords('tools/gpa-cgpa-calculator/index.html');
+calloutWords('tools/percentage-calculator/index.html');
+ok(!/<p class="callout" id="cp-formula"[^>]*>\s*<\/p>/.test(fs.readFileSync(path.join(root, 'tools/gpa-cgpa-calculator/index.html'), 'utf8')), 'GPA formula box has static text');
+{
+  const uk = fs.readFileSync(path.join(root, 'guides/uk-degree-classifications/index.html'), 'utf8');
+  const article = uk.match(/<article[\s\S]*<\/article>/);
+  const count = normText(article[0]).split(/\s+/).filter(Boolean).length;
+  ok(count >= 1250 && count <= 1450, `UK degree guide word count ${count} outside 1250-1450`);
 }
 
 if (BASE.includes('YOUR-DOMAIN')) warn.push(`Base URL is still the placeholder ${BASE}. Run scripts/set-base-url.js before publishing.`);

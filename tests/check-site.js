@@ -167,12 +167,12 @@ for (const f of htmlFiles) {
     'tools/reading-time-calculator/index.html': 'Reading Time Calculator - Free',
     'tools/final-grade-calculator/index.html': 'Final Grade Calculator - Free, No Sign-up',
     'tools/weighted-grade-calculator/index.html': 'Weighted Grade Calculator: Course Grade by Category - Free',
-    'tools/citation-generator/index.html': 'APA 7 Citation Generator - Free, No Sign-up',
+    'tools/citation-generator/index.html': 'Citation Generator: Harvard, APA 7 and MLA 9 - Free',
     'tools/percentage-calculator/index.html': 'Percentage Calculator - Free',
     'tools/gpa-cgpa-calculator/index.html': 'GPA Calculator - Free',
     'tools/flashcards/index.html': 'Flashcards Maker - Free',
     'tools/case-converter/index.html': 'Case Converter - Free',
-    'guides/harvard-referencing/index.html': 'Harvard Referencing Guide - Examples & Format',
+    'guides/harvard-referencing/index.html': 'Harvard Referencing: Examples, In-text Citations and Generator',
     'grade-tools/index.html': 'GPA, CGPA & Percentage Calculator | Free Grade Tools'
   };
   if (briefTitles[name]) ok(title === briefTitles[name], `${name}: title should match the requested SEO title, got ${title}`);
@@ -301,7 +301,7 @@ for (const slug of newGuides) {
 for (const [file, title] of [
   ['tools/reading-time-calculator/index.html', 'Reading Time Calculator - Free'],
   ['tools/final-grade-calculator/index.html', 'Final Grade Calculator - Free, No Sign-up'],
-  ['tools/citation-generator/index.html', 'APA 7 Citation Generator - Free, No Sign-up']
+  ['tools/citation-generator/index.html', 'Citation Generator: Harvard, APA 7 and MLA 9 - Free']
 ]) {
   const html = fs.readFileSync(path.join(root, file), 'utf8');
   ok(html.includes(`<meta property="og:title" content="${title.replace(/&/g, '&amp;')}">`), `${file}: og:title`);
